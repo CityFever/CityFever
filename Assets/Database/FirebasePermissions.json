@@ -1,7 +1,9 @@
 {
   "rules": {
-    ".read": "auth.token.admin === true",
-    ".write": "auth.token.admin === true",
+    ".read": "auth.token.email_verified == true &&
+               auth.token.email.matches(/.*@edu.p.lodz.pl$/)",
+    ".write": "auth.token.email_verified == true &&
+               auth.token.email.matches(/.*@edu.p.lodz.pl$/)"
     "users": {
       "$uid": {
         ".write": "$uid === auth.uid",
