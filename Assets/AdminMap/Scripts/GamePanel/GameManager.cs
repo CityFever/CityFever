@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Design;
+﻿using Library;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
