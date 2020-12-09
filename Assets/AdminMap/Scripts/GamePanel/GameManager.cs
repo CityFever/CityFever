@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
                     UpdateTileType();
                     break;
                 case GameMode.ZoneEdition:
-if (map.zoneBrightness == 0.5f)
+                    if (map.zoneBrightness == 0.5f)
                     {
                         BuildInactiveZone(State.Available, State.Off);
                     }
@@ -142,12 +142,14 @@ if (map.zoneBrightness == 0.5f)
     //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
     {
+        SetZoneEditionMode();
         map.zoneBrightness = 0.5f;
     }
 
     //if we mark active zones we increase the brightness of the tile
     public void MarkActiveZones()
     {
+        SetZoneEditionMode();
         map.zoneBrightness = 1 / 0.5f;
     }
 
