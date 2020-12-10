@@ -150,40 +150,52 @@ namespace Library
             {
                 for (int j = -size; j < size; j++)
                 {
-                    if (!(x + i < 0 || x + i > (mapSize - 1) || y + j < 0 || y + j > (mapSize - 1)))
+                    int coordinateX = (int) x + i;
+                    int coordinateY = (int) y + j;
+
+                    if (!OutsideGrid(coordinateX, coordinateY))
                     {
-                        BaseTile tile = GetTileByCoordinates((int)x + i, (int)y + j);
-                        if (tile.State == state1)
-                        {
-                            tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
-                            GetTileByCoordinates((int)x + i, (int)y + j).State = state2;
-                        }
+                        UpdateZoneState(coordinateX, coordinateY, state1, state2);
 
                     }
                 }
             }
         }
+
         public void BuildZoneOddSize(int size, float x, float y, State state1, State state2)
         {
             for (int i = -size; i <= size; i++)
             {
                 for (int j = -size; j <= size; j++)
                 {
-                    if (!(x + i < 0 || x + i > (mapSize - 1) || y + j < 0 || y + j > (mapSize - 1)))
+                    int coordinateX = (int) x + i;
+                    int coordinateY = (int) y + j;
+
+                    if (!OutsideGrid (coordinateX, coordinateY))
                     {
-                        BaseTile tile = GetTileByCoordinates((int)x + i, (int)y + j);
-                        if (tile.State == state1)
-                        {
-                            tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
-                            GetTileByCoordinates((int)x + i, (int)y + j).State = state2;
-                        }
+                        UpdateZoneState(coordinateX, coordinateY, state1, state2);
 
                     }
                 }
             }
         }
 
-        public bool IsZoneSizeEven()
+        private bool OutsideGrid(int coordinateX, int coordinateY)
+        {
+            return coordinateX < 0 || coordinateX > (mapSize - 1) || coordinateY < 0 || coordinateY > (mapSize - 1);
+        }
+
+        private void UpdateZoneState(int coordinateX, int coordinateY, State state1, State state2)
+        {
+            BaseTile tile = GetTileByCoordinates(coordinateX, coordinateY);
+            if (tile.State == state1)
+            {
+                tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+                GetTileByCoordinates(coordinateX, coordinateY).State = state2;
+            }
+        }
+
+        private bool IsZoneSizeEven()
         {
             return zoneSize % 2 == 0;
         }
