@@ -78,8 +78,10 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         BuildInactiveZone(State.Off, State.Available);
-                    }                    break;
-                case GameMode.ObjectPlacement:
+                    }
+                    break;
+                case
+                    GameMode.ObjectPlacement:
                     PlaceGameObjectOnSelectedTile();
                     break;
                 case GameMode.Default:
@@ -121,35 +123,22 @@ public class GameManager : MonoBehaviour
 
     private void BuildInactiveZone(State state1, State state2)
     {
-        {
-            Vector2 coordinate = selectedTile.Coordinate;
-            Debug.Log("BuildInactiveZone: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
-
-
-            BaseTile tile = map.GetTile(coordinate);
-            map.SetInactiveTile(coordinate, state1, state2);
-            tile.GetComponentInChildren<Renderer>().material.color = Color.gray;
-        }
-
-        /*Vector2 coordinate = selectedTile.Coordinate;
+        Vector2 coordinate = selectedTile.Coordinate;
         Debug.Log("BuildInactiveZone: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
 
-        BaseTile tile = map.GetTile(coordinate);
-        tile.GetComponentInChildren<Renderer>().material.color = Color.gray; */
+        map.SetInactiveTile(coordinate, state1, state2);
     }
 
 
     //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
     {
-        SetZoneEditionMode();
         map.zoneBrightness = 0.5f;
     }
 
     //if we mark active zones we increase the brightness of the tile
     public void MarkActiveZones()
     {
-        SetZoneEditionMode();
         map.zoneBrightness = 1 / 0.5f;
     }
 
@@ -161,7 +150,7 @@ public class GameManager : MonoBehaviour
 
     // used when user places tiles on an empty grid
     private void PlaceBaseTileOnGrid(GridCell gridCell)
-    { 
+    {
         map.CreateBaseTile(baseTilePrefab, gridCell);
     }
 
