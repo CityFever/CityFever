@@ -94,12 +94,12 @@ namespace Library
 
         public void SetTile(BaseTile tile)
         {
-            tiles[(int) tile.Coordinate.x, (int) tile.Coordinate.y] = tile;
+            tiles[(int)tile.Coordinate.x, (int)tile.Coordinate.y] = tile;
         }
 
         public BaseTile GetTile(Vector2 coordinate)
         {
-            return tiles[(int) coordinate.x, (int) coordinate.y];
+            return tiles[(int)coordinate.x, (int)coordinate.y];
         }
 
         public BaseTile GetTileByCoordinates(int x, int y)
@@ -134,17 +134,17 @@ namespace Library
 
         public void SetInactiveTile(Vector2 coordinate, State state1, State state2)
         {
-            /*if (IsZoneSizeEven())
+            if (IsZoneSizeEven())
             {
-                BuildZone(zoneSize / 2, coordinate.x, coordinate.y, state1, state2);
+                BuildZoneEvenSize(zoneSize / 2, coordinate.x, coordinate.y, state1, state2);
             }
             else
             {
-                BuildZone((zoneSize - 1) / 2, coordinate.x, coordinate.y, state1, state2);
-            }*/
+                BuildZoneOddSize((zoneSize - 1) / 2, coordinate.x, coordinate.y, state1, state2);
+            }
         }
 
-        /*public void BuildZone(int size, float x, float y, State state1, State state2)
+        public void BuildZoneEvenSize(int size, float x, float y, State state1, State state2)
         {
             for (int i = -size; i < size; i++)
             {
@@ -158,11 +158,30 @@ namespace Library
                             tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
                             GetTileByCoordinates((int)x + i, (int)y + j).State = state2;
                         }
-    
+
                     }
                 }
             }
-        }*/
+        }
+        public void BuildZoneOddSize(int size, float x, float y, State state1, State state2)
+        {
+            for (int i = -size; i <= size; i++)
+            {
+                for (int j = -size; j <= size; j++)
+                {
+                    if (!(x + i < 0 || x + i > (mapSize - 1) || y + j < 0 || y + j > (mapSize - 1)))
+                    {
+                        BaseTile tile = GetTileByCoordinates((int)x + i, (int)y + j);
+                        if (tile.State == state1)
+                        {
+                            tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+                            GetTileByCoordinates((int)x + i, (int)y + j).State = state2;
+                        }
+
+                    }
+                }
+            }
+        }
 
         public bool IsZoneSizeEven()
         {
