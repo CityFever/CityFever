@@ -11,14 +11,12 @@ namespace Library
     {
         public int sizeInTiles;
         public string id;
-        public Tile centralTile;
         public double price;
         public double temperatureImpact;
 
-        public GameObject(int sizeInTiles, string id, Tile centralTile, double price, double temperatureImpact) {
+        public GameObject(int sizeInTiles, string id, double price, double temperatureImpact) {
             this.sizeInTiles = sizeInTiles;
             this.id = id;
-            this.centralTile = centralTile;
             this.price = price;
             this.temperatureImpact = temperatureImpact;
         }

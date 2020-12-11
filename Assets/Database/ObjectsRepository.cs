@@ -7,10 +7,8 @@ namespace Database
 {
     public class ObjectsRepository : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+       void Start()
         {
-
         }
 
         string CreateObject(Library.GameObject gameObject)
