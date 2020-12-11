@@ -8,7 +8,7 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        private int mapSize = 50;
+        private int mapSize = 100;
 
         private Grid grid;
 
@@ -63,20 +63,11 @@ namespace Library
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    if ((i == 2 || i == 3) && (j == 2 || j == 3) || ((i == 3 || i == 4) && (j == 4 || j == 5))
-                                                                 || (i == 45 && j < 50 && j > 43) ||
-                                                                 (j == 43 && i > 45 && i < 50) || (i == 45 && j == 43)
-                                                                 || ((i == 28 || i == 29 || i == 30) &&
-                                                                     (j == 23 || j == 24 || j == 25)))
+                    if (((i > 5 && i < 15) && (j > 5 && j < 15)) || ((i > 11 && i < 21) && (j > 11 && j < 21)))
                     {
                         tiles[i, j] = Instantiate(waterTilePrefab, grid.GetTransform(i, j));
                     }
-                    else if (i == 7 || i == 8 || i == 15 || i == 16 || i == 25 || i == 26 || i == 40 || i == 41
-                             || j == 10 || j == 11 || j == 20 || j == 21 || j == 30 || j == 31 || j == 40 || j == 41
-                             || (i == 35 && j < 10 && j >= 0) || (j == 6 && i > 35 && i < 40) ||
-                             (j == 5 && (i > 16 && i < 25))
-                             || (i == 33 && (j > 10 && j < 20)))
-
+                    else if ((i >= 75 && i <= 81) || (j >= 75 && j <= 81))
                     {
                         tiles[i, j] = Instantiate(asphaltTilePrefab, grid.GetTransform(i, j));
                     }

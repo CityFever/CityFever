@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private Map map;
-    private const int mapSize = 50;
+    private const int mapSize = 100;
 
     private BaseTile baseTilePrefab;
     private BaseTile selectedTile;
