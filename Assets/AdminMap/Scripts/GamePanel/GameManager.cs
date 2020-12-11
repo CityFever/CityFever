@@ -71,17 +71,9 @@ public class GameManager : MonoBehaviour
                     UpdateTileType();
                     break;
                 case GameMode.ZoneEdition:
-                    if (map.zoneBrightness == 0.5f)
-                    {
-                        BuildInactiveZone(State.Available, State.Off);
-                    }
-                    else
-                    {
-                        BuildInactiveZone(State.Off, State.Available);
-                    }
+                    SwitchZoneState();
                     break;
-                case
-                    GameMode.ObjectPlacement:
+                case GameMode.ObjectPlacement:
                     PlaceGameObjectOnSelectedTile();
                     break;
                 case GameMode.Default:
@@ -129,6 +121,17 @@ public class GameManager : MonoBehaviour
         map.SetInactiveTile(coordinate, state1, state2);
     }
 
+    private void SwitchZoneState()
+    {
+        if (map.zoneBrightness == 0.5f)
+        {
+            BuildInactiveZone(State.Available, State.Off);
+        }
+        else
+        {
+            BuildInactiveZone(State.Off, State.Available);
+        }
+    }
 
     //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
