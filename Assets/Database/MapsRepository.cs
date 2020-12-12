@@ -10,58 +10,82 @@ namespace Database
 {
     public class MapsRepository : MonoBehaviour
     {
-       void Start()
+        public delegate void StringOperationSuccess(string message);
+        public delegate void MapOperationSuccess(Map map);
+        public delegate void MapListOperationSuccess(List<Map> maps);
+        public delegate void OperationFail();
+
+        void Start()
         {
         }
 
-        string CreateMap(Map map)
+        void CreateMap(Map map, StringOperationSuccess callback, OperationFail fallback = null)
         {
-            string id = "XD";
-            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/maps/.json?auth={Config.ID_TOKEN}", map).Then(response =>
+            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/.json?auth={Config.ID_TOKEN}", map).Then(response =>
             {
                 var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
-                //Debug.Log(returnedJson["name"]);
-                id = returnedJson["name"];
-                Debug.Log("1" + id);
-            });
-            Debug.Log("2" + id);
-            return id;
-        }
-
-        Map GetMap(string id)
-        {
-            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/maps/{id}/.json?auth={Config.ID_TOKEN}").Then(response => {
-                Debug.Log(response);
-                return response;
+                Debug.Log(returnedJson["name"]);
+                callback(returnedJson["name"]);
             }).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
+                fallback();
             });
-            return null;
         }
 
-        List<Map> GetAllUsersMaps()
+        void GetMap(string id, MapOperationSuccess callback, OperationFail fallback = null)
         {
-            return null;
-        }
-
-        List<Map> GetAllMaps()
-        {
-            RestClient.GetArray<Map>($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/maps/.json?auth={Config.ID_TOKEN}").Then(response => {
-                Debug.Log(response);
-                return response;
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}").Then(response => {
+                Map returnedMap = JsonConvert.DeserializeObject<Map>(response.Text);
+                callback(returnedMap);
             }).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
+                fallback();
             });
-            return new List<Map>();
+        }
+        void GetAllUsersMaps(MapListOperationSuccess callback, OperationFail fallback = null)
+        {
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<String, Map>>>(response.Text);
+                var maps = new List<Map>();
+                foreach (Dictionary<string, Map> dict1 in returnedJson.Values)
+                {
+                    foreach (Map map in dict1.Values)
+                    {
+                        maps.Add(map);
+                    }
+                }
+                callback(maps);
+
+            }).Catch(err =>
+            {
+                var error = err as RequestException;
+                Debug.Log(error.Response);
+                fallback();
+            });
+        }
+
+        void GetAllMaps(MapListOperationSuccess callback, OperationFail fallback = null)
+        {
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/.json?auth={Config.ID_TOKEN}").Then(response => {
+                var maps = new List<Map>();
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Map>>(response.Text);
+                callback(new List<Map>(returnedJson.Values));
+                
+            }).Catch(err =>
+            {
+                var error = err as RequestException;
+                Debug.Log(error.Response);
+                fallback();
+            });
         }
 
         void UpdateMap(Map map, string id)
         {
-            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/maps/{id}/.json?auth={Config.ID_TOKEN}", map).Catch(err =>
+            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}", map).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
@@ -70,24 +94,13 @@ namespace Database
 
         void DeleteMap(string id)
         {
-            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/maps/{id}/.json?auth={Config.ID_TOKEN}").Catch(err =>
+            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}").Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
             });
         }
 
-        public void OnClick()
-        {
-            UsersRepository.Login("jaksamateusz@gmail.com", "admin12",
-                () => {
-                    //Map map = new Map();
-                    //var id = CreateMap(map);
-                   Map map = GetMap("-MODkyJcdEDFwPWpVh4H");
-                    //var x = map.zoneSize;
-                    //GetAllMaps();
-                    //Debug.Log("elo");
-                });
-        }
+        
     }
 }

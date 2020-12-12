@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using Grid = Assets.Scripts.Grid.Grid;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Library
 {
@@ -9,10 +11,8 @@ namespace Library
     public class Map : MonoBehaviour
     {
         [SerializeField] private int mapSize = 50;
-
         [SerializeField] private Grid grid;
-
-        [SerializeField] private BaseTile[,] tiles; // That is currently not serialized 
+        private BaseTile[,] tiles; // That is currently not serialized 
         [SerializeField] private float Budget;
         [SerializeField] private int ZoneSize = 3;
         [SerializeField] private float ZoneBrightness = 0.5f;
@@ -34,7 +34,7 @@ namespace Library
             set { ZoneSize = value; }
         }
 
-        public float zoneBrightness 
+        public float zoneBrightness
         {
             get { return ZoneBrightness; }
             set { ZoneBrightness = value; }
@@ -112,12 +112,12 @@ namespace Library
 
         public void SetTile(BaseTile tile)
         {
-            tiles[(int) tile.Coordinate.x, (int) tile.Coordinate.y] = tile;
+            tiles[(int)tile.Coordinate.x, (int)tile.Coordinate.y] = tile;
         }
 
         public BaseTile GetTile(Vector2 coordinate)
         {
-            return tiles[(int) coordinate.x, (int) coordinate.y];
+            return tiles[(int)coordinate.x, (int)coordinate.y];
         }
 
         public BaseTile GetTileByCoordinates(int x, int y)
