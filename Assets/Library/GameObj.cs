@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Library
 {
     [Serializable]
-    public class GameObject
+    public class GameObj
     {
         public int sizeInTiles;
         public string id;
         public double price;
         public double temperatureImpact;
 
-        public GameObject(int sizeInTiles, string id, double price, double temperatureImpact) {
+        public GameObj(int sizeInTiles, string id, double price, double temperatureImpact) {
             this.sizeInTiles = sizeInTiles;
             this.id = id;
             this.price = price;
