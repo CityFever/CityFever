@@ -10,17 +10,17 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        [SerializeField] private int mapSize = 50;
-        [SerializeField] private Grid grid;
+        private int mapSize = 50;
+        private Grid grid;
         private BaseTile[,] tiles; // That is currently not serialized 
-        [SerializeField] private float Budget;
-        [SerializeField] private int ZoneSize = 3;
-        [SerializeField] private float ZoneBrightness = 0.5f;
+        private float Budget;
+        private int ZoneSize = 3;
+        private float ZoneBrightness = 0.5f;
 
-        [SerializeField] private Grid gridPrefab;
-        [SerializeField] private GrassTile grassTilePrefab;
-        [SerializeField] private WaterTile waterTilePrefab;
-        [SerializeField] private AsphaltTile asphaltTilePrefab;
+        private Grid gridPrefab;
+        private GrassTile grassTilePrefab;
+        private WaterTile waterTilePrefab;
+        private AsphaltTile asphaltTilePrefab;
 
         public float budget
         {
