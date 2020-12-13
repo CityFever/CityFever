@@ -12,6 +12,7 @@ namespace Library
     {
         private int mapSize = 50;
         private Grid grid;
+        private int[,] array1 = new int[2, 2] { { 2, 2 }, { 2, 2 } };
         private BaseTile[,] tiles; // That is currently not serialized 
         private float Budget;
         private int ZoneSize = 3;
