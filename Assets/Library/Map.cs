@@ -10,18 +10,17 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        private int mapSize = 50;
-        private Grid grid;
-        private int[,] array1 = new int[2, 2] { { 2, 2 }, { 2, 2 } };
-        private BaseTile[,] tiles; // That is currently not serialized 
-        private float Budget;
-        private int ZoneSize = 3;
-        private float ZoneBrightness = 0.5f;
+        [SerializeField] private int mapSize = 50;
+        [SerializeField] private Grid grid;
+        [SerializeField] private BaseTile[] tiles;
+        [SerializeField] private float Budget;
+        [SerializeField] private int ZoneSize = 3;
+        [SerializeField] private float ZoneBrightness = 0.5f;
 
-        private Grid gridPrefab;
-        private GrassTile grassTilePrefab;
-        private WaterTile waterTilePrefab;
-        private AsphaltTile asphaltTilePrefab;
+        [SerializeField] private Grid gridPrefab;
+        [SerializeField] private GrassTile grassTilePrefab;
+        [SerializeField] private WaterTile waterTilePrefab;
+        [SerializeField] private AsphaltTile asphaltTilePrefab;
 
         public float budget
         {
@@ -52,7 +51,7 @@ namespace Library
 
         private void init()
         {
-            tiles = new BaseTile[mapSize, mapSize];
+            tiles = new BaseTile[mapSize * mapSize];
 
             CreateGrid();
         }
@@ -68,9 +67,9 @@ namespace Library
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    tiles[i, j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
-                    tiles[i, j].transform.position = new Vector3(i, 0, j);
-                    tiles[i, j].Coordinate = new Vector2(i, j);
+                    tiles[i * mapSize + j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
+                    tiles[i * mapSize + j].transform.position = new Vector3(i, 0, j);
+                    tiles[i * mapSize + j].Coordinate = new Vector2(i, j);
                     grid.SetAvailable(i, j, false);
                 }
             }
@@ -88,7 +87,7 @@ namespace Library
                                                                  || ((i == 28 || i == 29 || i == 30) &&
                                                                      (j == 23 || j == 24 || j == 25)))
                     {
-                        tiles[i, j] = Instantiate(waterTilePrefab, grid.GetTransform(i, j));
+                        tiles[i * mapSize + j] = Instantiate(waterTilePrefab, grid.GetTransform(i, j));
                     }
                     else if (i == 7 || i == 8 || i == 15 || i == 16 || i == 25 || i == 26 || i == 40 || i == 41
                              || j == 10 || j == 11 || j == 20 || j == 21 || j == 30 || j == 31 || j == 40 || j == 41
@@ -97,15 +96,15 @@ namespace Library
                              || (i == 33 && (j > 10 && j < 20)))
 
                     {
-                        tiles[i, j] = Instantiate(asphaltTilePrefab, grid.GetTransform(i, j));
+                        tiles[i * mapSize + j] = Instantiate(asphaltTilePrefab, grid.GetTransform(i, j));
                     }
                     else
                     {
-                        tiles[i, j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
+                        tiles[i * mapSize + j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
                     }
 
-                    tiles[i, j].transform.position = new Vector3(i, 0, j);
-                    tiles[i, j].Coordinate = new Vector2(i, j);
+                    tiles[i * mapSize + j].transform.position = new Vector3(i, 0, j);
+                    tiles[i * mapSize + j].Coordinate = new Vector2(i, j);
                     grid.SetAvailable(i, j, false);
                 }
             }
@@ -113,17 +112,17 @@ namespace Library
 
         public void SetTile(BaseTile tile)
         {
-            tiles[(int)tile.Coordinate.x, (int)tile.Coordinate.y] = tile;
+            tiles[(int)tile.Coordinate.x * mapSize + (int)tile.Coordinate.y] = tile;
         }
 
         public BaseTile GetTile(Vector2 coordinate)
         {
-            return tiles[(int)coordinate.x, (int)coordinate.y];
+            return tiles[(int)coordinate.x * mapSize + (int)coordinate.y];
         }
 
         public BaseTile GetTileByCoordinates(int x, int y)
         {
-            return tiles[x, y];
+            return tiles[x * mapSize + y];
         }
 
         public void CreateBaseTile(BaseTile prefab, GridCell cell)

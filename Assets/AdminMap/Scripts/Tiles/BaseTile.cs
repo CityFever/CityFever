@@ -1,10 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseTile : MonoBehaviour
+[Serializable]
+public class BaseTile : MonoBehaviour
 {
-    public State State { get; set; } = State.Available;
-    public Vector2 Coordinate { get; set; }
+    [SerializeField] private State state = State.Available;
+    [SerializeField] private Vector2 coordinate;
+
+    public State State
+    {
+        get { return state; }
+        set { state = value; }
+    }
+
+    public Vector2 Coordinate
+    {
+        get { return coordinate; }
+        set { coordinate = value; }
+    }
+
 
     void Update()
     {
@@ -20,6 +35,7 @@ public abstract class BaseTile : MonoBehaviour
     }
 }
 
+[Serializable]
 public enum State
 {
     Available,

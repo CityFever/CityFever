@@ -18,7 +18,7 @@ namespace Database
         {
         }
 
-        void CreateObject(GameObj gameObject, string mapId, StringOperationSuccess callback, OperationFail fallback = null)
+        public static void CreateObject(GameObj gameObject, string mapId, StringOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/.json?auth={Config.ID_TOKEN}", gameObject).Then(response =>
             {
@@ -33,7 +33,7 @@ namespace Database
             });
         }
 
-        void GetObject(string mapId, string objectId, ObjectOperationSuccess callback, OperationFail fallback = null)
+        public static void GetObject(string mapId, string objectId, ObjectOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}").Then(response => {
                 GameObj returnedObject = JsonConvert.DeserializeObject<GameObj>(response.Text);
@@ -46,7 +46,7 @@ namespace Database
             });
         }
 
-        void GetAllObjects(string mapID, ObjectListOperationSuccess callback, OperationFail fallback = null)
+        public static void GetAllObjects(string mapID, ObjectListOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapID}/.json?auth={Config.ID_TOKEN}").Then(response => {
                 var objects = new List<GameObj>();
@@ -61,7 +61,7 @@ namespace Database
             });
         }
 
-        void UpdateObject(GameObj gameObject, string mapId, string objectId)
+        public static void UpdateObject(GameObj gameObject, string mapId, string objectId)
         {
             RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}", gameObject).Catch(err =>
             {
@@ -70,7 +70,7 @@ namespace Database
             });
         }
 
-        void DeleteObject(string mapId, string objectId)
+        public static void DeleteObject(string mapId, string objectId)
         {
             RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}").Catch(err =>
             {
