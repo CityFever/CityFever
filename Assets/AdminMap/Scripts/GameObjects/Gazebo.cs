@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-class Tree : UnityObject
+class Gazebo : UnityObject
 {
-    private static Vector2 sizeSpan = new Vector2(3, 3);
+    private static Vector2 sizeSpan = new Vector2(3, 5);
 
     public override Vector2 SizeInTiles()
     {

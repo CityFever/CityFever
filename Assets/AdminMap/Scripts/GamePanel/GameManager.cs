@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
                     SwitchZoneState();
                     break;
                 case GameMode.ObjectPlacement:
-                    PlaceGameObjectOnSelectedTile();
+                    map.PlaceGameObjectOnSelectedTile(selectedTile,_unityObjectPrefab);
                     break;
                 case GameMode.Default:
                     // nothing so far 
@@ -147,8 +147,12 @@ public class GameManager : MonoBehaviour
 
     public void SetInactiveZoneSize(string size)
     {
-        map.zoneSize = int.Parse(size);
-        Debug.Log("InactiveZoneSize: " + map.zoneSize);
+        if (!string.IsNullOrEmpty(size)){
+            map.zoneSizeX = int.Parse(size);
+            //for the secound input
+            map.zoneSizeY = map.zoneSizeX;
+            Debug.Log("InactiveZoneSize: " + map.zoneSizeX);
+        }
     }
 
     // used when user places tiles on an empty grid
@@ -163,12 +167,7 @@ public class GameManager : MonoBehaviour
         baseTilePrefab = selected;
     }
 
-    public void PlaceGameObjectOnSelectedTile()
-    {
-        // must be moved to map class
-        UnityObject unityObject = Instantiate(_unityObjectPrefab, selectedTile.transform);
-        selectedTile.State = State.Unavailable;
-    }
+   
 
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {

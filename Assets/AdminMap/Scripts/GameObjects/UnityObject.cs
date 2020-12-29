@@ -6,7 +6,7 @@ public abstract class UnityObject : MonoBehaviour
 {
     public GameObjectType Type { get; private set; }
 
-    public int SizeInTiles { get; set; }
+    abstract public Vector2 SizeInTiles();
 }
 
 public enum GameObjectType

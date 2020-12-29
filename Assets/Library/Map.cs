@@ -14,7 +14,8 @@ namespace Library
 
         private BaseTile[,] tiles;
         public float budget { get; set; }
-        public int zoneSize { get; set; } = 3;
+        public int zoneSizeX { get; set; } = 3;
+        public int zoneSizeY { get; set; } = 2;
         public float zoneBrightness { get; set; } = 0.5f;
 
         [SerializeField] private Grid gridPrefab;
@@ -125,51 +126,28 @@ namespace Library
 
         public void SetInactiveTile(Vector2 coordinate, State state1, State state2)
         {
-            if (IsZoneSizeEven())
-            {
-                BuildZoneEvenSize(zoneSize / 2, coordinate.x, coordinate.y, state1, state2);
-            }
-            else
-            {
-                BuildZoneOddSize((zoneSize - 1) / 2, coordinate.x, coordinate.y, state1, state2);
-            }
-        }
+            Vector2Int coordinateInt = new Vector2Int((int)coordinate.x, (int)coordinate.y);
+            int halfZoneSizeX = (int) (zoneSizeX/2.0); //round down
+            int halfZoneSizeY = (int) (zoneSizeY/2.0); //round down
+            //makes an uneven Zone symmetric 
+            int symmetricOffsetX = -1;
+            if (zoneSizeX % 2 == 0)
+                symmetricOffsetX = 0; 
+            int symmetricOffsetY = -1;
+            if (zoneSizeY % 2 == 0)
+                symmetricOffsetY = 0;
 
-        public void BuildZoneEvenSize(int size, float x, float y, State state1, State state2)
-        {
-            for (int i = -size; i < size; i++)
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX -symmetricOffsetX; x++)
             {
-                for (int j = -size; j < size; j++)
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
                 {
-                    int coordinateX = (int) x + i;
-                    int coordinateY = (int) y + j;
-
-                    if (!OutsideGrid(coordinateX, coordinateY))
+                    if (!OutsideGrid(x, y))
                     {
-                        UpdateZoneState(coordinateX, coordinateY, state1, state2);
-
+                        UpdateZoneState(x, y, state1, state2);
                     }
                 }
-            }
-        }
-
-        public void BuildZoneOddSize(int size, float x, float y, State state1, State state2)
-        {
-            for (int i = -size; i <= size; i++)
-            {
-                for (int j = -size; j <= size; j++)
-                {
-                    int coordinateX = (int) x + i;
-                    int coordinateY = (int) y + j;
-
-                    if (!OutsideGrid (coordinateX, coordinateY))
-                    {
-                        UpdateZoneState(coordinateX, coordinateY, state1, state2);
-
-                    }
-                }
-            }
-        }
+            }            
+        }      
 
         private bool OutsideGrid(int coordinateX, int coordinateY)
         {
@@ -186,9 +164,20 @@ namespace Library
             }
         }
 
-        private bool IsZoneSizeEven()
+        
+        public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
-            return zoneSize % 2 == 0;
+            //place Object on desired Tile
+            UnityObject unityObject = Instantiate(_unityObject, selectedTile.transform);
+
+            //deactivate surrounding Tiles regarding Objects size
+            Vector2 sizeInTiles = _unityObject.SizeInTiles();
+            zoneSizeX = (int) sizeInTiles.x;
+            zoneSizeY = (int) sizeInTiles.y;
+
+            this.SetInactiveTile(selectedTile.Coordinate, State.Available, State.Off);
+
+            selectedTile.State = State.Unavailable;
         }
     }
 }
