@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private BaseTile selectedTile;
     private UnityObject _unityObjectPrefab;
 
+    private bool showHover = true;
+
     private GameMode mode = GameMode.Default;
 
     [SerializeField] private Map mapPrefab;
@@ -22,10 +24,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        map.removePriorHover();
+
         if (Input.GetMouseButtonDown(0))
         {
             //SelectGridCellOnMouseClick();
             SelectTileOnMouseClick();
+        }
+        else if (showHover)
+        {
+            FetchRaycastedTile();
+            map.markHovering(selectedTile);
         }
     }
 
@@ -76,6 +85,9 @@ public class GameManager : MonoBehaviour
                 case GameMode.ObjectPlacement:
                     map.PlaceGameObjectOnSelectedTile(selectedTile,_unityObjectPrefab);
                     break;
+                case GameMode.ObjectRemoval:
+                    map.RemoveObjectFromZone(selectedTile);
+                    break;
                 case GameMode.Default:
                     // nothing so far 
                     break;
@@ -118,7 +130,7 @@ public class GameManager : MonoBehaviour
         Vector2 coordinate = selectedTile.Coordinate;
         Debug.Log("BuildInactiveZone: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
 
-        map.SetInactiveTile(coordinate, state1, state2);
+        map.UpdateZoneOfTiles(coordinate, state1, state2);
     }
 
     private void SwitchZoneState()
@@ -132,19 +144,6 @@ public class GameManager : MonoBehaviour
             BuildInactiveZone(State.Off, State.Available);
         }
     }
-
-    //if we mark inactive zones we decrease the brightness of the tile
-    public void MarkInactiveZones()
-    {
-        map.zoneBrightness = 0.5f;
-    }
-
-    //if we mark active zones we increase the brightness of the tile
-    public void MarkActiveZones()
-    {
-        map.zoneBrightness = 1 / 0.5f;
-    }
-
     public void SetInactiveZoneSize(string size)
     {
         if (!string.IsNullOrEmpty(size)){
@@ -174,6 +173,25 @@ public class GameManager : MonoBehaviour
         SetObjectPlacementMode();
         _unityObjectPrefab = selectedPrefab;
     }
+    //if we mark inactive zones we decrease the brightness of the tile
+    public void MarkInactiveZones()
+    {
+        SetZoneEditionMode();
+        map.zoneBrightness = 0.5f;
+    }
+
+    //if we mark active zones we increase the brightness of the tile
+    public void MarkActiveZones()
+    {
+        SetZoneEditionMode();
+        map.zoneBrightness = 1 / 0.5f;
+    }
+
+    public void ObjectRemoval()
+    {
+        SetObjectRemovalMode();
+        map.zoneBrightness = 2.0f;
+    }
 
     public void SetZoneEditionMode()
     {
@@ -193,6 +211,10 @@ public class GameManager : MonoBehaviour
     public void SetObjectPlacementMode()
     {
         mode = GameMode.ObjectPlacement;
+    }
+    public void SetObjectRemovalMode()
+    {
+        mode = GameMode.ObjectRemoval;
     }
 
     public void SetMapBudget(float budget)
