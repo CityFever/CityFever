@@ -170,8 +170,11 @@ public class GameManager : MonoBehaviour
 
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
-        SetObjectPlacementMode();
         _unityObjectPrefab = selectedPrefab;
+        map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
+        map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().y;
+        SetObjectPlacementMode();
+        map.zoneBrightness = 0.5f;
     }
     //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
@@ -211,7 +214,6 @@ public class GameManager : MonoBehaviour
     public void SetObjectPlacementMode()
     {
         mode = GameMode.ObjectPlacement;
-        map.zoneBrightness = 0.5f;
     }
     public void SetObjectRemovalMode()
     {
