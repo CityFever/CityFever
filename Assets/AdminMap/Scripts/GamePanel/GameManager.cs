@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
     public void ObjectRemoval()
     {
         SetObjectRemovalMode();
-        map.zoneBrightness = 2.0f;
+        map.zoneBrightness = 1 / 0.5f;
     }
 
     public void SetZoneEditionMode()
@@ -211,6 +211,7 @@ public class GameManager : MonoBehaviour
     public void SetObjectPlacementMode()
     {
         mode = GameMode.ObjectPlacement;
+        map.zoneBrightness = 0.5f;
     }
     public void SetObjectRemovalMode()
     {
