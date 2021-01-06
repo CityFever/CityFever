@@ -8,6 +8,7 @@ public abstract class UnityObject : MonoBehaviour
 
     abstract public Vector2 SizeInTiles();
 
+
     public void DestroyUnityObject()
     {
         Destroy(gameObject);
@@ -19,4 +20,11 @@ public enum GameObjectType
     Tree,
     Bench, 
     Building
+}
+
+public enum Restrictions
+{
+    Grass,
+    Asphalt,
+    Water
 }
