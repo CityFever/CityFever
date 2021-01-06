@@ -23,6 +23,8 @@ namespace Library
 
         private List<BaseTile> hoveredTiles;
 
+        private PriceResolver priceResolver = new PriceResolver();
+        
         [SerializeField] private Grid gridPrefab;
         [SerializeField] private GrassTile grassTilePrefab;
         [SerializeField] private WaterTile waterTilePrefab;

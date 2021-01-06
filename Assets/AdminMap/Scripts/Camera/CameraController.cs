@@ -20,9 +20,11 @@ public class CameraController : MonoBehaviour
     public Vector3 zoom;
     public Vector3 zoomDepth;
 
-    private float zoomLimitMin = 2f;
-    private float zoomLimitMax = 120f;
+    private float zoomLimitMin = 20f;
+    private float zoomLimitMax = 80f;
 
+    private float moveLimitMin = 0f;
+    private float moveLimitMax = 100f;
 
     void Start()
     {
@@ -75,39 +77,18 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    /*void HandleMouseMovement()
-    {
-        if (Input.mousePosition.y >= Screen.height - 50)
-        {
-            MoveAlongY(true);
-        }
-
-        if (Input.mousePosition.y <= 50)
-        {
-            MoveAlongY(false);
-        }
-
-        if (Input.mousePosition.x >= Screen.width - 50)
-        {
-            MoveAlongX(true);
-        }
-
-        if (Input.mousePosition.x <= 50)
-        {
-            MoveAlongX(false);
-        }
-    }*/
-
     void MoveAlongX(bool IsAlong)
     {
         movementSpeed = IsAlong ? movementSpeed : (-1) * movementSpeed;
         position += transform.right * movementSpeed;
+        position.x = Mathf.Clamp(position.x, moveLimitMin, moveLimitMax);
     }
 
     void MoveAlongY(bool IsAlong)
     {
         movementSpeed = IsAlong ? movementSpeed : (-1) * movementSpeed;
         position += transform.forward * movementSpeed;
+        position.z = Mathf.Clamp(position.z, moveLimitMin, moveLimitMax);
     }
 
     void DetermineMovementSpeed()
@@ -152,6 +133,12 @@ public class CameraController : MonoBehaviour
             zoom -= zoomDepth;
         }
 
+        SetZoomLimits();
+    }
+
+    private void SetZoomLimits()
+    {
+        zoom.z = Mathf.Clamp(zoom.z, moveLimitMin, moveLimitMin);
         zoom.y = Mathf.Clamp(zoom.y, zoomLimitMin, zoomLimitMax);
     }
 }
