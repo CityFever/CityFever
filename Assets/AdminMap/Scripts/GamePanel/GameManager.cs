@@ -170,6 +170,8 @@ public class GameManager : MonoBehaviour
     public void SetBaseTilePrefab(BaseTile selected)
     {
         SetTileEditionMode();
+        map.zoneSizeX = 1;
+        map.zoneSizeY = 1;
         baseTilePrefab = selected;
     }
 
