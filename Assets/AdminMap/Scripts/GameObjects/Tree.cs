@@ -15,6 +15,11 @@ class Tree : UnityObject
         return sizeSpan;
     }
 
-   
+   public Tree()
+    {
+        grass = true;
+        asphalt = true;
+        water = false;
+    }
 }
 

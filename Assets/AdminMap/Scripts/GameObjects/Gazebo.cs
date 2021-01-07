@@ -14,6 +14,13 @@ class Gazebo : UnityObject
     {
         return sizeSpan;
     }
-       
+
+    public Gazebo()
+    {
+        grass = true;
+        asphalt = true;
+        water = false;
+    }
+
 }
 

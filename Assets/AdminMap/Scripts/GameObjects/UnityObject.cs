@@ -4,6 +4,11 @@ using UnityEngine;
 
 public abstract class UnityObject : MonoBehaviour
 {
+
+    public bool grass;
+    public bool asphalt;
+    public bool water;
+
     public GameObjectType Type { get; private set; }
 
     abstract public Vector2 SizeInTiles();
@@ -13,6 +18,8 @@ public abstract class UnityObject : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+
 }
 
 public enum GameObjectType
@@ -22,9 +29,3 @@ public enum GameObjectType
     Building
 }
 
-public enum Restrictions
-{
-    Grass,
-    Asphalt,
-    Water
-}

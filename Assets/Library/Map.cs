@@ -198,7 +198,7 @@ namespace Library
         
         public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
-            if (selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
+            if (CheckRestrictions(selectedTile, _unityObject))
             {
                 //place Object on desired Tile
                 UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
@@ -274,6 +274,32 @@ namespace Library
                 this.UpdateTileState(tile, State.Hovered, State.Available);
             }
             hoveredTiles = null;
+        }
+
+        public bool CheckRestrictions(BaseTile selectedTile, UnityObject _unityObject)
+        {
+            BaseTile tileType = selectedTile.GetComponentInChildren<BaseTile>();
+
+            if(selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
+            {
+                if(tileType is GrassTile)
+                {
+                    if (_unityObject.grass == true)
+                        return true;
+                } 
+                else if(tileType is AsphaltTile)
+                {
+                    if (_unityObject.asphalt == true)
+                        return true;
+                }
+                else if (tileType is WaterTile)
+                {
+                    if (_unityObject.water == true)
+                        return true;
+                }
+            }
+            
+            return false;
         }
     }
 }
