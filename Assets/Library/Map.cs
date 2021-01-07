@@ -15,8 +15,8 @@ namespace Library
 
         private BaseTile[,] tiles;
         public float budget { get; set; }
-        public int zoneSizeX { get; set; } = 3;
-        public int zoneSizeY { get; set; } = 2;
+        public int zoneSizeX { get; set; } = 1;
+        public int zoneSizeY { get; set; } = 1;
         public float zoneBrightness { get; set; } = 0.5f;
 
         public static Color HOVERINGCOLOR = new Color(100, 100, 100,0); 
@@ -126,9 +126,7 @@ namespace Library
 
             SetTile(tile);
 
-            Debug.Log("UpdateTileType: "
-                      + tile.Coordinate.x + ", "
-                      + tile.Coordinate.y);
+           Debug.Log("UpdateTileType: " + tile.Coordinate.x + ", " + tile.Coordinate.y);
         }
 
         //returns List with all updated Tiles

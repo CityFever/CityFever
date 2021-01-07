@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void UpdateTileType()
-    {
+    {       
         map.UpdateTileType(selectedTile, baseTilePrefab);
     }
 
@@ -144,13 +144,20 @@ public class GameManager : MonoBehaviour
             BuildInactiveZone(State.Off, State.Available);
         }
     }
-    public void SetInactiveZoneSize(string size)
+
+    public void SetInavtiveZoneWidth(string size)
     {
         if (!string.IsNullOrEmpty(size)){
             map.zoneSizeX = int.Parse(size);
-            //for the secound input
-            map.zoneSizeY = map.zoneSizeX;
-            Debug.Log("InactiveZoneSize: " + map.zoneSizeX);
+            Debug.Log("InactiveZoneWidth: " + map.zoneSizeX);
+        }
+    }
+
+    public void SetInactiveZoneHeight(string size)
+    {
+        if (!string.IsNullOrEmpty(size)){
+            map.zoneSizeY = int.Parse(size);
+            Debug.Log("InactiveZoneSizeHeight: " + map.zoneSizeY);
         }
     }
 
@@ -166,8 +173,6 @@ public class GameManager : MonoBehaviour
         baseTilePrefab = selected;
     }
 
-   
-
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
         _unityObjectPrefab = selectedPrefab;
@@ -176,6 +181,7 @@ public class GameManager : MonoBehaviour
         SetObjectPlacementMode();
         map.zoneBrightness = 0.5f;
     }
+
     //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
     {
@@ -215,13 +221,18 @@ public class GameManager : MonoBehaviour
     {
         mode = GameMode.ObjectPlacement;
     }
+
     public void SetObjectRemovalMode()
     {
         mode = GameMode.ObjectRemoval;
     }
 
-    public void SetMapBudget(float budget)
+    public void SetMapBudget(string budget)
     {
-        map.budget = budget;
+        if (!string.IsNullOrEmpty(budget))
+        {
+            map.budget = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            Debug.Log("MapBudget: " + map.budget);
+        }
     }
 }
