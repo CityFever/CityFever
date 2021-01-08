@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using System.Collections.Generic;
+using Library;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     private GameMode mode = GameMode.Default;
 
     [SerializeField] private Map mapPrefab;
+    [SerializeField] private List<UnityObject> availablePrefabs = new List<UnityObject>();
 
     private void Start()
     {
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameMode.ObjectPlacement:
                     map.PlaceGameObjectOnSelectedTile(selectedTile,_unityObjectPrefab);
+                    SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
                     map.RemoveObjectFromZone(selectedTile);

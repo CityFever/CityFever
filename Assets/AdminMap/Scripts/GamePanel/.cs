@@ -5,6 +5,7 @@ using UnityEngine;
 public class PriceResolver 
 {
     public Dictionary<GameObjectType, float> GameObjectPrice { get; set; }
+
     public PriceResolver()
     {
         GameObjectPrice = new Dictionary<GameObjectType, float>();
