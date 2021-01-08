@@ -17,9 +17,12 @@ class Gazebo : UnityObject
 
     public Gazebo()
     {
-        grass = true;
-        asphalt = true;
-        water = false;
+       
+    }
+
+    private void Awake()
+    {
+        CanBePlacedOn = CanBePlacedOn.Grass;
     }
 
 }

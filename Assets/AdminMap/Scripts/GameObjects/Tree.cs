@@ -8,6 +8,7 @@ using UnityEngine;
 
 class Tree : UnityObject
 {
+
     private static Vector2 sizeSpan = new Vector2(3, 3);
 
     public override Vector2 SizeInTiles()
@@ -17,9 +18,12 @@ class Tree : UnityObject
 
    public Tree()
     {
-        grass = true;
-        asphalt = true;
-        water = false;
+       
+    }
+
+    private void Awake()
+    {
+        CanBePlacedOn = CanBePlacedOn.Grass;
     }
 }
 

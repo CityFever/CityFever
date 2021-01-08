@@ -282,20 +282,25 @@ namespace Library
 
             if(selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
             {
-                if(tileType is GrassTile)
+                if(tileType is AsphaltTile)
                 {
-                    if (_unityObject.grass == true)
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
+                    {
                         return true;
+                    }
                 } 
-                else if(tileType is AsphaltTile)
+                else if(tileType is GrassTile)
                 {
-                    if (_unityObject.asphalt == true)
+                     if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    {
                         return true;
+                    }
                 }
                 else if (tileType is WaterTile)
                 {
-                    if (_unityObject.water == true)
-                        return true;
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                     return true;
+
                 }
             }
             
