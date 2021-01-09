@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class House : UnityObject
 {
-    private static Vector2 sizeSpan = new Vector2(25, 17);
-    public override Vector2 SizeInTiles()
+    private static Vector3 sizeSpan = new Vector3(25, 0, 17);
+    public override Vector3 SizeInTiles()
     {
         return sizeSpan;
     }

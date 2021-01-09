@@ -201,9 +201,9 @@ namespace Library
                 UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
                 selectedTile.unityObject = clone;
                 //deactivate surrounding Tiles regarding Objects size
-                Vector2 sizeInTiles = _unityObject.SizeInTiles();
+                Vector3 sizeInTiles = _unityObject.SizeInTiles();
                 zoneSizeX = (int)sizeInTiles.x;
-                zoneSizeY = (int)sizeInTiles.y;
+                zoneSizeY = (int)sizeInTiles.z;
                 this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
 
                 selectedTile.State = State.Unavailable;
@@ -247,7 +247,7 @@ namespace Library
                 tile.unityObject.DestroyUnityObject();
                 tile.State = State.Off;
                 this.zoneSizeX = (int)tile.unityObject.SizeInTiles().x;
-                this.zoneSizeY = (int)tile.unityObject.SizeInTiles().y;
+                this.zoneSizeY = (int)tile.unityObject.SizeInTiles().z;
                 UpdateZoneOfTiles(tile.Coordinate, State.Off, State.Available);
             }
             this.zoneSizeX = zoneSizeX;

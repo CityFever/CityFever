@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
     {
         _unityObjectPrefab = selectedPrefab;
         map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
-        map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().y;
+        map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
         SetObjectPlacementMode();
         map.zoneBrightness = 0.5f;
     }

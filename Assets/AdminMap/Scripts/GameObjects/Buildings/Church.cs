@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Church : UnityObject
 {
-    private static Vector2 sizeSpan = new Vector2(30, 23);
+    private static Vector3 sizeSpan = new Vector3(25,0, 19);
 
-    public override Vector2 SizeInTiles()
+    public override Vector3 SizeInTiles()
     {
         return sizeSpan;
     }

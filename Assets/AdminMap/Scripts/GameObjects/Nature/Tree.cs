@@ -9,9 +9,9 @@ using UnityEngine;
 class Tree : UnityObject
 {
 
-    private static Vector2 sizeSpan = new Vector2(3, 3);
+    private static Vector3 sizeSpan = new Vector3(3, 0, 3);
 
-    public override Vector2 SizeInTiles()
+    public override Vector3 SizeInTiles()
     {
         return sizeSpan;
     }

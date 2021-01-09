@@ -8,7 +8,7 @@ public abstract class UnityObject : MonoBehaviour
 
     public CanBePlacedOn CanBePlacedOn { get; set; }
 
-    abstract public Vector2 SizeInTiles();
+    abstract public Vector3 SizeInTiles();
 
 
     public void DestroyUnityObject()
