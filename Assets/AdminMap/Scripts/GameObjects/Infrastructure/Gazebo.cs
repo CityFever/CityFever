@@ -14,6 +14,16 @@ class Gazebo : UnityObject
     {
         return sizeSpan;
     }
+
+    public Gazebo()
+    {
        
+    }
+
+    private void Awake()
+    {
+        CanBePlacedOn = CanBePlacedOn.Grass;
+    }
+
 }
 

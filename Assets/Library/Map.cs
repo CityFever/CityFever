@@ -195,16 +195,19 @@ namespace Library
         
         public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
-            //place Object on desired Tile
-            UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
-            selectedTile.unityObject = clone;
-            //deactivate surrounding Tiles regarding Objects size
-            Vector2 sizeInTiles = _unityObject.SizeInTiles();
-            zoneSizeX = (int) sizeInTiles.x;
-            zoneSizeY = (int) sizeInTiles.y;         
-            this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
+            if (CheckRestrictions(selectedTile, _unityObject))
+            {
+                //place Object on desired Tile
+                UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
+                selectedTile.unityObject = clone;
+                //deactivate surrounding Tiles regarding Objects size
+                Vector2 sizeInTiles = _unityObject.SizeInTiles();
+                zoneSizeX = (int)sizeInTiles.x;
+                zoneSizeY = (int)sizeInTiles.y;
+                this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
 
-            selectedTile.State = State.Unavailable;
+                selectedTile.State = State.Unavailable;
+            }
         }
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {
@@ -268,6 +271,37 @@ namespace Library
                 this.UpdateTileState(tile, State.Hovered, State.Available);
             }
             hoveredTiles = null;
+        }
+
+        public bool CheckRestrictions(BaseTile selectedTile, UnityObject _unityObject)
+        {
+            BaseTile tileType = selectedTile.GetComponentInChildren<BaseTile>();
+
+            if(selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
+            {
+                if(tileType is AsphaltTile)
+                {
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
+                    {
+                        return true;
+                    }
+                } 
+                else if(tileType is GrassTile)
+                {
+                     if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    {
+                        return true;
+                    }
+                }
+                else if (tileType is WaterTile)
+                {
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                     return true;
+
+                }
+            }
+            
+            return false;
         }
     }
 }
