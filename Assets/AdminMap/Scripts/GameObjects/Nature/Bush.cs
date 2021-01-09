@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Bush : UnityObject
 {
+    private static Vector2 sizeSpan = new Vector2(3, 3);
+
     public override Vector2 SizeInTiles()
     {
-        throw new System.NotImplementedException();
+        return sizeSpan;
     }
+
 }

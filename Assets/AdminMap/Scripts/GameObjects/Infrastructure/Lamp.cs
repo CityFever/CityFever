@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Lamp : UnityObject
 {
-    private static Vector2 sizeSpan = new Vector2(1, 1);
+    private static Vector2 sizeSpan = new Vector2(4,1);
 
     public override Vector2 SizeInTiles()
     {
