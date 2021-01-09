@@ -195,7 +195,7 @@ namespace Library
         
         public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
-            if (CheckRestrictions(selectedTile, _unityObject))
+            if (CheckRestrictions(selectedTile, _unityObject) && IsTileAvailable(selectedTile, _unityObject))
             {
                 //place Object on desired Tile
                 UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
@@ -209,6 +209,9 @@ namespace Library
                 selectedTile.State = State.Unavailable;
             }
         }
+
+       
+
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {
             List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
@@ -302,6 +305,37 @@ namespace Library
             }
             
             return false;
+        }
+
+        private bool IsTileAvailable(BaseTile selectedTile, UnityObject unityObject)
+        {
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(unityObject.SizeInTiles().x / 2.0); //round down
+            int halfZoneSizeY = (int)(unityObject.SizeInTiles().z / 2.0); //round down
+            //makes an uneven Zone symmetric 
+            int symmetricOffsetX = -1;
+            if (unityObject.SizeInTiles().x % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (unityObject.SizeInTiles().z % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if(tile.State == State.Unavailable || tile.State == State.Off)
+                        {
+                            return false;
+                        }
+                        
+                       
+                    }
+                }
+            }
+            return true;
         }
     }
 }
