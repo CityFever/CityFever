@@ -2,6 +2,7 @@
 using System;
 using Grid = Assets.Scripts.Grid.Grid;
 using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
 
 namespace Library
 {
@@ -13,7 +14,7 @@ namespace Library
 
         private Grid grid;
 
-        private BaseTile[,] tiles;
+        public BaseTile[,] tiles { get; set; }
         public float budget { get; set; }
         public int zoneSizeX { get; set; } = 1;
         public int zoneSizeY { get; set; } = 1;
@@ -45,6 +46,7 @@ namespace Library
 
         private void CreateGrid()
         {
+            Debug.Log("CreateGrid mapSize" + mapSize);
             grid = Instantiate(gridPrefab, transform).Initialize(mapSize);
         }
 
@@ -302,6 +304,34 @@ namespace Library
             }
             
             return false;
+        }
+
+        public void RecreateTiles(TileType type, Vector2 coordinate, State state)
+        {
+            int tileCoordinateX = (int) coordinate.x;
+            int tileCoordinateY = (int) coordinate.y;
+
+            BaseTile tile = waterTilePrefab;
+
+            switch (type)
+            {
+                case TileType.Water:
+                    tile = waterTilePrefab;
+                    break;
+
+                case TileType.Asphalt:
+                    tile = asphaltTilePrefab;
+                    break;
+
+                case TileType.Grass:
+                    tile = grassTilePrefab;
+                    break;
+            }
+            
+            tiles[tileCoordinateX, tileCoordinateY] = 
+                Instantiate(tile, grid.GetTransform(tileCoordinateX, tileCoordinateY));
+
+            tiles[tileCoordinateX, tileCoordinateY].State = state;
         }
     }
 }

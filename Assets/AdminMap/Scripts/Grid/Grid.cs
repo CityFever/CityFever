@@ -57,6 +57,8 @@ namespace Assets.Scripts.Grid
 
         public Transform GetTransform(int i, int j)
         {
+            //Debug.Log("Grid GetTransform " + i + ", " + j);
+            //Debug.Log(cells.GetLength(0) + ", " + cells.GetLength(1));
             return cells[i, j].transform;
         }
     }

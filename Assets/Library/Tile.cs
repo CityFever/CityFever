@@ -18,6 +18,5 @@ namespace Library
         {
             throw new NotImplementedException();
         }
-
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
 using UnityEngine;
+using UnityEngine.LowLevel;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -104,8 +107,13 @@ public class GameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
-            selectedTile = hit.collider.GetComponentInParent<BaseTile>();
-            Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
+             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+
+             if (selectedTile.unityObject != null)
+             {
+                 Debug.Log("Object on fetched Tile: " + selectedTile.unityObject.Type);
+             }
         }
     }
 
@@ -180,6 +188,7 @@ public class GameManager : MonoBehaviour
 
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
+        Debug.Log("why");
         _unityObjectPrefab = selectedPrefab;
         map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
         map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
@@ -236,8 +245,45 @@ public class GameManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(budget))
         {
-            map.budget = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-            Debug.Log("MapBudget: " + map.budget);
+            //map.budget = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            MapConfig.mapConfig.mapBudget = amount;
+
+            Debug.Log("MapConfig budget is: " + MapConfig.mapConfig.mapBudget);
+            Debug.Log("MapBudget: " + amount);
         }
+    }
+
+
+    public void LoadUserScene()
+    {
+        MapConfig.mapConfig.tileCongigurations = GetMapConfiguration();
+
+        Debug.Log("Finally Map budget is: "  + MapConfig.mapConfig.mapBudget);
+        SceneManager.LoadScene("UserScene");
+    }
+
+    private List<TileConfig> GetMapConfiguration()
+    {
+        List<TileConfig> tileConfigs = new List<TileConfig>();
+
+        foreach (var tile in map.tiles) 
+        {
+            if (tile is WaterTile)
+            {
+                tileConfigs.Add(new TileConfig(0, tile.State, tile.Coordinate));
+
+            }
+            else if (tile is AsphaltTile)
+            {
+                tileConfigs.Add(new TileConfig(1, tile.State, tile.Coordinate));
+            }
+            else
+            {
+                tileConfigs.Add(new TileConfig(2, tile.State, tile.Coordinate));
+            };
+        }
+
+        return tileConfigs;
     }
 }
