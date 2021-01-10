@@ -31,8 +31,6 @@ namespace Library
         [SerializeField] private GrassTile grassTilePrefab;
         [SerializeField] private WaterTile waterTilePrefab;
         [SerializeField] private AsphaltTile asphaltTilePrefab;
-
-        [SerializeField] private PrefabsDatabase userPrefabsDatabase;
         public Map Initialize(int size)
         {
             mapSize = size;
@@ -310,12 +308,16 @@ namespace Library
             return false;
         }
          
-        public void CreateTilesFromConfiguration(TileType type, Vector2 coordinate, State state, GameObjectType placedObject, UnityObject obj)
+        public void CreateTilesFromConfiguration(TileConfig tileConfig, UnityObject prefab)
         {
+            Vector2 coordinate = tileConfig.coordinate;
+            TileType type = tileConfig.type;
+            State state = tileConfig.state;
+
             int tileCoordinateX = (int) coordinate.x;
             int tileCoordinateY = (int) coordinate.y;
 
-            BaseTile tile = waterTilePrefab;
+            BaseTile tile = null;
 
             switch (type)
             {
@@ -332,19 +334,32 @@ namespace Library
                     break;
             }
             
-            tiles[tileCoordinateX, tileCoordinateY] = 
-                Instantiate(tile, grid.GetTransform(tileCoordinateX, tileCoordinateY));
+            InstantiateSavedTile(tileCoordinateX, tileCoordinateY, tile);
+            InstantiateSavedUnityObject(tileCoordinateX, tileCoordinateY, prefab);
+            SetState(tileCoordinateX, tileCoordinateY, state);
+        }
 
-            tiles[tileCoordinateX, tileCoordinateY].State = state;
+        private void InstantiateSavedTile(int coordinateX, int coordinateY, BaseTile tile)
+        {
+            tiles[coordinateX, coordinateY] =
+                Instantiate(tile, grid.GetTransform(coordinateX, coordinateY));
+        }
 
-            if (obj != null)
+        private void InstantiateSavedUnityObject(int coordinateX, int coordinateY, UnityObject prefab)
+        {
+            if (prefab != null)
             {
-                Instantiate(obj, grid.GetTransform(tileCoordinateX, tileCoordinateY));
+                Instantiate(prefab, grid.GetTransform(coordinateX, coordinateY));
             }
+        }
+
+        private void SetState(int coordinateX, int coordinateY, State state)
+        {
+            tiles[coordinateX, coordinateY].State = state;
 
             if (state.Equals(State.Off))
             {
-                tiles[tileCoordinateX, tileCoordinateY].GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+                tiles[coordinateX, coordinateY].GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
             }
         }
     }

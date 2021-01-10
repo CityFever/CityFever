@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.LowLevel;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class AdminGameManager : MonoBehaviour
 {
     private Map map;
     private const int mapSize = 100;
@@ -254,28 +254,30 @@ public class GameManager : MonoBehaviour
     {
         List<TileConfig> tileConfigs = new List<TileConfig>();
 
+        TileType tileType;
+        Vector2 coordinate = Vector2.zero;
+        GameObjectType placedObjectType;
+
         foreach (var tile in map.tiles)
         {
-            GameObjectType type = tile.unityObject != null ? tile.unityObject.Type() : GameObjectType.Default;
-
-            if (tile.unityObject != null)
-            {
-                Debug.Log("FOUND! Object placed on tile: " + tile.unityObject.Type() + ", tile coordinates: " + tile.Coordinate);
-            }
+            placedObjectType = tile.unityObject != null ? tile.unityObject.Type() : GameObjectType.Default;
 
             if (tile is WaterTile)
             {
-                tileConfigs.Add(new TileConfig(TileType.Water, tile.State, tile.Coordinate, type));
+                tileType = TileType.Water;
             }
             else if (tile is AsphaltTile)
             {
-                tileConfigs.Add(new TileConfig(TileType.Asphalt, tile.State, tile.Coordinate, type));
+                tileType = TileType.Asphalt;
             }
             else
             {
-                tileConfigs.Add(new TileConfig(TileType.Grass, tile.State, tile.Coordinate, type));
+                tileType = TileType.Grass;
             };
+
+            tileConfigs.Add(new TileConfig(tileType, tile.State, tile.Coordinate, placedObjectType));
         }
+
         return tileConfigs;
     }
 }

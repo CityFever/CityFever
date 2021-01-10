@@ -9,7 +9,6 @@ using UnityEngine;
 class Gazebo : UnityObject
 {
     private static Vector3 sizeSpan = new Vector3(3, 0, 5);
-
     public override Vector3 SizeInTiles()
     {
         return sizeSpan;
