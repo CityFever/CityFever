@@ -132,8 +132,8 @@ public class UserGameManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(height))
         {
-            map.zoneSizeX = int.Parse(height);
-            Debug.Log("InactiveZoneWidth: " + map.zoneSizeX);
+            map.zoneSizeY = int.Parse(height);
+            Debug.Log("InactiveZoneWidth: " + map.zoneSizeY);
         }
     }
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
