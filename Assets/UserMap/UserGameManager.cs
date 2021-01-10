@@ -26,7 +26,7 @@ public class UserGameManager : MonoBehaviour
     void Start()
     {
         CreateMap();
-        map.adminAccess = true;
+        map.adminAccess = false;
 
         Debug.Log(MapConfig.mapConfig.mapBudget);
     }
@@ -104,6 +104,7 @@ public class UserGameManager : MonoBehaviour
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
+            Debug.Log("HoveredTile" + selectedTile.State);
             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
@@ -137,17 +138,16 @@ public class UserGameManager : MonoBehaviour
     }
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
-        Debug.Log("Set Object");
         _unityObjectPrefab = selectedPrefab;
         map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
         map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
         SetObjectPlacementMode();
-        map.zoneBrightness = 0.5f;
+        map.zoneBrightness = 0.8f;
     }
     public void ObjectRemoval()
     {
         SetObjectRemovalMode();
-        map.zoneBrightness = 1 / 0.5f;
+        map.zoneBrightness = 1 / 0.8f;
     }
     public void SetObjectRemovalMode()
     {

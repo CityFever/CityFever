@@ -21,7 +21,7 @@ namespace Library
         public float budget { get; set; }
         public int zoneSizeX { get; set; } = 1;
         public int zoneSizeY { get; set; } = 1;
-        public float zoneBrightness { get; set; } = 0.7f;
+        public float zoneBrightness { get; set; } = 0.5f;
 
         public static Color HOVERINGCOLOR = new Color(100, 100, 100, 0);
 
@@ -175,7 +175,8 @@ namespace Library
             if (tile.State == state1)
             {
                 //Changing State Activ or inactive
-                if (state2 == State.Off || state2 == State.Available && state1 == State.Off)
+                if (state2 == State.Off || state2 == State.Available && state1 == State.Off 
+                    || state2 == State.UserUsed|| state2 == State.Available && state1 == State.UserUsed)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
 
