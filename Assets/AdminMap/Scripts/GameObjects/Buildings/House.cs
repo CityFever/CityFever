@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class House : UnityObject
 {
-    private static Vector3 sizeSpan = new Vector3(25, 0, 17);
+    //height is determined by the 2nd parameter 
+    private static Vector3 sizeSpan = new Vector3(25, 16, 17);
 
     public override Vector3 SizeInTiles()
     {

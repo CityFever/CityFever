@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Car : UnityObject
 {
-    private static Vector3 sizeSpan = new Vector3(3, 0, 3);
+    private static Vector3 sizeSpan = new Vector3(7, 3, 4);
     public override Vector3 SizeInTiles()
     {
         return sizeSpan;
