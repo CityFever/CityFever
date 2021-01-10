@@ -3359,7 +3359,7 @@ MonoBehaviour:
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7259241468212604904, guid: 3a35214039620444fa31e2fe60c4a447,
+          m_ObjectArgument: {fileID: 8657829168965782282, guid: 3bb8c1fdf5f4e1947ace52dbf4f68de4,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityObject, Assembly-CSharp
           m_IntArgument: 0
@@ -4389,7 +4389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 1073011653771967469, guid: 8ed0fd36c576fd148a17bf0459664d16,
     type: 3}
-  availablePrefabs: []
 --- !u!4 &1552138611
 Transform:
   m_ObjectHideFlags: 0
