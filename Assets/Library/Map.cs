@@ -176,7 +176,7 @@ namespace Library
             {
                 //Changing State Activ or inactive
                 if (state2 == State.Off || state2 == State.Available && state1 == State.Off 
-                    || state2 == State.UserUsed|| state2 == State.Available && state1 == State.UserUsed)
+                    || state2 == State.Unavailable|| state2 == State.Available && state1 == State.Unavailable)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
 
@@ -217,7 +217,7 @@ namespace Library
                 }
                 else
                 {
-                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.UserUsed);
+                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Unavailable);
                 }
 
 
@@ -255,7 +255,7 @@ namespace Library
                             {
                                 tilesWithObjectsInZone.Add(tile);
                             }
-                            else if (!adminAccess && tile.State == State.UserUsed)
+                            else if (!adminAccess && tile.State == State.Unavailable)
                             {
                                 tilesWithObjectsInZone.Add(tile);
                             }
@@ -278,7 +278,7 @@ namespace Library
                 }
                 else
                 {
-                    UpdateZoneOfTiles(tile.Coordinate, State.UserUsed, State.Available);
+                    UpdateZoneOfTiles(tile.Coordinate, State.Unavailable, State.Available);
                 }
             }
             this.zoneSizeX = zoneSizeX;

@@ -19,8 +19,7 @@ public enum State
     Available,
     Unavailable,
     Off,
-    Hovered,
-    UserUsed
+    Hovered
 }
 
 
