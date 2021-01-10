@@ -44,4 +44,20 @@ public class MapConfig : MonoBehaviour
             Debug.Log("GameObjecType: " + type.ToString() + ", Placement costs: " + placementCosts + ", Removal costs: " + removalCosts);
         }
     }
+
+    public void RemoveConfig(GameObjectType type)
+    {
+        var objectOfThatType = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
+
+        if (objectOfThatType != null)
+        {
+            placeableObjectConfigs.Remove(objectOfThatType);
+            Debug.Log("GameObjecType " + type.ToString() + " was removed from the config list.");
+        }
+        else
+        {            
+            Debug.Log("GameObjecType " + type.ToString() + " is not accessible in the config list");
+        }
+
+    }
 }

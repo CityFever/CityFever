@@ -328,4 +328,17 @@ public class AdminGameManager : MonoBehaviour
         currentObjectRemovalCosts = 0;
         currentObjectPlacmentCosts = 0;
     }
+
+    public void RemoveObjectConfig()
+    {
+        if (currectObjectType != GameObjectType.Default)
+        {
+            MapConfig.mapConfig.RemoveConfig(currectObjectType);
+            currectObjectType = GameObjectType.Default;
+        }
+        else
+        {
+            Debug.Log("Game object type is not specified.");
+        }
+    }
 }
