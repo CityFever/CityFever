@@ -199,19 +199,42 @@ namespace Library
         
         public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
-            if (CheckRestrictions(selectedTile, _unityObject))
-            {
-                //place Object on desired Tile
-                UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
-                selectedTile.unityObject = clone;
-                //deactivate surrounding Tiles regarding Objects size
-                Vector3 sizeInTiles = _unityObject.SizeInTiles();
-                zoneSizeX = (int)sizeInTiles.x;
-                zoneSizeY = (int)sizeInTiles.z;
-                this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
+            //commented out code snippet should be used to check the map budget and the availability of the object 
+            //- should be uncommented only for the user's game, the admin has no restrictions
 
-                selectedTile.State = State.Unavailable;
+            /*if (MapConfig.mapConfig.isContained(_unityObject.Type()))
+             {
+                float objectPrice = MapConfig.mapConfig.placeableObjectConfigs
+                     .FirstOrDefault(config => config.type.Equals(_unityObject.Type())).placementCosts;
+
+                if (MapConfig.mapConfig.mapBudget >= objectPrice)
+                {*/
+            if (CheckRestrictions(selectedTile, _unityObject))
+                    {
+                        //place Object on desired Tile
+                        UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
+                        selectedTile.unityObject = clone;
+                        //deactivate surrounding Tiles regarding Objects size
+                        Vector3 sizeInTiles = _unityObject.SizeInTiles();
+                        zoneSizeX = (int)sizeInTiles.x;
+                        zoneSizeY = (int)sizeInTiles.z;
+                        this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
+
+                        selectedTile.State = State.Unavailable;
+                    }
+
+                   /* MapConfig.mapConfig.mapBudget -= objectPrice;
+                    Debug.Log("MapBudget was reduced by " + objectPrice + ". Current map budget: " + MapConfig.mapConfig.mapBudget);
+                }
+                else
+                {
+                   Debug.Log("MapBudget is not enough. Object cannot be placed");
+                }
             }
+            else
+            {
+               Debug.Log("Object is not on the list of placeable objects. It cannot be pl");
+            }*/
         }
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {

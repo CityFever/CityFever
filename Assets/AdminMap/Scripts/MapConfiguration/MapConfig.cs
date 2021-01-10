@@ -60,4 +60,10 @@ public class MapConfig : MonoBehaviour
         }
 
     }
+
+    public bool isContained(GameObjectType type)
+    {
+        var objectOfThatType = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
+        return (objectOfThatType != null) ? true : false;
+    }
 }
