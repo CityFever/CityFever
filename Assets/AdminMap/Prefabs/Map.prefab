@@ -51,3 +51,5 @@ MonoBehaviour:
     type: 3}
   asphaltTilePrefab: {fileID: -1493883158935452727, guid: 10a449ed902e35a429f0ebb80f522e48,
     type: 3}
+  userPrefabsDatabase: {fileID: 4787293654706153700, guid: c9c2a9db07c2b3d42aeb474b532c557a,
+    type: 3}

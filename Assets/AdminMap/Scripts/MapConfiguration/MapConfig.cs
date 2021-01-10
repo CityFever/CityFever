@@ -11,8 +11,8 @@ public class MapConfig : MonoBehaviour
     public static MapConfig mapConfig;
 
     public List<TileConfig> tileCongigurations;
-
     public float mapBudget { get; set; } = 50;
+    public int mapSize { get; set; } = 100;
 
     void Awake()
     {

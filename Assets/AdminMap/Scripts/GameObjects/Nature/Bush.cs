@@ -11,4 +11,9 @@ public class Bush : UnityObject
         return sizeSpan;
     }
 
+    private static GameObjectType type = GameObjectType.Bush;
+    public override GameObjectType Type()
+    {
+        return type;
+    }
 }

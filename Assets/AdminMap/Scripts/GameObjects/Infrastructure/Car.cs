@@ -10,4 +10,10 @@ public class Car : UnityObject
     {
         return sizeSpan;
     }
+
+    private static GameObjectType type = GameObjectType.Car;
+    public override GameObjectType Type()
+    {
+        return type;
+    }
 }

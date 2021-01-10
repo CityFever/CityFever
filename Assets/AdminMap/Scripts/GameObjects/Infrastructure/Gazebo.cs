@@ -20,10 +20,10 @@ class Gazebo : UnityObject
        
     }
 
-    private void Awake()
+    private static GameObjectType type = GameObjectType.Gazebo;
+    public override GameObjectType Type()
     {
-        CanBePlacedOn = CanBePlacedOn.Grass;
+        return type;
     }
-
 }
 

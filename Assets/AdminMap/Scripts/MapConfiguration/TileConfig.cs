@@ -12,14 +12,17 @@ namespace Assets.AdminMap.Scripts.MapConfiguration
         public TileType type { get; set; }
         public State state { get; set; }
         public Vector2 coordinate { get; set; }
+        public GameObjectType ObjectType { get; set; }
 
-        public TileConfig(int type, State state, Vector2 coordinate)
+        public TileConfig(TileType type, State state, Vector2 coordinate, GameObjectType objectType)
         {
             this.type = (TileType) type;
             this.state = state;
             this.coordinate = coordinate;
+            ObjectType = (GameObjectType) objectType;
         }
     }
+
     public enum TileType
     {
         Water,

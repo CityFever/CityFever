@@ -10,4 +10,10 @@ public class TrashBin : UnityObject
     {
         return sizeSpan;
     }
+
+    private static GameObjectType type = GameObjectType.TrashBin;
+    public override GameObjectType Type()
+    {
+        return type;
+    }
 }

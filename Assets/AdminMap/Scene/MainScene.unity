@@ -1832,7 +1832,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.8745099, g: 0.8745099, b: 0.8745099, a: 1}
   m_Intensity: 1.3
   m_Range: 10
   m_SpotAngle: 30
@@ -1842,7 +1842,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.28
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -3359,7 +3359,7 @@ MonoBehaviour:
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8657829168965782282, guid: 3bb8c1fdf5f4e1947ace52dbf4f68de4,
+          m_ObjectArgument: {fileID: 7259241468212604904, guid: 3a35214039620444fa31e2fe60c4a447,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityObject, Assembly-CSharp
           m_IntArgument: 0

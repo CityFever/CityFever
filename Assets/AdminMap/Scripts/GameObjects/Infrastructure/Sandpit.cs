@@ -10,4 +10,10 @@ public class Sandpit : UnityObject
     {
         return sizeSpan;
     }
+
+    private static GameObjectType type = GameObjectType.Sandpit;
+    public override GameObjectType Type()
+    {
+        return type;
+    }
 }

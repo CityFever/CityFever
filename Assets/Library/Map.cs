@@ -3,6 +3,9 @@ using System;
 using Grid = Assets.Scripts.Grid.Grid;
 using System.Collections.Generic;
 using Assets.AdminMap.Scripts.MapConfiguration;
+using System.Linq;
+using UnityEditor;
+using Object = System.Object;
 
 namespace Library
 {
@@ -10,7 +13,7 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        private int mapSize = 100;
+        private int mapSize;
 
         private Grid grid;
 
@@ -28,6 +31,8 @@ namespace Library
         [SerializeField] private GrassTile grassTilePrefab;
         [SerializeField] private WaterTile waterTilePrefab;
         [SerializeField] private AsphaltTile asphaltTilePrefab;
+
+        [SerializeField] private PrefabsDatabase userPrefabsDatabase;
         public Map Initialize(int size)
         {
             mapSize = size;
@@ -46,7 +51,6 @@ namespace Library
 
         private void CreateGrid()
         {
-            Debug.Log("CreateGrid mapSize" + mapSize);
             grid = Instantiate(gridPrefab, transform).Initialize(mapSize);
         }
 
@@ -305,8 +309,8 @@ namespace Library
             
             return false;
         }
-
-        public void RecreateTiles(TileType type, Vector2 coordinate, State state)
+         
+        public void CreateTilesFromConfiguration(TileType type, Vector2 coordinate, State state, GameObjectType placedObject, UnityObject obj)
         {
             int tileCoordinateX = (int) coordinate.x;
             int tileCoordinateY = (int) coordinate.y;
@@ -332,6 +336,16 @@ namespace Library
                 Instantiate(tile, grid.GetTransform(tileCoordinateX, tileCoordinateY));
 
             tiles[tileCoordinateX, tileCoordinateY].State = state;
+
+            if (obj != null)
+            {
+                Instantiate(obj, grid.GetTransform(tileCoordinateX, tileCoordinateY));
+            }
+
+            if (state.Equals(State.Off))
+            {
+                tiles[tileCoordinateX, tileCoordinateY].GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+            }
         }
     }
 }
