@@ -20,6 +20,10 @@ public class AdminGameManager : MonoBehaviour
 
     [SerializeField] private Map mapPrefab;
 
+    private float currentObjectPlacmentCosts = 0.0f;
+    private float currentObjectRemovalCosts = 0.0f;
+    private GameObjectType currectObjectType = GameObjectType.Default;
+
     private void Start()
     {
         CreateMap();
@@ -87,7 +91,7 @@ public class AdminGameManager : MonoBehaviour
                     SwitchZoneState();
                     break;
                 case GameMode.ObjectPlacement:
-                    map.PlaceGameObjectOnSelectedTile(selectedTile,_unityObjectPrefab);
+                    map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab);
                     SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
@@ -106,8 +110,8 @@ public class AdminGameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
-             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
-             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+            selectedTile = hit.collider.GetComponentInParent<BaseTile>();
+            //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
 
@@ -126,7 +130,7 @@ public class AdminGameManager : MonoBehaviour
     }
 
     private void UpdateTileType()
-    {       
+    {
         map.UpdateTileType(selectedTile, baseTilePrefab);
     }
 
@@ -152,7 +156,8 @@ public class AdminGameManager : MonoBehaviour
 
     public void SetInavtiveZoneWidth(string size)
     {
-        if (!string.IsNullOrEmpty(size)){
+        if (!string.IsNullOrEmpty(size))
+        {
             map.zoneSizeX = int.Parse(size);
             Debug.Log("InactiveZoneWidth: " + map.zoneSizeX);
         }
@@ -160,7 +165,8 @@ public class AdminGameManager : MonoBehaviour
 
     public void SetInactiveZoneHeight(string size)
     {
-        if (!string.IsNullOrEmpty(size)){
+        if (!string.IsNullOrEmpty(size))
+        {
             map.zoneSizeY = int.Parse(size);
             Debug.Log("InactiveZoneSizeHeight: " + map.zoneSizeY);
         }
@@ -187,6 +193,8 @@ public class AdminGameManager : MonoBehaviour
         map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
         SetObjectPlacementMode();
         map.zoneBrightness = 0.5f;
+        currectObjectType = selectedPrefab.Type();
+        Debug.Log("Game object type: " + currectObjectType.ToString());
     }
 
     //if we mark inactive zones we decrease the brightness of the tile
@@ -240,7 +248,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             MapConfig.mapConfig.mapBudget = amount;
-            MapConfig.mapConfig.mapBudget = mapSize;
+            //  MapConfig.mapConfig.mapBudget = mapSize;
         }
     }
 
@@ -281,11 +289,43 @@ public class AdminGameManager : MonoBehaviour
         return tileConfigs;
     }
 
+    public void SetPlacementCosts(string costs)
+    {
+        if (!string.IsNullOrEmpty(costs))
+        {
+            float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            currentObjectPlacmentCosts = price;
+            Debug.Log("Placement costs: " + currentObjectPlacmentCosts);
+        }
+    }
+
+    public void SetRemovalCosts(string costs)
+    {
+        if (!string.IsNullOrEmpty(costs))
+        {
+            float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            currentObjectRemovalCosts = price;
+            Debug.Log("Removal costs: " + currentObjectRemovalCosts);
+        }
+    }
+
     public void AddObjectConfig(GameObjectType type, float removalPrice, float placementPrice)
     {
-        if (removalPrice > 0 && placementPrice > 0)
+        if (removalPrice > 0 && placementPrice > 0 && type != GameObjectType.Default)
         {
             MapConfig.mapConfig.AddConfig(type, removalPrice, placementPrice);
         }
+        else
+        {
+            Debug.Log("Some properties are not specified.");
+        }
+    }
+
+    public void SaveObjectConfig()
+    {
+        AddObjectConfig(currectObjectType, currentObjectRemovalCosts, currentObjectPlacmentCosts);
+        currectObjectType = GameObjectType.Default;
+        currentObjectRemovalCosts = 0;
+        currentObjectPlacmentCosts = 0;
     }
 }

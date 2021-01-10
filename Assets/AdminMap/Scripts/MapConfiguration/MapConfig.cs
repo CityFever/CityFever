@@ -9,7 +9,7 @@ public class MapConfig : MonoBehaviour
 
     public List<TileConfig> tileConfigs;
 
-    public List<ObjectConfig> placeableObjectConfigs;
+    public List<ObjectConfig> placeableObjectConfigs = new List<ObjectConfig>();
 
     public float mapBudget { get; set; }
     public int mapSize { get; set; } = 100;
@@ -36,10 +36,12 @@ public class MapConfig : MonoBehaviour
         {
             objectOfThatType.removalCosts = removalCosts;
             objectOfThatType.placementCosts = placementCosts;
+            Debug.Log("GameObjecType: " + type.ToString() + ", Placement costs changed: " + placementCosts + ", Removal costs changed: " + removalCosts);
         }
         else
         {
             placeableObjectConfigs.Add(new ObjectConfig(type, removalCosts, placementCosts));
+            Debug.Log("GameObjecType: " + type.ToString() + ", Placement costs: " + placementCosts + ", Removal costs: " + removalCosts);
         }
     }
 }
