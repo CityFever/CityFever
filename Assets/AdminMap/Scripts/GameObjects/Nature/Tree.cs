@@ -8,16 +8,27 @@ using UnityEngine;
 
 class Tree : UnityObject
 {
+
     private static Vector3 sizeSpan = new Vector3(3, 0, 3);
+
+    public override GameObjectType Type()
+    {
+        return GameObjectType.Tree;
+    }
+
     public override Vector3 SizeInTiles()
     {
         return sizeSpan;
     }
 
-    private static GameObjectType type = GameObjectType.Tree;
-    public override GameObjectType Type()
+   public Tree()
     {
-        return type;
+       
+    }
+
+    private void Awake()
+    {
+        CanBePlacedOn = CanBePlacedOn.Grass;
     }
 }
 

@@ -16,10 +16,10 @@ namespace Assets.AdminMap.Scripts.MapConfiguration
 
         public TileConfig(TileType type, State state, Vector2 coordinate, GameObjectType objectType)
         {
-            this.type = (TileType) type;
+            this.type = type;
             this.state = state;
             this.coordinate = coordinate;
-            ObjectType = (GameObjectType) objectType;
+            ObjectType = objectType;
         }
     }
 
