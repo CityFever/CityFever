@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
 using UnityEngine;
+using UnityEngine.LowLevel;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class AdminGameManager : MonoBehaviour
 {
     private Map map;
     private const int mapSize = 100;
@@ -16,7 +19,6 @@ public class GameManager : MonoBehaviour
     private GameMode mode = GameMode.Default;
 
     [SerializeField] private Map mapPrefab;
-    [SerializeField] private List<UnityObject> availablePrefabs = new List<UnityObject>();
 
     private void Start()
     {
@@ -104,8 +106,8 @@ public class GameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
-            selectedTile = hit.collider.GetComponentInParent<BaseTile>();
-            Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
+             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
 
@@ -236,8 +238,46 @@ public class GameManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(budget))
         {
-            map.budget = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-            Debug.Log("MapBudget: " + map.budget);
+            float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            MapConfig.mapConfig.mapBudget = amount;
+            MapConfig.mapConfig.mapBudget = mapSize;
         }
+    }
+
+    public void LoadUserScene()
+    {
+        MapConfig.mapConfig.tileCongigurations = GetMapConfiguration();
+        SceneManager.LoadScene("UserScene");
+    }
+
+    private List<TileConfig> GetMapConfiguration()
+    {
+        List<TileConfig> tileConfigs = new List<TileConfig>();
+
+        TileType tileType;
+        Vector2 coordinate = Vector2.zero;
+        GameObjectType placedObjectType;
+
+        foreach (var tile in map.tiles)
+        {
+            placedObjectType = tile.unityObject != null ? tile.unityObject.Type() : GameObjectType.Default;
+
+            if (tile is WaterTile)
+            {
+                tileType = TileType.Water;
+            }
+            else if (tile is AsphaltTile)
+            {
+                tileType = TileType.Asphalt;
+            }
+            else
+            {
+                tileType = TileType.Grass;
+            };
+
+            tileConfigs.Add(new TileConfig(tileType, tile.State, tile.Coordinate, placedObjectType));
+        }
+
+        return tileConfigs;
     }
 }

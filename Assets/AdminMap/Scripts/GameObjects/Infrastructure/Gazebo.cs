@@ -9,7 +9,6 @@ using UnityEngine;
 class Gazebo : UnityObject
 {
     private static Vector3 sizeSpan = new Vector3(3, 0, 5);
-
     public override Vector3 SizeInTiles()
     {
         return sizeSpan;
@@ -20,10 +19,10 @@ class Gazebo : UnityObject
        
     }
 
-    private void Awake()
+    private static GameObjectType type = GameObjectType.Gazebo;
+    public override GameObjectType Type()
     {
-        CanBePlacedOn = CanBePlacedOn.Grass;
+        return type;
     }
-
 }
 

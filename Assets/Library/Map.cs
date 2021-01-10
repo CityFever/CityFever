@@ -2,6 +2,10 @@
 using System;
 using Grid = Assets.Scripts.Grid.Grid;
 using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
+using System.Linq;
+using UnityEditor;
+using Object = System.Object;
 
 namespace Library
 {
@@ -9,17 +13,17 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        private int mapSize = 100;
+        private int mapSize;
 
         private Grid grid;
 
-        private BaseTile[,] tiles;
+        public BaseTile[,] tiles { get; set; }
         public float budget { get; set; }
         public int zoneSizeX { get; set; } = 1;
         public int zoneSizeY { get; set; } = 1;
         public float zoneBrightness { get; set; } = 0.5f;
 
-        public static Color HOVERINGCOLOR = new Color(100, 100, 100,0); 
+        public static Color HOVERINGCOLOR = new Color(100, 100, 100,0);
 
         private List<BaseTile> hoveredTiles;
 
@@ -133,10 +137,10 @@ namespace Library
             Vector2Int coordinateInt = new Vector2Int((int)coordinate.x, (int)coordinate.y);
             int halfZoneSizeX = (int) (zoneSizeX/2.0); //round down
             int halfZoneSizeY = (int) (zoneSizeY/2.0); //round down
-            //makes an uneven Zone symmetric 
+            //makes an uneven Zone symmetric
             int symmetricOffsetX = -1;
             if (zoneSizeX % 2 == 0)
-                symmetricOffsetX = 0; 
+                symmetricOffsetX = 0;
             int symmetricOffsetY = -1;
             if (zoneSizeY % 2 == 0)
                 symmetricOffsetY = 0;
@@ -156,7 +160,7 @@ namespace Library
                 }
             }
             return updatedTiles;
-        }      
+        }
 
         private bool OutsideGrid(int coordinateX, int coordinateY)
         {
@@ -165,7 +169,7 @@ namespace Library
         //returns a bool if the Tile has been updated or not
         private bool UpdateTileState(BaseTile tile, State state1, State state2)
         {
-            
+
             if (tile.State == state1)
             {
                 //Changing State Activ or inactive
@@ -186,13 +190,13 @@ namespace Library
                 }
                 //appliying changes
                 tile.State = state2;
-                
+
                 return true;
             }
             return false;
         }
 
-        
+
         public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
         {
             if (CheckRestrictions(selectedTile, _unityObject) && IsTileAvailable(selectedTile, _unityObject))
@@ -210,7 +214,7 @@ namespace Library
             }
         }
 
-       
+
 
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {
@@ -220,7 +224,7 @@ namespace Library
             Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
             int halfZoneSizeX = (int)(this.zoneSizeX / 2.0); //round down
             int halfZoneSizeY = (int)(this.zoneSizeY / 2.0); //round down
-            //makes an uneven Zone symmetric 
+            //makes an uneven Zone symmetric
             int symmetricOffsetX = -1;
             if (this.zoneSizeX % 2 == 0)
                 symmetricOffsetX = 0;
@@ -288,7 +292,7 @@ namespace Library
                     {
                         return true;
                     }
-                } 
+                }
                 else if(tileType is GrassTile)
                 {
                      if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
@@ -303,7 +307,7 @@ namespace Library
 
                 }
             }
-            
+
             return false;
         }
 
@@ -312,7 +316,7 @@ namespace Library
             Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
             int halfZoneSizeX = (int)(unityObject.SizeInTiles().x / 2.0); //round down
             int halfZoneSizeY = (int)(unityObject.SizeInTiles().z / 2.0); //round down
-            //makes an uneven Zone symmetric 
+            //makes an uneven Zone symmetric
             int symmetricOffsetX = -1;
             if (unityObject.SizeInTiles().x % 2 == 0)
                 symmetricOffsetX = 0;
@@ -330,8 +334,8 @@ namespace Library
                         {
                             return false;
                         }
-                        
-                       
+
+
                     }
                 }
             }

@@ -4,25 +4,31 @@ using UnityEngine;
 
 public abstract class UnityObject : MonoBehaviour
 {
-    public GameObjectType Type { get; private set; }
+    abstract public GameObjectType Type();
 
     public CanBePlacedOn CanBePlacedOn { get; set; }
 
     abstract public Vector3 SizeInTiles();
 
-
     public void DestroyUnityObject()
     {
         Destroy(gameObject);
     }
-
 }
 
 public enum GameObjectType
 {
+    Bush,
     Tree,
-    Bench, 
-    Building
+    House,
+    Church,
+    Car, 
+    Fountain,
+    Gazebo,
+    Lamp,
+    Sandpit,
+    TrashBin,
+    Default
 }
 
 public enum CanBePlacedOn
