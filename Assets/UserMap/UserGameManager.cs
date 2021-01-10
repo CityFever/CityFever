@@ -33,7 +33,7 @@ public class UserGameManager : MonoBehaviour
 
     private void ConfigureTiles()
     {
-        foreach (var tileConfig in MapConfig.mapConfig.tileCongigurations)
+        foreach (var tileConfig in MapConfig.mapConfig.tileConfigs)
         {
             UnityObject configPrefab = null;
 

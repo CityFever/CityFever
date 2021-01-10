@@ -246,7 +246,7 @@ public class AdminGameManager : MonoBehaviour
 
     public void LoadUserScene()
     {
-        MapConfig.mapConfig.tileCongigurations = GetMapConfiguration();
+        MapConfig.mapConfig.tileConfigs = GetMapConfiguration();
         SceneManager.LoadScene("UserScene");
     }
 
@@ -279,5 +279,13 @@ public class AdminGameManager : MonoBehaviour
         }
 
         return tileConfigs;
+    }
+
+    public void AddObjectConfig(GameObjectType type, float removalPrice, float placementPrice)
+    {
+        if (removalPrice > 0 && placementPrice > 0)
+        {
+            MapConfig.mapConfig.AddConfig(type, removalPrice, placementPrice);
+        }
     }
 }
