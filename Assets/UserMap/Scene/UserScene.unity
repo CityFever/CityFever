@@ -259,8 +259,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -550,8 +550,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -764,8 +764,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -1753,8 +1753,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -1968,7 +1968,7 @@ GameObject:
   - component: {fileID: 1583930452}
   - component: {fileID: 1583930451}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: UserGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2578,8 +2578,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -2871,8 +2871,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:
@@ -3004,8 +3004,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1583930451}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
         m_MethodName: SetGameObjectPrefab
         m_Mode: 2
         m_Arguments:

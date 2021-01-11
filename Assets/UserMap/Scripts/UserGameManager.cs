@@ -23,12 +23,16 @@ public class UserGameManager : MonoBehaviour
 
     private GameMode mode = GameMode.Default;
 
+    private List<ObjectConfig> availableObjects;
+
     void Start()
     {
         CreateMap();
         map.adminAccess = false;
-
-        Debug.Log(MapConfig.mapConfig.mapBudget);
+        foreach (var config in availableObjects)
+        {
+            Debug.Log("USER: Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
+        }
     }
 
     private void CreateMap()
@@ -39,6 +43,12 @@ public class UserGameManager : MonoBehaviour
         map = Instantiate(mapPrefab, transform).Initialize(savedMapSize);
         map.budget = savedBudget;
         ConfigureTiles();
+        SetAvailableObjects();
+    }
+
+    private void SetAvailableObjects()
+    {
+        availableObjects = MapConfig.mapConfig.placeableObjectConfigs;
     }
 
     private void ConfigureTiles()
@@ -51,35 +61,33 @@ public class UserGameManager : MonoBehaviour
             {
                 configPrefab = prefabs.FirstOrDefault(prefab => prefab.Type().Equals(tileConfig.ObjectType));
             }
-
             map.CreateTilesFromConfiguration(tileConfig, configPrefab);
         }
     }
     private void Update()
     {
-        map.removePriorHover();
+        map.RemovePriorHover();
 
         if (Input.GetMouseButtonDown(0))
         {
-            //SelectGridCellOnMouseClick();
             SelectTileOnMouseClick();
         }
         else if (showHover)
         {
-            FetchRaycastedTile();
-            map.markHovering(selectedTile);
+            FetchRayCastedTile();
+            map.MarkHovering(selectedTile);
         }
     }
     private void SelectTileOnMouseClick()
     {
-        FetchRaycastedTile();
+        FetchRayCastedTile();
 
         if (selectedTile)
         {
             switch (mode)
             {
                 case GameMode.ObjectPlacement:
-                    map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab);
+                    PlaceSelectedObjectOnTile(selectedTile);
                     SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
@@ -91,17 +99,64 @@ public class UserGameManager : MonoBehaviour
             }
         }
     }
-    private void FetchRaycastedTile()
+
+    private void PlaceSelectedObjectOnTile(BaseTile baseTile)
+    {
+        if (ObjectIsAvailable() && HasEnoughMoney())
+        {
+            if (map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab))
+            {
+                ReduceMapBudget(GetObjectPlacementCosts());
+                Debug.Log("Map budget reduced by: " + GetObjectPlacementCosts() + ", current budget: " + map.budget);
+            }
+            else
+            {
+                Debug.Log("Object wasn't placed, current budget: " + map.budget);
+            }
+        }
+    }
+
+    private bool ObjectIsAvailable()
+    {
+        return MapConfig.mapConfig.IsContained(_unityObjectPrefab.Type());
+    }
+
+    private bool HasEnoughMoney()
+    {
+        var objectPrice = GetObjectPlacementCosts();
+
+        return objectPrice <= map.budget;
+    }
+
+    private void ReduceMapBudget(float byValue)
+    {
+        map.budget -= byValue;
+    }
+
+    private float GetObjectPlacementCosts()
+    {
+        Debug.Log("Fetching placement costs for: " + _unityObjectPrefab.Type());
+        return MapConfig.mapConfig.placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(_unityObjectPrefab.Type())).placementCosts;
+    }
+
+    private float GetObjectRemovalCosts()
+    {
+        Debug.Log("Fetching removal costs for: " + _unityObjectPrefab.Type());
+        return availableObjects.FirstOrDefault(config => config.type.Equals(_unityObjectPrefab.Type())).removalCosts;
+    }
+
+    private void FetchRayCastedTile()
     {
         RaycastHit hit;
 
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
-            Debug.Log("HoveredTile" + selectedTile.State);
+            //Debug.Log("HoveredTile" + selectedTile.State);
             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
+
     private Ray GetIntersectingRay()
     {
         CheckCamera();

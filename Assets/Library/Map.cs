@@ -200,12 +200,10 @@ namespace Library
         }
 
 
-        public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile, UnityObject _unityObject)
+        public bool PlaceGameObjectOnSelectedTile(BaseTile selectedTile, UnityObject _unityObject)
         {
-            //commented out code snippet should be used to check the map budget and the availability of the object 
-            //- should be uncommented only for the user's game, the admin has no restrictions
 
-            /*if (MapConfig.mapConfig.isContained(_unityObject.Type()))
+            /*if (MapConfig.mapConfig.IsContained(_unityObject.Type()))
              {
                 float objectPrice = MapConfig.mapConfig.placeableObjectConfigs
                      .FirstOrDefault(config => config.type.Equals(_unityObject.Type())).placementCosts;
@@ -230,6 +228,8 @@ namespace Library
                     this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Unavailable);
                 }
 
+                return true;
+
                 /* MapConfig.mapConfig.mapBudget -= objectPrice;
                     Debug.Log("MapBudget was reduced by " + objectPrice + ". Current map budget: " + MapConfig.mapConfig.mapBudget);
                 }
@@ -244,6 +244,8 @@ namespace Library
             }*/
 
             }
+
+            return false;
         }
 
 
@@ -304,9 +306,9 @@ namespace Library
             }
             this.zoneSizeX = zoneSizeX;
             this.zoneSizeY = zoneSizeY;
-
         }
-        public void markHovering(BaseTile hoveredTile)
+
+        public void MarkHovering(BaseTile hoveredTile)
         {
             if (hoveredTile != null)
             {
@@ -314,7 +316,8 @@ namespace Library
                         this.UpdateZoneOfTiles(hoveredTile.Coordinate, State.Available, State.Hovered);
             }
         }
-        public void removePriorHover()
+
+        public void RemovePriorHover()
         {
             if (hoveredTiles == null)
                 return;
@@ -379,13 +382,16 @@ namespace Library
                         {
                             return false;
                         }
-
-
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }
             return true;
         }
+
         public void CreateTilesFromConfiguration(TileConfig tileConfig, UnityObject prefab)
         {
             Vector2 coordinate = tileConfig.coordinate;

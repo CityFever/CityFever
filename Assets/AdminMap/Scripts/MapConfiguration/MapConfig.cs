@@ -60,7 +60,7 @@ public class MapConfig : MonoBehaviour
 
     }
 
-    public bool isContained(GameObjectType type)
+    public bool IsContained(GameObjectType type)
     {
         return placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)) != null;
     }

@@ -32,7 +32,7 @@ public class AdminGameManager : MonoBehaviour
 
     private void Update()
     {
-        map.removePriorHover();
+        map.RemovePriorHover();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -42,7 +42,7 @@ public class AdminGameManager : MonoBehaviour
         else if (showHover)
         {
             FetchRaycastedTile();
-            map.markHovering(selectedTile);
+            map.MarkHovering(selectedTile);
         }
     }
 
@@ -248,17 +248,21 @@ public class AdminGameManager : MonoBehaviour
         {
             float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             MapConfig.mapConfig.mapBudget = amount;
-            //  MapConfig.mapConfig.mapBudget = mapSize;
         }
     }
 
     public void LoadUserScene()
     {
-        MapConfig.mapConfig.tileConfigs = GetMapConfiguration();
+        MapConfig.mapConfig.tileConfigs = GetTilesConfiguration();
+        Debug.Log("Map budget before the scene switch: " + MapConfig.mapConfig.mapBudget);
+        foreach (var config in MapConfig.mapConfig.placeableObjectConfigs)
+        {
+            Debug.Log("Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
+        }
         SceneManager.LoadScene("UserScene");
     }
 
-    private List<TileConfig> GetMapConfiguration()
+    private List<TileConfig> GetTilesConfiguration()
     {
         List<TileConfig> tileConfigs = new List<TileConfig>();
 
@@ -295,7 +299,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             currentObjectPlacmentCosts = price;
-            Debug.Log("Placement costs: " + currentObjectPlacmentCosts);
+            //Debug.Log("Placement costs: " + currentObjectPlacmentCosts);
         }
     }
 
@@ -305,7 +309,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             currentObjectRemovalCosts = price;
-            Debug.Log("Removal costs: " + currentObjectRemovalCosts);
+            //Debug.Log("Removal costs: " + currentObjectRemovalCosts);
         }
     }
 
