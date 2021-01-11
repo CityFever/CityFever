@@ -78,12 +78,6 @@ public class UserGameManager : MonoBehaviour
         {
             switch (mode)
             {
-                case GameMode.TileEdition:
-                    //UpdateTileType();
-                    break;
-                case GameMode.ZoneEdition:
-                    //SwitchZoneState();
-                    break;
                 case GameMode.ObjectPlacement:
                     map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab);
                     SetDefaultMode();

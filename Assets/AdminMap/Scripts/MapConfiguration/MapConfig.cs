@@ -10,7 +10,6 @@ public class MapConfig : MonoBehaviour
     public List<TileConfig> tileConfigs;
 
     public List<ObjectConfig> placeableObjectConfigs = new List<ObjectConfig>();
-
     public float mapBudget { get; set; }
     public int mapSize { get; set; } = 100;
 
@@ -63,7 +62,6 @@ public class MapConfig : MonoBehaviour
 
     public bool isContained(GameObjectType type)
     {
-        var objectOfThatType = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
-        return (objectOfThatType != null) ? true : false;
+        return placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)) != null;
     }
 }
