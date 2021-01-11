@@ -5,14 +5,8 @@ public abstract class BaseTile : MonoBehaviour
 {
     public State State { get; set; } = State.Available;
     public Vector2 Coordinate { get; set; }
+    public UnityObject unityObject { get; set;}
 
-    void Update()
-    {
-        if (State == State.Off)
-        { 
-            //GetComponentInChildren<Renderer>().material.color = Color.gray;
-        }
-    }
     public BaseTile Initialize(Vector2 coordinate)
     {
         Coordinate = coordinate;
@@ -24,7 +18,8 @@ public enum State
 {
     Available,
     Unavailable,
-    Off
+    Off,
+    Hovered
 }
 
 
