@@ -23,7 +23,9 @@ namespace Library
         public int zoneSizeY { get; set; } = 1;
         public float zoneBrightness { get; set; } = 0.5f;
 
-        public static Color HOVERINGCOLOR = new Color(100, 100, 100,0); 
+        public static Color HOVERINGCOLOR = new Color(100, 100, 100, 0);
+
+        public bool adminAccess = true;
 
         private List<BaseTile> hoveredTiles;
 
@@ -127,7 +129,7 @@ namespace Library
 
             SetTile(tile);
 
-           Debug.Log("UpdateTileType: " + tile.Coordinate.x + ", " + tile.Coordinate.y);
+            Debug.Log("UpdateTileType: " + tile.Coordinate.x + ", " + tile.Coordinate.y);
         }
 
         //returns List with all updated Tiles
@@ -135,24 +137,24 @@ namespace Library
         {
             List<BaseTile> updatedTiles = new List<BaseTile>();
             Vector2Int coordinateInt = new Vector2Int((int)coordinate.x, (int)coordinate.y);
-            int halfZoneSizeX = (int) (zoneSizeX/2.0); //round down
-            int halfZoneSizeY = (int) (zoneSizeY/2.0); //round down
-            //makes an uneven Zone symmetric 
+            int halfZoneSizeX = (int)(zoneSizeX / 2.0); //round down
+            int halfZoneSizeY = (int)(zoneSizeY / 2.0); //round down
+            //makes an uneven Zone symmetric
             int symmetricOffsetX = -1;
             if (zoneSizeX % 2 == 0)
-                symmetricOffsetX = 0; 
+                symmetricOffsetX = 0;
             int symmetricOffsetY = -1;
             if (zoneSizeY % 2 == 0)
                 symmetricOffsetY = 0;
 
-            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX -symmetricOffsetX; x++)
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
             {
                 for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
                 {
                     if (!OutsideGrid(x, y))
                     {
                         BaseTile tile = GetTileByCoordinates(x, y);
-                        bool updated  = UpdateTileState(tile, state1, state2);
+                        bool updated = UpdateTileState(tile, state1, state2);
 
                         if (updated)
                             updatedTiles.Add(tile);
@@ -160,7 +162,7 @@ namespace Library
                 }
             }
             return updatedTiles;
-        }      
+        }
 
         private bool OutsideGrid(int coordinateX, int coordinateY)
         {
@@ -169,73 +171,62 @@ namespace Library
         //returns a bool if the Tile has been updated or not
         private bool UpdateTileState(BaseTile tile, State state1, State state2)
         {
-            
+
             if (tile.State == state1)
             {
                 //Changing State Activ or inactive
-                if(state2 == State.Off || state2 == State.Available && state1 == State.Off)
+                if (state2 == State.Off || state2 == State.Available && state1 == State.Off 
+                    || state2 == State.Unavailable|| state2 == State.Available && state1 == State.Unavailable)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
 
                 }
                 //changing to hovered
-                else if(state2 == State.Hovered)
+                else if (state2 == State.Hovered)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color += HOVERINGCOLOR;
                 }
                 //changing back from hovered
-                else if(state2 == State.Available && state1 == State.Hovered)
+                else if (state2 == State.Available && state1 == State.Hovered)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color -= HOVERINGCOLOR;
                 }
                 //appliying changes
                 tile.State = state2;
-                
+
                 return true;
             }
             return false;
         }
 
-        
-        public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile,UnityObject _unityObject)
+
+        public void PlaceGameObjectOnSelectedTile(BaseTile selectedTile, UnityObject _unityObject)
         {
-            //commented out code snippet should be used to check the map budget and the availability of the object 
-            //- should be uncommented only for the user's game, the admin has no restrictions
-
-            /*if (MapConfig.mapConfig.isContained(_unityObject.Type()))
-             {
-                float objectPrice = MapConfig.mapConfig.placeableObjectConfigs
-                     .FirstOrDefault(config => config.type.Equals(_unityObject.Type())).placementCosts;
-
-                if (MapConfig.mapConfig.mapBudget >= objectPrice)
-                {*/
-            if (CheckRestrictions(selectedTile, _unityObject))
-                    {
-                        //place Object on desired Tile
-                        UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
-                        selectedTile.unityObject = clone;
-                        //deactivate surrounding Tiles regarding Objects size
-                        Vector3 sizeInTiles = _unityObject.SizeInTiles();
-                        zoneSizeX = (int)sizeInTiles.x;
-                        zoneSizeY = (int)sizeInTiles.z;
-                        this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
-
-                        selectedTile.State = State.Unavailable;
-                    }
-
-                   /* MapConfig.mapConfig.mapBudget -= objectPrice;
-                    Debug.Log("MapBudget was reduced by " + objectPrice + ". Current map budget: " + MapConfig.mapConfig.mapBudget);
+            if (CheckRestrictions(selectedTile, _unityObject) && IsTileAvailable(selectedTile, _unityObject))
+            {
+                //place Object on desired Tile
+                UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
+                selectedTile.unityObject = clone;
+                //deactivate surrounding Tiles regarding Objects size
+                Vector3 sizeInTiles = _unityObject.SizeInTiles();
+                zoneSizeX = (int)sizeInTiles.x;
+                zoneSizeY = (int)sizeInTiles.z;
+                if (adminAccess)
+                {
+                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
                 }
                 else
                 {
-                   Debug.Log("MapBudget is not enough. Object cannot be placed");
+                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Unavailable);
                 }
+
+
+                //selectedTile.State = State.Unavailable;
             }
-            else
-            {
-               Debug.Log("Object is not on the list of placeable objects. It cannot be pl");
-            }*/
         }
+
+
+
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {
             List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
@@ -244,7 +235,7 @@ namespace Library
             Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
             int halfZoneSizeX = (int)(this.zoneSizeX / 2.0); //round down
             int halfZoneSizeY = (int)(this.zoneSizeY / 2.0); //round down
-            //makes an uneven Zone symmetric 
+            //makes an uneven Zone symmetric
             int symmetricOffsetX = -1;
             if (this.zoneSizeX % 2 == 0)
                 symmetricOffsetX = 0;
@@ -258,9 +249,16 @@ namespace Library
                     if (!OutsideGrid(x, y))
                     {
                         BaseTile tile = GetTileByCoordinates(x, y);
-                        if(tile.unityObject != null)
+                        if (tile.unityObject != null)
                         {
-                            tilesWithObjectsInZone.Add(tile);
+                            if (adminAccess)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                            else if (!adminAccess && tile.State == State.Unavailable)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
                         }
                     }
                 }
@@ -272,10 +270,16 @@ namespace Library
             foreach (BaseTile tile in tilesWithObjectsInZone)
             {
                 tile.unityObject.DestroyUnityObject();
-                tile.State = State.Off;
                 this.zoneSizeX = (int)tile.unityObject.SizeInTiles().x;
                 this.zoneSizeY = (int)tile.unityObject.SizeInTiles().z;
-                UpdateZoneOfTiles(tile.Coordinate, State.Off, State.Available);
+                if (adminAccess)
+                {
+                    UpdateZoneOfTiles(tile.Coordinate, State.Off, State.Available);
+                }
+                else
+                {
+                    UpdateZoneOfTiles(tile.Coordinate, State.Unavailable, State.Available);
+                }
             }
             this.zoneSizeX = zoneSizeX;
             this.zoneSizeY = zoneSizeY;
@@ -293,7 +297,7 @@ namespace Library
         {
             if (hoveredTiles == null)
                 return;
-            foreach(BaseTile tile in hoveredTiles)
+            foreach (BaseTile tile in hoveredTiles)
             {
                 this.UpdateTileState(tile, State.Hovered, State.Available);
             }
@@ -304,18 +308,18 @@ namespace Library
         {
             BaseTile tileType = selectedTile.GetComponentInChildren<BaseTile>();
 
-            if(selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
+            if (selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
             {
-                if(tileType is AsphaltTile)
+                if (tileType is AsphaltTile)
                 {
                     if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
                     {
                         return true;
                     }
-                } 
-                else if(tileType is GrassTile)
+                }
+                else if (tileType is GrassTile)
                 {
-                     if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
                     {
                         return true;
                     }
@@ -323,22 +327,52 @@ namespace Library
                 else if (tileType is WaterTile)
                 {
                     if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
-                     return true;
+                        return true;
 
                 }
             }
-            
+
             return false;
         }
-         
+
+        private bool IsTileAvailable(BaseTile selectedTile, UnityObject unityObject)
+        {
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(unityObject.SizeInTiles().x / 2.0); //round down
+            int halfZoneSizeY = (int)(unityObject.SizeInTiles().z / 2.0); //round down
+            //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (unityObject.SizeInTiles().x % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (unityObject.SizeInTiles().z % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if (tile.State == State.Unavailable || tile.State == State.Off)
+                        {
+                            return false;
+                        }
+
+
+                    }
+                }
+            }
+            return true;
+        }
         public void CreateTilesFromConfiguration(TileConfig tileConfig, UnityObject prefab)
         {
             Vector2 coordinate = tileConfig.coordinate;
             TileType type = tileConfig.type;
             State state = tileConfig.state;
 
-            int tileCoordinateX = (int) coordinate.x;
-            int tileCoordinateY = (int) coordinate.y;
+            int tileCoordinateX = (int)coordinate.x;
+            int tileCoordinateY = (int)coordinate.y;
 
             BaseTile tile = null;
 
@@ -356,7 +390,7 @@ namespace Library
                     tile = grassTilePrefab;
                     break;
             }
-            
+
             InstantiateSavedTile(tileCoordinateX, tileCoordinateY, tile);
             InstantiateSavedUnityObject(tileCoordinateX, tileCoordinateY, prefab);
             SetState(tileCoordinateX, tileCoordinateY, state);
@@ -366,6 +400,7 @@ namespace Library
         {
             tiles[coordinateX, coordinateY] =
                 Instantiate(tile, grid.GetTransform(coordinateX, coordinateY));
+            tiles[coordinateX, coordinateY].Coordinate = new Vector2(coordinateX, coordinateY);
         }
 
         private void InstantiateSavedUnityObject(int coordinateX, int coordinateY, UnityObject prefab)
@@ -387,3 +422,4 @@ namespace Library
         }
     }
 }
+
