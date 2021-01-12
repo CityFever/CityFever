@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Assets.AdminMap.Scripts.Controllers;
 using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
-using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -15,8 +12,7 @@ public class UserGameManager : MonoBehaviour
     [SerializeField] private Map mapPrefab;
     [SerializeField] private List<UnityObject> prefabs;
 
-    private UnityObject _unityObjectPrefab;
-
+    private UnityObject unityObject;
     private BaseTile selectedTile;
 
     private bool showHover = true;
@@ -71,13 +67,29 @@ public class UserGameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             SelectTileOnMouseClick();
+            SelectObjectOnMouseClick();
         }
         else if (showHover)
         {
             FetchRayCastedTile();
+
             map.MarkHovering(selectedTile);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            RotateSelectedGameObject();
+        }
     }
+
+    private void RotateSelectedGameObject()
+    {
+        if (unityObject != null)
+        {
+            RotationController.Rotate180Degrees(unityObject);
+        }
+    }
+
     private void SelectTileOnMouseClick()
     {
         FetchRayCastedTile();
@@ -104,7 +116,7 @@ public class UserGameManager : MonoBehaviour
     {
         if (ObjectIsAvailable() && HasEnoughMoney())
         {
-            if (map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab))
+            if (map.PlaceGameObjectOnSelectedTile(selectedTile, unityObject))
             {
                 ReduceMapBudget(GetObjectPlacementCosts());
                 Debug.Log("Map budget reduced by: " + GetObjectPlacementCosts() + ", current budget: " + map.budget);
@@ -118,7 +130,7 @@ public class UserGameManager : MonoBehaviour
 
     private bool ObjectIsAvailable()
     {
-        return MapConfig.mapConfig.IsContained(_unityObjectPrefab.Type());
+        return MapConfig.mapConfig.IsContained(unityObject.Type());
     }
 
     private bool HasEnoughMoney()
@@ -135,14 +147,14 @@ public class UserGameManager : MonoBehaviour
 
     private float GetObjectPlacementCosts()
     {
-        Debug.Log("Fetching placement costs for: " + _unityObjectPrefab.Type());
-        return MapConfig.mapConfig.placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(_unityObjectPrefab.Type())).placementCosts;
+        Debug.Log("Fetching placement costs for: " + unityObject.Type());
+        return MapConfig.mapConfig.placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(unityObject.Type())).placementCosts;
     }
 
     private float GetObjectRemovalCosts()
     {
-        Debug.Log("Fetching removal costs for: " + _unityObjectPrefab.Type());
-        return availableObjects.FirstOrDefault(config => config.type.Equals(_unityObjectPrefab.Type())).removalCosts;
+        Debug.Log("Fetching removal costs for: " + unityObject.Type());
+        return availableObjects.FirstOrDefault(config => config.type.Equals(unityObject.Type())).removalCosts;
     }
 
     private void FetchRayCastedTile()
@@ -155,6 +167,22 @@ public class UserGameManager : MonoBehaviour
             //Debug.Log("HoveredTile" + selectedTile.State);
             //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
+    }
+
+    private void FetchRayCastedObject()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(GetIntersectingRay(), out hit, 100f, 1 << 8))
+        {
+            Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
+            unityObject = hit.collider.GetComponent<UnityObject>();
+        }
+    }
+
+    private void SelectObjectOnMouseClick()
+    {
+        FetchRayCastedObject();
     }
 
     private Ray GetIntersectingRay()
@@ -187,9 +215,9 @@ public class UserGameManager : MonoBehaviour
     }
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
-        _unityObjectPrefab = selectedPrefab;
-        map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
-        map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
+        unityObject = selectedPrefab;
+        map.zoneSizeX = (int)unityObject.SizeInTiles().x;
+        map.zoneSizeY = (int)unityObject.SizeInTiles().z;
         SetObjectPlacementMode();
         map.zoneBrightness = 0.8f;
     }

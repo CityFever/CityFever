@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7180166087707522995}
   - component: {fileID: 5091789009674477318}
   - component: {fileID: 4714293607538931434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walec.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 7482260271383905726}
   - component: {fileID: 5633786196880610257}
   - component: {fileID: 9012205425112774209}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2812480853636748775}
   - component: {fileID: 551243227057121048}
-  m_Layer: 0
+  - component: {fileID: 175554209363363995}
+  m_Layer: 8
   m_Name: lamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,6 +210,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33e2fb52f0ae334e90f9636758a8c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &175554209363363995
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3191962261818920797}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5671982306756879289
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +234,7 @@ GameObject:
   - component: {fileID: 5151063585461639359}
   - component: {fileID: 7499628310820323510}
   - component: {fileID: 7912690415398511218}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Kula ico
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +315,7 @@ GameObject:
   - component: {fileID: 8121451969688008753}
   - component: {fileID: 5387955426965619606}
   - component: {fileID: 1347042189243594588}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gora lampy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

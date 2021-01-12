@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class UnityObject : MonoBehaviour
-{
+{    
+    //height is determined by the 2nd parameter in Vector3 
     abstract public GameObjectType Type();
 
     public CanBePlacedOn CanBePlacedOn { get; set; }

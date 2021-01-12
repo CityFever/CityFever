@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4472b3e1f977b944e830a371734b2cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adminAccess: 1
   gridPrefab: {fileID: 1443575764795166859, guid: 69cf725d738a040449b56a71b8506792,
     type: 3}
   grassTilePrefab: {fileID: 2620760664397768084, guid: efab82e43df9d3f4381a9f8bb77cf5ba,
@@ -50,6 +51,4 @@ MonoBehaviour:
   waterTilePrefab: {fileID: -6310488070990411487, guid: fd93392b7916aff4b9fd27b7ebe937ea,
     type: 3}
   asphaltTilePrefab: {fileID: -1493883158935452727, guid: 10a449ed902e35a429f0ebb80f522e48,
-    type: 3}
-  userPrefabsDatabase: {fileID: 4787293654706153700, guid: c9c2a9db07c2b3d42aeb474b532c557a,
     type: 3}

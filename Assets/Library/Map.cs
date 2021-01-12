@@ -1,11 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.AdminMap.Scripts.MapConfiguration;
 using System;
-using Grid = Assets.Scripts.Grid.Grid;
 using System.Collections.Generic;
-using Assets.AdminMap.Scripts.MapConfiguration;
-using System.Linq;
-using UnityEditor;
-using Object = System.Object;
+using UnityEngine;
+using Grid = Assets.Scripts.Grid.Grid;
 
 namespace Library
 {
@@ -168,7 +165,7 @@ namespace Library
         {
             return coordinateX < 0 || coordinateX > (mapSize - 1) || coordinateY < 0 || coordinateY > (mapSize - 1);
         }
-        //returns a bool if the Tile has been updated or not
+
         private bool UpdateTileState(BaseTile tile, State state1, State state2)
         {
 
@@ -202,17 +199,8 @@ namespace Library
 
         public bool PlaceGameObjectOnSelectedTile(BaseTile selectedTile, UnityObject _unityObject)
         {
-
-            /*if (MapConfig.mapConfig.IsContained(_unityObject.Type()))
-             {
-                float objectPrice = MapConfig.mapConfig.placeableObjectConfigs
-                     .FirstOrDefault(config => config.type.Equals(_unityObject.Type())).placementCosts;
-                if (MapConfig.mapConfig.mapBudget >= objectPrice)
-                {*/
-
             if (CheckRestrictions(selectedTile, _unityObject) && IsTileAvailable(selectedTile, _unityObject))
             {
-                //place Object on desired Tile
                 UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
                 selectedTile.unityObject = clone;
                 //deactivate surrounding Tiles regarding Objects size
@@ -229,25 +217,10 @@ namespace Library
                 }
 
                 return true;
-
-                /* MapConfig.mapConfig.mapBudget -= objectPrice;
-                    Debug.Log("MapBudget was reduced by " + objectPrice + ". Current map budget: " + MapConfig.mapConfig.mapBudget);
-                }
-                else
-                {
-                   Debug.Log("MapBudget is not enough. Object cannot be placed");
-                }
-            }	            }
-            else
-            {
-               Debug.Log("Object is not on the list of placeable objects. It cannot be pl");
-            }*/
-
             }
 
             return false;
         }
-
 
 
         public void RemoveObjectFromZone(BaseTile selectedTile)

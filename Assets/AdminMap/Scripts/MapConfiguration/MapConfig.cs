@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Assets.AdminMap.Scripts.MapConfiguration;
+using System.Collections.Generic;
 using System.Linq;
-using Assets.AdminMap.Scripts.MapConfiguration;
 using UnityEngine;
 
 public class MapConfig : MonoBehaviour

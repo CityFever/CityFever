@@ -12,6 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26176360a48a2d46854c56d4beca705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2936134059177421039
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378578873992652504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0315995, y: 4.103889, z: 3.5390148}
+  m_Center: {x: 0.0000006556511, y: 2.0519445, z: 0}
 --- !u!1001 &5756228556888997841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,6 +91,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gazebo1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 80b54a05760eba94990a2be93618e0eb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80b54a05760eba94990a2be93618e0eb, type: 3}

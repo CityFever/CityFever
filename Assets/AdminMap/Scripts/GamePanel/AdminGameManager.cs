@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Assets.AdminMap.Scripts.Controllers;
 using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class AdminGameManager : MonoBehaviour
@@ -12,7 +12,7 @@ public class AdminGameManager : MonoBehaviour
 
     private BaseTile baseTilePrefab;
     private BaseTile selectedTile;
-    private UnityObject _unityObjectPrefab;
+    private UnityObject unityObject;
 
     private bool showHover = true;
 
@@ -36,13 +36,26 @@ public class AdminGameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //SelectGridCellOnMouseClick();
             SelectTileOnMouseClick();
+            SelectObjectOnMouseClick();
         }
         else if (showHover)
         {
             FetchRaycastedTile();
             map.MarkHovering(selectedTile);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+           RotateSelectedGameObject();
+        }
+    }
+
+    private void RotateSelectedGameObject()
+    {
+        if (unityObject != null)
+        {
+            RotationController.Rotate180Degrees(unityObject);
         }
     }
 
@@ -76,6 +89,22 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
+    private void SelectObjectOnMouseClick()
+    {
+        FetchRayCastedObject();
+    }
+
+    private void FetchRayCastedObject()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(GetIntersectingRay(), out hit, 100, 1 << 8))
+        {
+            Debug.Log("Fetched object: " + hit.collider.GetComponent<UnityObject>());
+            unityObject = hit.collider.GetComponent<UnityObject>();
+        }
+    }
+
     private void SelectTileOnMouseClick()
     {
         FetchRaycastedTile();
@@ -91,7 +120,7 @@ public class AdminGameManager : MonoBehaviour
                     SwitchZoneState();
                     break;
                 case GameMode.ObjectPlacement:
-                    map.PlaceGameObjectOnSelectedTile(selectedTile, _unityObjectPrefab);
+                    map.PlaceGameObjectOnSelectedTile(selectedTile, unityObject);
                     SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
@@ -172,7 +201,6 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
-    // used when user places tiles on an empty grid
     private void PlaceBaseTileOnGrid(GridCell gridCell)
     {
         map.CreateBaseTile(baseTilePrefab, gridCell);
@@ -188,23 +216,20 @@ public class AdminGameManager : MonoBehaviour
 
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
-        _unityObjectPrefab = selectedPrefab;
-        map.zoneSizeX = (int)_unityObjectPrefab.SizeInTiles().x;
-        map.zoneSizeY = (int)_unityObjectPrefab.SizeInTiles().z;
+        unityObject = selectedPrefab;
+        map.zoneSizeX = (int)unityObject.SizeInTiles().x;
+        map.zoneSizeY = (int)unityObject.SizeInTiles().z;
         SetObjectPlacementMode();
         map.zoneBrightness = 0.5f;
         currectObjectType = selectedPrefab.Type();
-        Debug.Log("Game object type: " + currectObjectType.ToString());
     }
 
-    //if we mark inactive zones we decrease the brightness of the tile
     public void MarkInactiveZones()
     {
         SetZoneEditionMode();
         map.zoneBrightness = 0.5f;
     }
 
-    //if we mark active zones we increase the brightness of the tile
     public void MarkActiveZones()
     {
         SetZoneEditionMode();

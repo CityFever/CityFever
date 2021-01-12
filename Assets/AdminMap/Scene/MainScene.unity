@@ -5254,6 +5254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7704cf1c67b85041b06864efd332793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
   mapPrefab: {fileID: 1073011653771967469, guid: 8ed0fd36c576fd148a17bf0459664d16,
     type: 3}
 --- !u!4 &1552138611
