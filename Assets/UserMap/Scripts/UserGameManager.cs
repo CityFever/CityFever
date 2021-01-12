@@ -103,7 +103,8 @@ public class UserGameManager : MonoBehaviour
                     SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
-                    map.RemoveObjectFromZone(selectedTile);
+                    RemoveObjectsFromSelectedZone(selectedTile);
+                    SetDefaultMode();
                     break;
                 case GameMode.Default:
                     // nothing so far 
@@ -128,6 +129,21 @@ public class UserGameManager : MonoBehaviour
         }
     }
 
+    private void RemoveObjectsFromSelectedZone(BaseTile baseTile)
+    {
+        List<BaseTile> tilesInZones = map.GetTilesWithObjectsOnZone(selectedTile);
+        float budgetToReturn = 0.0f;
+
+        foreach (BaseTile tile in tilesInZones) {
+            unityObject = tile.unityObject;
+            budgetToReturn += GetObjectRemovalCosts();
+        }
+        
+         map.RemoveObjectFromZone(selectedTile);
+         IncreaseMapBudget(budgetToReturn);
+         Debug.Log("Map budget increased by: " + budgetToReturn + ", current budget: " + map.budget);
+    }
+
     private bool ObjectIsAvailable()
     {
         return MapConfig.mapConfig.IsContained(unityObject.Type());
@@ -144,6 +160,12 @@ public class UserGameManager : MonoBehaviour
     {
         map.budget -= byValue;
     }
+
+    private void IncreaseMapBudget(float byValue)
+    {
+        map.budget += byValue;
+    }
+
 
     private float GetObjectPlacementCosts()
     {
@@ -175,7 +197,7 @@ public class UserGameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit, 100f, 1 << 8))
         {
-            Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
+          //  Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
             unityObject = hit.collider.GetComponent<UnityObject>();
         }
     }

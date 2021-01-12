@@ -420,6 +420,45 @@ namespace Library
                 tiles[coordinateX, coordinateY].GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
             }
         }
+
+        public List<BaseTile> GetTilesWithObjectsOnZone(BaseTile selectedTile)
+        {
+            List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
+
+            //search Zone for tiles with Objects
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(this.zoneSizeX / 2.0); //round down
+            int halfZoneSizeY = (int)(this.zoneSizeY / 2.0); //round down
+                                                             //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (this.zoneSizeX % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (this.zoneSizeY % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if (tile.unityObject != null)
+                        {
+                            if (adminAccess)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                            else if (!adminAccess && tile.State == State.Unavailable)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                        }
+                    }
+                }
+            }
+            return tilesWithObjectsInZone;
+        }
     }
 }
 
