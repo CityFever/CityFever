@@ -8,4 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UserMap/Scene/UserScene.unity
     guid: 3966fda22ac1156459d9b42b69b2366b
+  - enabled: 1
+    path: Assets/GUI/Scenes/LogSign.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/GUI/Scenes/AdminMenu.unity
+    guid: 4359cac009111274d9fe9bc50c4427c5
+  - enabled: 1
+    path: Assets/GUI/Scenes/AdminBrowse.unity
+    guid: 110cb857cb0b6a54bb921acd049721fd
+  - enabled: 1
+    path: Assets/GUI/Scenes/AdminCreate.unity
+    guid: 83ec07914688997469d73801cfdf8471
+  - enabled: 1
+    path: Assets/GUI/Scenes/PlayerMenu.unity
+    guid: 6c31f5b5ab9b14043a6681a05bea8581
+  - enabled: 1
+    path: Assets/GUI/Scenes/PlayerGame.unity
+    guid: 2d58e2f2970248c4686173c10bb03ae4
   m_configObjects: {}
