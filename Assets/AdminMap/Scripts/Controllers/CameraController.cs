@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     public Vector3 zoom;
     public Vector3 zoomDepth;
 
-    private float zoomLimitMin = 10f;
+    private float zoomLimitMin = 2f;
     private float zoomLimitMax = 80f;
 
     private float moveLimitMin = 0f;
