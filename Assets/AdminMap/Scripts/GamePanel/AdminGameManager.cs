@@ -2,6 +2,7 @@
 using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -236,7 +237,7 @@ public class AdminGameManager : MonoBehaviour
         map.zoneBrightness = 1 / 0.5f;
     }
 
-    public void ObjectRemoval()
+    public void RemoveSelectedObject()
     {
         SetObjectRemovalMode();
         map.zoneBrightness = 1 / 0.5f;
@@ -370,5 +371,17 @@ public class AdminGameManager : MonoBehaviour
         {
             Debug.Log("Game object type is not specified.");
         }
+    }
+
+    public void OnValueHChanged(float newValue)
+    {
+        Debug.Log("sliderH: " + (int)newValue);
+        map.zoneSizeX = (int) newValue;
+    }
+
+    public void OnValueWChanged(float newValue)
+    {
+        Debug.Log("sliderW: " + (int)newValue);
+        map.zoneSizeY = (int) newValue;
     }
 }

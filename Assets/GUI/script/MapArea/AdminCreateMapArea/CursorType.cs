@@ -26,7 +26,6 @@ public class CursorType : MonoBehaviour
         item = false;
         sliderH = 1;
         sliderW = 1;
-
     }
 
     // Update is called once per frame
@@ -38,11 +37,13 @@ public class CursorType : MonoBehaviour
     public void OnValueHChanged(float newValue)
     {
         sliderH = (int)newValue;
+       Debug.Log(sliderW);
     }
 
     public void OnValueWChanged(float newValue)
     {
         sliderW = (int)newValue;
+        Debug.Log(sliderW);
     }
 
     public void Reset()
@@ -60,8 +61,6 @@ public class CursorType : MonoBehaviour
     {
         Reset();
         inactive = true;
-
-
     }
 
     public void SetDemolish()

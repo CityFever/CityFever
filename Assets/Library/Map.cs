@@ -13,7 +13,6 @@ namespace Library
         private int mapSize;
 
         private Grid grid;
-
         public BaseTile[,] tiles { get; set; }
         public float budget { get; set; }
         public int zoneSizeX { get; set; } = 1;
@@ -30,6 +29,7 @@ namespace Library
         [SerializeField] private GrassTile grassTilePrefab;
         [SerializeField] private WaterTile waterTilePrefab;
         [SerializeField] private AsphaltTile asphaltTilePrefab;
+
         public Map Initialize(int size)
         {
             mapSize = size;
