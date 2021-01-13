@@ -1,0 +1,1 @@
+Now Log In moves to Admin Menu and Sign Up moves to player Menu. It should depend on log in credentials provided.
