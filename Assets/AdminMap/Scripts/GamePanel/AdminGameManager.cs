@@ -273,6 +273,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             MapConfig.mapConfig.mapBudget = amount;
+            Debug.Log("Map budget: " + MapConfig.mapConfig.mapBudget);
         }
     }
 

@@ -60,6 +60,7 @@ public class GameBar : MonoBehaviour
     public void SetBudget()
     {
         budgetValue = Convert.ToInt32(budgetField.text);
-        //now we have budget stored. Next step is passing it to the database or sth
+        MapConfig.mapConfig.mapBudget = budgetValue;
+        Debug.Log("Set budget: " + MapConfig.mapConfig.mapBudget);
     }
 }

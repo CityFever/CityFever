@@ -31,13 +31,12 @@ public class ButtonListControl : MonoBehaviour
 
         for (int i = 1; i <= numberOfButtons; i++)
         {
-            GameObject button = Instantiate(buttonTemplate) as GameObject;
+            GameObject button = Instantiate(buttonTemplate);
             button.SetActive(true);
 
             button.GetComponent<ButtonListButton>().SetText("Button #" + i);
             button.GetComponent<ButtonListButton>().SetId(i.ToString()); //lets set the id as the order
             button.GetComponent<ButtonListButton>().SetImage(spriteImages[i-1]); //lets set the id as the order
-
 
             buttons.Add(button);
             //lets just set some random prices for now:
@@ -57,7 +56,7 @@ public class ButtonListControl : MonoBehaviour
 
     public void SetNumberOfButtons() //edit accordingly to the actual amount
     {
-        numberOfButtons = 6;
+        numberOfButtons = 3;
     }
 
     public void SaveNewValues(int newPrice, int remCost, string buttonId)

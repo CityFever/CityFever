@@ -45,7 +45,6 @@ public class CursorType : MonoBehaviour
         sliderW = (int)newValue;
     }
 
-
     public void Reset()
     {
         inactive = false;
