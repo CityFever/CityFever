@@ -23,10 +23,6 @@ public class PriceUI : MonoBehaviour
     private Button placeButton;
     private Button changePriceBtn;
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         priceLabel = transform.Find("PriceLabel").GetComponent<TMP_Text>();

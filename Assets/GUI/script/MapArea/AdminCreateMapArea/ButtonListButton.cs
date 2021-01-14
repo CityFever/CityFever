@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Application = Assets.AdminMap.Scripts.Application;
 
 public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 {
@@ -14,7 +15,6 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 
     public PriceUI priceUi;
 
-    private string id;
     private int placementCosts;
     private int removalCosts;
 
@@ -43,8 +43,9 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 
     public void ShowValues() 
     {
-        priceUi.SetLabels(placementCosts, removalCosts, id);
-        Debug.Log(ObjectType);
+        priceUi.SetLabels(placementCosts, removalCosts, Id);
+        Application.application.SelectedGameObjectType = ObjectType;
+        Debug.Log(Application.application.SelectedGameObjectType);
     }
 
     public void OnPointerClick(PointerEventData eventData)
