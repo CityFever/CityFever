@@ -14623,7 +14623,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1391330106}
         m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
-        m_MethodName: OnValueWChanged
+        m_MethodName: OnZoneWidthChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15457,8 +15457,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -15748,8 +15748,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -16506,7 +16506,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1391330106}
         m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
-        m_MethodName: OnValueHChanged
+        m_MethodName: OnZoneHeightChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
