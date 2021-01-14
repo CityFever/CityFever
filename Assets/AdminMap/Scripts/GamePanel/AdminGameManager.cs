@@ -2,6 +2,7 @@
 using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
 using System.Collections.Generic;
+using Assets.AdminMap.Scripts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -92,22 +93,6 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
-    private void SelectObjectOnMouseClick()
-    {
-        FetchRayCastedObject();
-    }
-
-    private void FetchRayCastedObject()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(GetIntersectingRay(), out hit, 100, 1 << 8))
-        {
-            Debug.Log("Fetched object: " + hit.collider.GetComponent<UnityObject>());
-            unityObject = hit.collider.GetComponent<UnityObject>();
-        }
-    }
-
     private void SelectTileOnMouseClick()
     {
         FetchRaycastedTile();
@@ -136,6 +121,22 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
+    private void SelectObjectOnMouseClick()
+    {
+        FetchRayCastedObject();
+    }
+
+    private void FetchRayCastedObject()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(GetIntersectingRay(), out hit, Constants.MAX_DISTANCE_FROM_POINT, 1 << 8))
+        {
+            Debug.Log("Fetched object: " + hit.collider.GetComponent<UnityObject>());
+            unityObject = hit.collider.GetComponent<UnityObject>();
+        }
+    }
+
     private void FetchRaycastedTile()
     {
         RaycastHit hit;
@@ -143,7 +144,6 @@ public class AdminGameManager : MonoBehaviour
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
-            //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
 
@@ -176,7 +176,7 @@ public class AdminGameManager : MonoBehaviour
 
     private void SwitchZoneState()
     {
-        if (map.zoneBrightness == 0.5f)
+        if (map.zoneBrightness.Equals(Constants.INACTIVE_TILE))
         {
             BuildInactiveZone(State.Available, State.Off);
         }
@@ -186,7 +186,7 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
-    public void SetInavtiveZoneWidth(string size)
+    /*public void SetInavtiveZoneWidth(string size)
     {
         if (!string.IsNullOrEmpty(size))
         {
@@ -202,7 +202,7 @@ public class AdminGameManager : MonoBehaviour
             map.zoneSizeY = int.Parse(size);
             Debug.Log("InactiveZoneSizeHeight: " + map.zoneSizeY);
         }
-    }
+    }*/
 
     private void PlaceBaseTileOnGrid(GridCell gridCell)
     {
@@ -222,27 +222,27 @@ public class AdminGameManager : MonoBehaviour
         unityObject = selectedPrefab;
         map.zoneSizeX = (int)unityObject.SizeInTiles().x;
         map.zoneSizeY = (int)unityObject.SizeInTiles().z;
-        SetObjectPlacementMode();
-        map.zoneBrightness = 0.5f;
+        map.zoneBrightness = Constants.INACTIVE_TILE;
         currectObjectType = selectedPrefab.Type();
+        SetObjectPlacementMode();
     }
 
     public void MarkInactiveZones()
     {
         SetZoneEditionMode();
-        map.zoneBrightness = 0.5f;
+        map.zoneBrightness = Constants.INACTIVE_TILE;
     }
 
     public void MarkActiveZones()
     {
         SetZoneEditionMode();
-        map.zoneBrightness = 1 / 0.5f;
+        map.zoneBrightness = Constants.ACTIVE_TILE;
     }
 
     public void RemoveSelectedObject()
     {
         SetObjectRemovalMode();
-        map.zoneBrightness = 1 / 0.5f;
+        map.zoneBrightness = Constants.ACTIVE_TILE;
     }
 
     public void SetZoneEditionMode()
@@ -268,16 +268,6 @@ public class AdminGameManager : MonoBehaviour
     public void SetObjectRemovalMode()
     {
         mode = GameMode.ObjectRemoval;
-    }
-
-    public void SetMapBudget(string budget)
-    {
-        if (!string.IsNullOrEmpty(budget))
-        {
-            float amount = float.Parse(budget, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-            MapConfig.mapConfig.mapBudget = amount;
-            Debug.Log("Map budget: " + MapConfig.mapConfig.mapBudget);
-        }
     }
 
     public void LoadUserScene()
@@ -328,7 +318,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             currentObjectPlacmentCosts = price;
-            //Debug.Log("Placement costs: " + currentObjectPlacmentCosts);
+            Debug.Log("Placement costs: " + currentObjectPlacmentCosts);
         }
     }
 
@@ -338,7 +328,7 @@ public class AdminGameManager : MonoBehaviour
         {
             float price = float.Parse(costs, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             currentObjectRemovalCosts = price;
-            //Debug.Log("Removal costs: " + currentObjectRemovalCosts);
+            Debug.Log("Removal costs: " + currentObjectRemovalCosts);
         }
     }
 
@@ -375,15 +365,13 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
-    public void OnValueHChanged(float newValue)
+    public void OnZoneHeightChanged(float newValue)
     {
-        Debug.Log("sliderH: " + (int)newValue);
         map.zoneSizeX = (int) newValue;
     }
 
-    public void OnValueWChanged(float newValue)
+    public void OnZoneWidthChanged(float newValue)
     {
-        Debug.Log("sliderW: " + (int)newValue);
         map.zoneSizeY = (int) newValue;
     }
 

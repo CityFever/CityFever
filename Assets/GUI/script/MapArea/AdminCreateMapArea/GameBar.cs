@@ -15,11 +15,9 @@ public class GameBar : MonoBehaviour
     bool item = false;
 
     private int budgetValue;
-
     private TMP_InputField budgetField;
     private Button saveBudgetButton;
 
-    // Start is called before the first frame update
     void Start()
     {
         inactive = false;
@@ -31,19 +29,12 @@ public class GameBar : MonoBehaviour
 
         budgetField = transform.Find("SetBudgetBox").GetComponent<TMP_InputField>();
         saveBudgetButton = transform.Find("SaveBudgetButton").GetComponent<Button>();
-
         saveBudgetButton.interactable = false;
-
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (budgetField.text != "")
-        {
-            saveBudgetButton.interactable = true;
-        }
-        else { saveBudgetButton.interactable = false; }
+        saveBudgetButton.interactable = !String.IsNullOrWhiteSpace(budgetField.text);
     }
 
     void SetInactive()

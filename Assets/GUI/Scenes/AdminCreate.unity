@@ -875,7 +875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 143, y: -491}
+  m_AnchoredPosition: {x: -28, y: -446}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120304143
@@ -1300,7 +1300,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1391330106}
+        m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
+        m_MethodName: SetRemovalCosts
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -1474,7 +1486,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1391330106}
+        m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
+        m_MethodName: SetPlacementCosts
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -5755,7 +5779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5400009, y: 0}
+  m_AnchoredPosition: {x: -0.5400009, y: 1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719754314
@@ -7169,7 +7193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 237, y: -206}
+  m_AnchoredPosition: {x: 100, y: -313}
   m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &841746359
@@ -8224,7 +8248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 518, y: -340}
+  m_AnchoredPosition: {x: 337, y: -443}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &952624294
@@ -9312,7 +9336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 335, y: -205}
+  m_AnchoredPosition: {x: 177, y: -313}
   m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1056610605
@@ -10002,6 +10026,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 13eb99425de7ab04bb527f69f629e4a9, type: 3}
   - {fileID: 21300000, guid: 653b93250f4d28c47be7a8a07d7ce01f, type: 3}
   - {fileID: 21300000, guid: 653b93250f4d28c47be7a8a07d7ce01f, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
+  - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
   - {fileID: 21300000, guid: 8a3afbf629fd4f4448886e547ed92fcd, type: 3}
 --- !u!114 &1123957352
 MonoBehaviour:
@@ -11013,8 +11043,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hint: users will be charged each time they place or remove the objects
-    from the map.'
+  m_text: 'Hint: users working with the map will only have access to the obects marked
+    as available.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
   m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
@@ -14114,7 +14146,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -77, y: -528}
+  m_AnchoredPosition: {x: -428, y: -479}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1651902733
@@ -14589,21 +14621,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 509605924}
-        m_TargetAssemblyTypeName: CursorType, Assembly-CSharp
-        m_MethodName: OnValueWChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1391330106}
         m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
-        m_MethodName: OnValueHChanged
+        m_MethodName: OnValueWChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16484,18 +16504,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 509605924}
-        m_TargetAssemblyTypeName: CursorType, Assembly-CSharp
-        m_MethodName: OnValueHChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1391330106}
         m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
         m_MethodName: OnValueHChanged
@@ -16503,18 +16511,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CursorType, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -18344,7 +18340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -3, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2135606093

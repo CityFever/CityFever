@@ -6,38 +6,23 @@ using UnityEngine.UI;
 
 public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField]
-    private Text myText;
+    [SerializeField] private Text myText;
 
-    [SerializeField]
-    private Button button;
+    [SerializeField] private Button button;
 
-    [SerializeField]
-    private ButtonListControl buttonControl;
+    [SerializeField] private ButtonListControl buttonControl;
 
     public PriceUI priceUi;
 
     private string id;
-
-    private int price;
-    private int removalCost;
+    private int placementCosts;
+    private int removalCosts;
 
     private Sprite objectImage;
 
-    private bool available;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        button = GetComponent<Button>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string Id { get; set; }
+    public bool Available { get; set; }
+    public GameObjectType ObjectType { get; set; }
 
     public void SetText(string textString)
     {
@@ -50,45 +35,24 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
         button.GetComponent<Image>().sprite = objectImage;
     }
 
-    public void SetId(string id)
+    public void SetValues(int placementCosts, int removalCosts)
     {
-        this.id = id;
+        this.placementCosts = placementCosts;
+        this.removalCosts = removalCosts;
     }
 
-    public void SetValues(int price, int removalCost)
+    public void ShowValues() 
     {
-        this.price = price;
-        this.removalCost = removalCost;
-    }
-
-    public void ShowValues() //called from button in the inspector
-    {
-        priceUi.SetLabels(price, removalCost, id);
-    }
-
-    public string GetId()
-    {
-        return id;
+        priceUi.SetLabels(placementCosts, removalCosts, id);
+        Debug.Log(ObjectType);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click Data" + eventData.clickCount);
-
-        if (eventData.clickCount == 2)
+        if (eventData.clickCount.Equals(2))
         {
-            Debug.Log("Click Data Double click");
-
-            if (available)
-            {
-                available = false;
-                SetText("Unavailable");
-            }
-            else
-            {
-                available = true; 
-                SetText("Available");
-            }
+            Available = !Available;
+            SetText(Available ? "Available" : "Unavailable");
         }
     }
 }

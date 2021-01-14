@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class ButtonListControl : MonoBehaviour
 {
@@ -30,34 +32,37 @@ public class ButtonListControl : MonoBehaviour
             buttons.Clear();
         }
 
-        for (int i = 1; i <= numberOfButtons; i++)
+        for (int i = 0; i < numberOfButtons; i++)
         {
             GameObject button = Instantiate(buttonTemplate);
             button.SetActive(true);
 
             button.GetComponent<ButtonListButton>().SetText("Available");
-            button.GetComponent<ButtonListButton>().SetId(i.ToString()); //lets set the id as the order
-            button.GetComponent<ButtonListButton>().SetImage(spriteImages[i-1]); //lets set the id as the order
+            button.GetComponent<ButtonListButton>().SetImage(spriteImages[i]);
+            button.GetComponent<ButtonListButton>().Id = i.ToString();
+            button.GetComponent<ButtonListButton>().ObjectType = GetEnumValue(i);
 
             buttons.Add(button);
-            //lets just set some random prices for now:
             int rInt = Random.Range(0, 100);
             int cInt = Random.Range(0, 100);
             button.GetComponent<ButtonListButton>().SetValues(rInt, cInt);
-
             button.transform.SetParent(buttonTemplate.transform.parent, false);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetNumberOfButtons() 
     {
-
+        numberOfButtons = GetAllObjectTypes().Length;
     }
 
-    public void SetNumberOfButtons() //edit accordingly to the actual amount
+    private GameObjectType GetEnumValue(int index)
     {
-        numberOfButtons = 3;
+        return (GameObjectType)GetAllObjectTypes().GetValue(index);
+    }
+
+    private Array GetAllObjectTypes()
+    {
+        return Enum.GetValues(typeof(GameObjectType));
     }
 
     public void SaveNewValues(int newPrice, int remCost, string buttonId)
@@ -65,7 +70,7 @@ public class ButtonListControl : MonoBehaviour
         Debug.Log("Size: " + buttons.Count);
         foreach (GameObject button in buttons)
         {
-            if (button.GetComponent<ButtonListButton>().GetId() == buttonId)
+            if (button.GetComponent<ButtonListButton>().Id == buttonId)
             {
                 button.GetComponent<ButtonListButton>().SetValues(newPrice, remCost);
             }

@@ -14,8 +14,6 @@ public class CursorType : MonoBehaviour
     int sliderH;
     int sliderW;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         inactive = false;
@@ -28,22 +26,9 @@ public class CursorType : MonoBehaviour
         sliderW = 1;
     }
 
-    // Update is called once per frame
     void Update()
     {  
-        Debug.Log("inactive: " + inactive + " demolish: " + demolish + " item: " + item + " water: " + water + " asphalt: " + asphalt + " grass: " + grass + " sliderH =" + sliderH);
-    }
-
-    public void OnValueHChanged(float newValue)
-    {
-        sliderH = (int)newValue;
-       Debug.Log(sliderW);
-    }
-
-    public void OnValueWChanged(float newValue)
-    {
-        sliderW = (int)newValue;
-        Debug.Log(sliderW);
+       // Debug.Log("inactive: " + inactive + " demolish: " + demolish + " item: " + item + " water: " + water + " asphalt: " + asphalt + " grass: " + grass + " sliderH =" + sliderH);
     }
 
     public void Reset()
@@ -54,7 +39,6 @@ public class CursorType : MonoBehaviour
         asphalt = false;
         water = false;
         item = false;
-
     }
 
     public void SetInactive()
@@ -67,40 +51,29 @@ public class CursorType : MonoBehaviour
     {
         Reset();
         demolish = true;
-
-
     }
 
     public void SetGrass()
     {
         Reset();
         grass = true;
-        
-
     }
 
     public void SetAsphalt()
     {
         Reset();
         asphalt = true;
-      
     }
-
 
     public void SetWater()
     {
         Reset();
-        water = true ; 
-      
+        water = true ;
     }
-
 
     public void SetItem()
     {
         Reset();
         item = true;
-
     }
-
-
 }
