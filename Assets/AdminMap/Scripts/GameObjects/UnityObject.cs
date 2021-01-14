@@ -14,6 +14,9 @@ public abstract class UnityObject : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    abstract public CanBePlacedOn CanBePlaced();
+        
 }
 
 public enum GameObjectType
@@ -37,4 +40,5 @@ public enum CanBePlacedOn
     Asphalt,
     Water
 }
+
 

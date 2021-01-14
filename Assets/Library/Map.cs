@@ -310,23 +310,24 @@ namespace Library
 
             if (selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
             {
+                //Debug.Log(_unityObject.GetType());
                 if (tileType is AsphaltTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
+                    if (_unityObject.CanBePlaced() == CanBePlacedOn.Asphalt)
                     {
                         return true;
                     }
                 }
                 else if (tileType is GrassTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    if (_unityObject.CanBePlaced() == CanBePlacedOn.Grass)
                     {
                         return true;
                     }
                 }
                 else if (tileType is WaterTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    if (_unityObject.CanBePlaced() == CanBePlacedOn.Water)
                         return true;
 
                 }

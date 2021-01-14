@@ -15,4 +15,9 @@ public class Sandpit : UnityObject
     {
         return type;
     }
+
+    public override CanBePlacedOn CanBePlaced()
+    {
+        return CanBePlacedOn.Grass;
+    }
 }

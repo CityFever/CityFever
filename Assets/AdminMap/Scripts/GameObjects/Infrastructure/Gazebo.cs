@@ -14,6 +14,11 @@ class Gazebo : UnityObject
         return sizeSpan;
     }
 
+    public override CanBePlacedOn CanBePlaced()
+    {
+        return CanBePlacedOn.Asphalt;
+    }
+
     public Gazebo()
     {
        
@@ -24,5 +29,7 @@ class Gazebo : UnityObject
     {
         return type;
     }
+
+  
 }
 

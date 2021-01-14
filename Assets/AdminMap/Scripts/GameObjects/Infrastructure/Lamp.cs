@@ -15,4 +15,9 @@ public class Lamp : UnityObject
     {
         return type;
     }
+
+    public override CanBePlacedOn CanBePlaced()
+    {
+        return CanBePlacedOn.Asphalt;
+    }
 }

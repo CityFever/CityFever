@@ -15,4 +15,9 @@ public class Car : UnityObject
     {
         return type;
     }
+
+    public override CanBePlacedOn CanBePlaced()
+    {
+        return CanBePlacedOn.Asphalt;
+    }
 }

@@ -21,14 +21,16 @@ class Tree : UnityObject
         return sizeSpan;
     }
 
-   public Tree()
+
+    public override CanBePlacedOn CanBePlaced()
     {
-       
+        return CanBePlacedOn.Grass;
     }
 
-    private void Awake()
+
+   /* private void Awake()
     {
         CanBePlacedOn = CanBePlacedOn.Grass;
-    }
+    }*/
 }
 
