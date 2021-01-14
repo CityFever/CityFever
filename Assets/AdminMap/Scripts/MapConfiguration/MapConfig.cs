@@ -27,7 +27,6 @@ public class MapConfig : MonoBehaviour
         }
     }
 
-
     public void AddConfig(GameObjectType type, float removalCosts, float placementCosts)
     {
         var objectOfThatType = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
@@ -58,7 +57,6 @@ public class MapConfig : MonoBehaviour
         {            
             Debug.Log("GameObjecType " + type.ToString() + " is not accessible in the config list");
         }
-
     }
 
     public bool IsContained(GameObjectType type)

@@ -78,7 +78,6 @@ public class ButtonListControl : MonoBehaviour
 
     public void SaveNewValues(int newPrice, int remCost, string buttonId)
     {
-        Debug.Log("Size: " + buttons.Count);
         foreach (GameObject button in buttons)
         {
             if (button.GetComponent<ButtonListButton>().Id == buttonId)

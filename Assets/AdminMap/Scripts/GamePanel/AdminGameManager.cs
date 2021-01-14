@@ -4,7 +4,6 @@ using Library;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.AdminMap.Scripts;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Application = Assets.AdminMap.Scripts.Application;
@@ -189,24 +188,6 @@ public class AdminGameManager : MonoBehaviour
         }
     }
 
-    /*public void SetInavtiveZoneWidth(string size)
-    {
-        if (!string.IsNullOrEmpty(size))
-        {
-            map.zoneSizeX = int.Parse(size);
-            Debug.Log("InactiveZoneWidth: " + map.zoneSizeX);
-        }
-    }
-
-    public void SetInactiveZoneHeight(string size)
-    {
-        if (!string.IsNullOrEmpty(size))
-        {
-            map.zoneSizeY = int.Parse(size);
-            Debug.Log("InactiveZoneSizeHeight: " + map.zoneSizeY);
-        }
-    }*/
-
     private void PlaceBaseTileOnGrid(GridCell gridCell)
     {
         map.CreateBaseTile(baseTilePrefab, gridCell);
@@ -353,7 +334,8 @@ public class AdminGameManager : MonoBehaviour
     public void SaveObjectConfig()
     {
         AddObjectConfig(Application.application.SelectedGameObjectType, currentObjectRemovalCosts, currentObjectPlacmentCosts);
-        currectObjectType = GameObjectType.Default;
+        Application.application.SetDefaultType();
+        //currectObjectType = GameObjectType.Default;
         currentObjectRemovalCosts = 0;
         currentObjectPlacmentCosts = 0;
     }
@@ -381,21 +363,6 @@ public class AdminGameManager : MonoBehaviour
     {
         map.zoneSizeY = (int) newValue;
     }
-
-    /*public void UpdateZoneMode()
-    {
-        isActiveZoneMode = !isActiveZoneMode;
-        Debug.Log("Zone edition mode: active? " + isActiveZoneMode);
-
-        if (isActiveZoneMode)
-        {
-            MarkActiveZones();
-        }
-        else
-        {
-            MarkInactiveZones();
-        }
-    }*/
 
     public void SelectObjectType()
     {

@@ -33,8 +33,6 @@ public class PriceUI : MonoBehaviour
         removalCostLabel = transform.Find("RemovalCostLabel").GetComponent<TMP_Text>();
         removalCost = transform.Find("RemovalCostInputField").GetComponent<TMP_InputField>();
 
-        selectedObjectLabel = transform.Find("SelectedObjectLabel").GetComponent<TMP_Text>();
-
         currentButtonId = "";
         placeButton = transform.Find("PlaceObjectButton").GetComponent<Button>();
         placeButton.gameObject.SetActive(false);
@@ -70,9 +68,8 @@ public class PriceUI : MonoBehaviour
     public void SetLabels(int price, int remCost, string id)
     {
         currentButtonId = id;
-        priceLabel.text = "Placement costs " + price.ToString();
-        removalCostLabel.text = "Removal cost: " + remCost.ToString();
-        selectedObjectLabel.text = id;
+        priceLabel.text = "Placement costs: " + price.ToString();
+        removalCostLabel.text = "Removal costs: " + remCost.ToString();
     }
 
     public void SetNewValues()
