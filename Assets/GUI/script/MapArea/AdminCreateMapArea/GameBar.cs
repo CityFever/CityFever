@@ -8,11 +8,13 @@ using System;
 public class GameBar : MonoBehaviour
 {
     bool inactive = false;
+    bool activate = false;
     bool demolish = false;
     bool grass = false;
     bool asphalt = false;
     bool water = false;
     bool item = false;
+
 
     private int budgetValue;
     private TMP_InputField budgetField;
@@ -21,6 +23,7 @@ public class GameBar : MonoBehaviour
     void Start()
     {
         inactive = false;
+        activate = false;
         demolish = false;
         grass = true;
         asphalt = false;
@@ -40,6 +43,7 @@ public class GameBar : MonoBehaviour
     void SetInactive()
     {
         inactive = true;
+        activate = false;
         demolish = false;
         grass = false;
         asphalt = false;

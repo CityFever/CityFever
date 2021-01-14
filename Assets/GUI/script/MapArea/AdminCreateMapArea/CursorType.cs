@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CursorType : MonoBehaviour
 {
     bool inactive = false;
+    bool activate = false;
     bool demolish = false;
     bool grass = false;
     bool asphalt = false;
@@ -17,6 +18,7 @@ public class CursorType : MonoBehaviour
     void Start()
     {
         inactive = false;
+        activate = false;
         demolish = false;
         grass = true;
         asphalt = false;
@@ -34,6 +36,7 @@ public class CursorType : MonoBehaviour
     public void Reset()
     {
         inactive = false;
+        activate = false;
         demolish = false;
         grass = false;
         asphalt = false;
@@ -45,6 +48,12 @@ public class CursorType : MonoBehaviour
     {
         Reset();
         inactive = true;
+    }
+
+    public void SetActivate() //making tiles active for the player
+    {
+        Reset();
+        activate = true;
     }
 
     public void SetDemolish()
