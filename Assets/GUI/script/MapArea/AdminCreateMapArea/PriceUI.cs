@@ -14,6 +14,8 @@ public class PriceUI : MonoBehaviour
     private TMP_Text removalCostLabel;
     private TMP_InputField removalCost;
 
+    private TMP_Text selectedObjectLabel;
+
     public ButtonListControl buttonControl;
 
     private string currentButtonId;
@@ -31,12 +33,13 @@ public class PriceUI : MonoBehaviour
         removalCostLabel = transform.Find("RemovalCostLabel").GetComponent<TMP_Text>();
         removalCost = transform.Find("RemovalCostInputField").GetComponent<TMP_InputField>();
 
+        selectedObjectLabel = transform.Find("SelectedObjectLabel").GetComponent<TMP_Text>();
+
         currentButtonId = "";
         placeButton = transform.Find("PlaceObjectButton").GetComponent<Button>();
         placeButton.gameObject.SetActive(false);
         changePriceBtn = transform.Find("ChangePriceButton").GetComponent<Button>();
         changePriceBtn.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -67,9 +70,9 @@ public class PriceUI : MonoBehaviour
     public void SetLabels(int price, int remCost, string id)
     {
         currentButtonId = id;
-
-        priceLabel.text = "Price: " + price.ToString();
+        priceLabel.text = "Placement costs " + price.ToString();
         removalCostLabel.text = "Removal cost: " + remCost.ToString();
+        selectedObjectLabel.text = id;
     }
 
     public void SetNewValues()

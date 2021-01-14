@@ -43,9 +43,14 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 
     public void ShowValues() 
     {
-        priceUi.SetLabels(placementCosts, removalCosts, Id);
+        priceUi.SetLabels(placementCosts, removalCosts, ObjectType.ToString());
         Application.application.SelectedGameObjectType = ObjectType;
-        Debug.Log(Application.application.SelectedGameObjectType);
+
+        Debug.Log(Application.application.SelectedGameObjectType + ", available: " + Available);
+        if (MapConfig.mapConfig.IsContained(ObjectType))
+        {
+            Debug.Log("Placement costs: " + MapConfig.mapConfig.GetPlacementCosts(ObjectType) + ", removal: " + MapConfig.mapConfig.GetRemovalCosts(ObjectType));
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

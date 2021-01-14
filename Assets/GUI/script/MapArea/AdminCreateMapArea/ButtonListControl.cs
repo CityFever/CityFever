@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Application = Assets.AdminMap.Scripts.Application;
 using Random = UnityEngine.Random;
 
 public class ButtonListControl : MonoBehaviour
@@ -41,11 +42,21 @@ public class ButtonListControl : MonoBehaviour
             button.GetComponent<ButtonListButton>().SetImage(spriteImages[i]);
             button.GetComponent<ButtonListButton>().Id = i.ToString();
             button.GetComponent<ButtonListButton>().ObjectType = GetEnumValue(i);
-
             buttons.Add(button);
-            int rInt = Random.Range(0, 100);
-            int cInt = Random.Range(0, 100);
-            button.GetComponent<ButtonListButton>().SetValues(rInt, cInt);
+
+            int placementCosts = 0;
+            int removalCosts = 0;
+            bool Available = false;
+
+            if (!Application.application.SelectedGameObjectType.Equals(GameObjectType.Default))
+            {
+                placementCosts = (int)MapConfig.mapConfig.GetPlacementCosts(Application.application.SelectedGameObjectType);
+                removalCosts = (int)MapConfig.mapConfig.GetRemovalCosts(Application.application.SelectedGameObjectType);
+                Available = MapConfig.mapConfig.IsContained(Application.application.SelectedGameObjectType);
+            }
+
+            button.GetComponent<ButtonListButton>().Available = Available;
+            button.GetComponent<ButtonListButton>().SetValues(placementCosts, removalCosts);
             button.transform.SetParent(buttonTemplate.transform.parent, false);
         }
     }

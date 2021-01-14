@@ -11,7 +11,7 @@ namespace Assets.AdminMap.Scripts
     {
         public static Application application;
 
-        public GameObjectType SelectedGameObjectType { get; set; }
+        public GameObjectType SelectedGameObjectType { get; set; } = GameObjectType.Default;
         void Awake()
         {
             DontDestroyOnLoad(gameObject);

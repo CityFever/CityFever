@@ -27,6 +27,7 @@ public class MapConfig : MonoBehaviour
         }
     }
 
+
     public void AddConfig(GameObjectType type, float removalCosts, float placementCosts)
     {
         var objectOfThatType = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
@@ -63,5 +64,16 @@ public class MapConfig : MonoBehaviour
     public bool IsContained(GameObjectType type)
     {
         return placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)) != null;
+    }
+
+    public float GetPlacementCosts(GameObjectType type)
+    {
+        var costs = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)).placementCosts;
+        return costs;
+    }
+    public float GetRemovalCosts(GameObjectType type)
+    {
+        var costs = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)).removalCosts;
+        return costs;
     }
 }

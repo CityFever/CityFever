@@ -24,11 +24,13 @@ public class AdminGameManager : MonoBehaviour
 
     private float currentObjectPlacmentCosts = 0.0f;
     private float currentObjectRemovalCosts = 0.0f;
+
     private GameObjectType currectObjectType = GameObjectType.Default;
     //private bool isActiveZoneMode = true;
 
     [SerializeField] private Map mapPrefab;
     [SerializeField] private List<UnityObject> prefabs;
+
     private void Start()
     {
         CreateMap();
@@ -52,7 +54,7 @@ public class AdminGameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-           RotateSelectedGameObject();
+            RotateSelectedGameObject();
         }
     }
 
@@ -221,8 +223,8 @@ public class AdminGameManager : MonoBehaviour
     public void SetGameObjectPrefab(UnityObject selectedPrefab)
     {
         unityObject = selectedPrefab;
-        map.zoneSizeX = (int)unityObject.SizeInTiles().x;
-        map.zoneSizeY = (int)unityObject.SizeInTiles().z;
+        map.zoneSizeX = (int) unityObject.SizeInTiles().x;
+        map.zoneSizeY = (int) unityObject.SizeInTiles().z;
         map.zoneBrightness = Constants.INACTIVE_TILE;
         currectObjectType = selectedPrefab.Type();
         SetObjectPlacementMode();
@@ -258,6 +260,7 @@ public class AdminGameManager : MonoBehaviour
 
     public void SetDefaultMode()
     {
+        Application.application.SelectedGameObjectType = GameObjectType.Default;
         mode = GameMode.Default;
     }
 
@@ -277,8 +280,10 @@ public class AdminGameManager : MonoBehaviour
         Debug.Log("Map budget before the scene switch: " + MapConfig.mapConfig.mapBudget);
         foreach (var config in MapConfig.mapConfig.placeableObjectConfigs)
         {
-            Debug.Log("Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
+            Debug.Log("Object type: " + config.type + ", placement costs: " + config.placementCosts +
+                      ", removal costs: " + config.removalCosts);
         }
+
         SceneManager.LoadScene("UserScene");
     }
 
@@ -305,7 +310,7 @@ public class AdminGameManager : MonoBehaviour
             else
             {
                 tileType = TileType.Grass;
-            };
+            }
 
             tileConfigs.Add(new TileConfig(tileType, tile.State, tile.Coordinate, placedObjectType));
         }
@@ -347,7 +352,7 @@ public class AdminGameManager : MonoBehaviour
 
     public void SaveObjectConfig()
     {
-        AddObjectConfig(currectObjectType, currentObjectRemovalCosts, currentObjectPlacmentCosts);
+        AddObjectConfig(Application.application.SelectedGameObjectType, currentObjectRemovalCosts, currentObjectPlacmentCosts);
         currectObjectType = GameObjectType.Default;
         currentObjectRemovalCosts = 0;
         currentObjectPlacmentCosts = 0;
@@ -355,9 +360,10 @@ public class AdminGameManager : MonoBehaviour
 
     public void RemoveObjectConfig()
     {
-        if (currectObjectType != GameObjectType.Default)
+        GameObjectType currenType = Application.application.SelectedGameObjectType;
+        if (currenType != GameObjectType.Default)
         {
-            MapConfig.mapConfig.RemoveConfig(currectObjectType);
+            MapConfig.mapConfig.RemoveConfig(currenType);
             currectObjectType = GameObjectType.Default;
         }
         else
