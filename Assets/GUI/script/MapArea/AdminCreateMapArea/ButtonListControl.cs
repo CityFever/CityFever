@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ButtonListControl : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class ButtonListControl : MonoBehaviour
             GameObject button = Instantiate(buttonTemplate);
             button.SetActive(true);
 
-            button.GetComponent<ButtonListButton>().SetText("Button #" + i);
+            button.GetComponent<ButtonListButton>().SetText("Available");
             button.GetComponent<ButtonListButton>().SetId(i.ToString()); //lets set the id as the order
             button.GetComponent<ButtonListButton>().SetImage(spriteImages[i-1]); //lets set the id as the order
 

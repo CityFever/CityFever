@@ -25,6 +25,8 @@ public class AdminGameManager : MonoBehaviour
     private float currentObjectRemovalCosts = 0.0f;
     private GameObjectType currectObjectType = GameObjectType.Default;
 
+    private bool isActiveZoneMode = true;
+
     private void Start()
     {
         CreateMap();
@@ -383,5 +385,20 @@ public class AdminGameManager : MonoBehaviour
     {
         Debug.Log("sliderW: " + (int)newValue);
         map.zoneSizeY = (int) newValue;
+    }
+
+    public void UpdateZoneMode()
+    {
+        isActiveZoneMode = !isActiveZoneMode;
+        Debug.Log("Zone edition mode: active? " + isActiveZoneMode);
+
+        if (isActiveZoneMode)
+        {
+            MarkActiveZones();
+        }
+        else
+        {
+            MarkInactiveZones();
+        }
     }
 }

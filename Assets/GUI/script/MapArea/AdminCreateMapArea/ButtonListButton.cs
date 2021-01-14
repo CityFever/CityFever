@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonListButton : MonoBehaviour
+public class ButtonListButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private Text myText;
@@ -23,6 +24,8 @@ public class ButtonListButton : MonoBehaviour
 
     private Sprite objectImage;
 
+    private bool available;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +41,7 @@ public class ButtonListButton : MonoBehaviour
 
     public void SetText(string textString)
     {
-        // myText.text = textString; to shoe button#1 etc
-        myText.text = "";
+        myText.text = textString;
     }
 
     public void SetImage(Sprite img)
@@ -67,5 +69,26 @@ public class ButtonListButton : MonoBehaviour
     public string GetId()
     {
         return id;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Click Data" + eventData.clickCount);
+
+        if (eventData.clickCount == 2)
+        {
+            Debug.Log("Click Data Double click");
+
+            if (available)
+            {
+                available = false;
+                SetText("Unavailable");
+            }
+            else
+            {
+                available = true; 
+                SetText("Available");
+            }
+        }
     }
 }
