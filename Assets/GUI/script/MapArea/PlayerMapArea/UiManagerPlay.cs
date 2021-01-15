@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 
 public class UiManagerPlay : MonoBehaviour
-{
+{ //this class is not actually used now, it just remained here, like in the AdminCreateMap one
 
     public ButtonListControlPlay buttonControl;
 

@@ -16,9 +16,13 @@ public class GameBarPlay : MonoBehaviour
     private TMP_Text tValue;
     private TMP_Text moneySpent;
 
+    bool demolishModeActive;
+
     // Start is called before the first frame update
     void Start()
     {
+        demolishModeActive = false;
+
         budgetText = transform.Find("Budget").GetComponent<TMP_Text>();
         moneySpent = transform.Find("Spent").GetComponent<TMP_Text>();
         tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
@@ -78,6 +82,16 @@ public class GameBarPlay : MonoBehaviour
     {
         LoadBudget();
         LoadMoneySpent();
+    }
+
+    public void DemolishOn()
+    {
+        demolishModeActive = true;
+    }
+
+    public void DemolishOff()
+    {
+        demolishModeActive = false;
     }
 
 }

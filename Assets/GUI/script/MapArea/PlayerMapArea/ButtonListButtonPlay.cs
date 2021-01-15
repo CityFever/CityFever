@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,10 @@ public class ButtonListButtonPlay : MonoBehaviour
     private string id;
 
     private int price;
+    private int removalCost;
+
+
+
 
     private Sprite objectImage;
 
@@ -36,7 +41,7 @@ public class ButtonListButtonPlay : MonoBehaviour
 
     public void SetText()
     {
-        myText.text = price.ToString()+"$";
+        myText.text = "Price: " + price.ToString() + "$" + Environment.NewLine + "Demolish: " + removalCost.ToString() + "$";
     }
 
     public void SetImage(Sprite img)
@@ -53,6 +58,11 @@ public class ButtonListButtonPlay : MonoBehaviour
     public void SetPrice(int price)
     {
         this.price = price;
+    }
+
+    public void SetRemovalCost(int removalCost)
+    {
+        this.removalCost = removalCost;
     }
 
     public void ShowPrice()

@@ -42,6 +42,8 @@ public class ButtonListControlPlay : MonoBehaviour
             //lets just set some random prices for now, normally load from DB
             int rInt = Random.Range(0, 100);
             button.GetComponent<ButtonListButtonPlay>().SetPrice(rInt);
+            int sInt = Random.Range(0, 100);
+            button.GetComponent<ButtonListButtonPlay>().SetRemovalCost(sInt);
             button.GetComponent<ButtonListButtonPlay>().SetText();
 
             button.transform.SetParent(buttonTemplate.transform.parent, false);
