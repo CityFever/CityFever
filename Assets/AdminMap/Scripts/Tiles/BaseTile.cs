@@ -1,33 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[Serializable]
-public class BaseTile : MonoBehaviour
+public abstract class BaseTile : MonoBehaviour
 {
-    [SerializeField] private State state = State.Available;
-    [SerializeField] private Vector2 coordinate;
+    public State State { get; set; } = State.Available;
+    public Vector2 Coordinate { get; set; }
+    public UnityObject unityObject { get; set;}
 
-    public State State
-    {
-        get { return state; }
-        set { state = value; }
-    }
-
-    public Vector2 Coordinate
-    {
-        get { return coordinate; }
-        set { coordinate = value; }
-    }
-
-
-    void Update()
-    {
-        if (State == State.Off)
-        { 
-            //GetComponentInChildren<Renderer>().material.color = Color.gray;
-        }
-    }
     public BaseTile Initialize(Vector2 coordinate)
     {
         Coordinate = coordinate;
@@ -35,12 +13,12 @@ public class BaseTile : MonoBehaviour
     }
 }
 
-[Serializable]
 public enum State
 {
     Available,
     Unavailable,
-    Off
+    Off,
+    Hovered
 }
 
 

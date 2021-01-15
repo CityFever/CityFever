@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Proyecto26;
 using Newtonsoft.Json;
-using Library;
+using Assets.AdminMap.Scripts.MapConfiguration;
 
 namespace Database
 {
     public class ObjectsRepository : MonoBehaviour
     {
         public delegate void StringOperationSuccess(string message);
-        public delegate void ObjectOperationSuccess(GameObj gameObject);
-        public delegate void ObjectListOperationSuccess(List<GameObj> objects);
+        public delegate void ObjectOperationSuccess(ObjectConfig gameObject);
+        public delegate void ObjectListOperationSuccess(List<ObjectConfig> objects);
         public delegate void OperationFail();
 
         void Start()
         {
         }
 
-        public static void CreateObject(GameObj gameObject, string mapId, StringOperationSuccess callback, OperationFail fallback = null)
+        public static void CreateObject(ObjectConfig gameObject, StringOperationSuccess callback = null, OperationFail fallback = null)
         {
-            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/.json?auth={Config.ID_TOKEN}", gameObject).Then(response =>
+            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.OBJECTS_FOLDER}.json?auth={Config.ID_TOKEN}", gameObject).Then(response =>
             {
                 var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
                 Debug.Log(returnedJson["name"]);
@@ -33,10 +33,10 @@ namespace Database
             });
         }
 
-        public static void GetObject(string mapId, string objectId, ObjectOperationSuccess callback, OperationFail fallback = null)
+        public static void GetObject(string objectId, ObjectOperationSuccess callback = null, OperationFail fallback = null)
         {
-            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}").Then(response => {
-                GameObj returnedObject = JsonConvert.DeserializeObject<GameObj>(response.Text);
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.OBJECTS_FOLDER}{objectId}/.json?auth={Config.ID_TOKEN}").Then(response => {
+                ObjectConfig returnedObject = JsonConvert.DeserializeObject<ObjectConfig>(response.Text);
                 callback(returnedObject);
             }).Catch(err =>
             {
@@ -46,12 +46,12 @@ namespace Database
             });
         }
 
-        public static void GetAllObjects(string mapID, ObjectListOperationSuccess callback, OperationFail fallback = null)
+        public static void GetAllObjects(ObjectListOperationSuccess callback = null, OperationFail fallback = null)
         {
-            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapID}/.json?auth={Config.ID_TOKEN}").Then(response => {
-                var objects = new List<GameObj>();
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, GameObj>>(response.Text);
-                callback(new List<GameObj>(returnedJson.Values));
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.OBJECTS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
+                var objects = new List<ObjectConfig>();
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, ObjectConfig>>(response.Text);
+                callback(new List<ObjectConfig>(returnedJson.Values));
 
             }).Catch(err =>
             {
@@ -61,18 +61,40 @@ namespace Database
             });
         }
 
-        public static void UpdateObject(GameObj gameObject, string mapId, string objectId)
+        public static void GetAllUsersObjects(ObjectListOperationSuccess callback, OperationFail fallback = null)
         {
-            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}", gameObject).Catch(err =>
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, ObjectConfig>>>(response.Text);
+                var objects = new List<ObjectConfig>();
+                foreach (Dictionary<string, ObjectConfig> dict1 in returnedJson.Values)
+                {
+                    foreach (ObjectConfig obj in dict1.Values)
+                    {
+                        objects.Add(obj);
+                    }
+                }
+                callback(objects);
+
+            }).Catch(err =>
+            {
+                var error = err as RequestException;
+                Debug.Log(error.Response);
+                fallback();
+            });
+        }
+
+        public static void UpdateObject(ObjectConfig gameObject, string objectId)
+        {
+            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.OBJECTS_FOLDER}{objectId}/.json?auth={Config.ID_TOKEN}", gameObject).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
             });
         }
 
-        public static void DeleteObject(string mapId, string objectId)
+        public static void DeleteObject(string objectId)
         {
-            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{mapId}/{objectId}/.json?auth={Config.ID_TOKEN}").Catch(err =>
+            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.OBJECTS_FOLDER}{objectId}/.json?auth={Config.ID_TOKEN}").Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);

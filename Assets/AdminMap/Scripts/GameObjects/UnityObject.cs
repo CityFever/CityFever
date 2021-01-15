@@ -1,17 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class UnityObject : MonoBehaviour
-{
-    public GameObjectType Type { get; private set; }
+{    
+    //height is determined by the 2nd parameter in Vector3 
+    abstract public GameObjectType Type();
 
-    public int SizeInTiles { get; set; }
+    public CanBePlacedOn CanBePlacedOn { get; set; }
+
+    abstract public Vector3 SizeInTiles();
+
+    public void DestroyUnityObject()
+    {
+        Destroy(gameObject);
+    }
 }
 
 public enum GameObjectType
 {
+    Bush,
     Tree,
-    Bench, 
-    Building
+    Flower,
+    House,
+    Church,
+    Car, 
+    Fountain,
+    Gazebo,
+    Lamp,
+    Sandpit,
+    TrashBin,
+    Default
 }
+
+public enum CanBePlacedOn
+{
+    Grass,
+    Asphalt,
+    Water
+}
+

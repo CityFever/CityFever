@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.AdminMap.Scripts.MapConfiguration;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using Grid = Assets.Scripts.Grid.Grid;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace Library
 {
@@ -10,35 +10,25 @@ namespace Library
 
     public class Map : MonoBehaviour
     {
-        [SerializeField] private int mapSize = 50;
-        [SerializeField] private Grid grid;
-        [SerializeField] private BaseTile[] tiles;
-        [SerializeField] private float Budget;
-        [SerializeField] private int ZoneSize = 3;
-        [SerializeField] private float ZoneBrightness = 0.5f;
+        private int mapSize;
+
+        private Grid grid;
+        public BaseTile[,] tiles { get; set; }
+        public float budget { get; set; }
+        public int zoneSizeX { get; set; } = 1;
+        public int zoneSizeY { get; set; } = 1;
+        public float zoneBrightness { get; set; } = 0.5f;
+
+        public static Color HOVERINGCOLOR = new Color(100, 100, 100, 0);
+
+        public bool adminAccess = true;
+
+        private List<BaseTile> hoveredTiles;
 
         [SerializeField] private Grid gridPrefab;
         [SerializeField] private GrassTile grassTilePrefab;
         [SerializeField] private WaterTile waterTilePrefab;
         [SerializeField] private AsphaltTile asphaltTilePrefab;
-
-        public float budget
-        {
-            get { return Budget; }
-            set { Budget = value; }
-        }
-
-        public int zoneSize
-        {
-            get { return ZoneSize; }
-            set { ZoneSize = value; }
-        }
-
-        public float zoneBrightness
-        {
-            get { return ZoneBrightness; }
-            set { ZoneBrightness = value; }
-        }
 
         public Map Initialize(int size)
         {
@@ -51,7 +41,7 @@ namespace Library
 
         private void init()
         {
-            tiles = new BaseTile[mapSize * mapSize];
+            tiles = new BaseTile[mapSize, mapSize];
 
             CreateGrid();
         }
@@ -67,9 +57,9 @@ namespace Library
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    tiles[i * mapSize + j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
-                    tiles[i * mapSize + j].transform.position = new Vector3(i, 0, j);
-                    tiles[i * mapSize + j].Coordinate = new Vector2(i, j);
+                    tiles[i, j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
+                    tiles[i, j].transform.position = new Vector3(i, 0, j);
+                    tiles[i, j].Coordinate = new Vector2(i, j);
                     grid.SetAvailable(i, j, false);
                 }
             }
@@ -81,30 +71,21 @@ namespace Library
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    if ((i == 2 || i == 3) && (j == 2 || j == 3) || ((i == 3 || i == 4) && (j == 4 || j == 5))
-                                                                 || (i == 45 && j < 50 && j > 43) ||
-                                                                 (j == 43 && i > 45 && i < 50) || (i == 45 && j == 43)
-                                                                 || ((i == 28 || i == 29 || i == 30) &&
-                                                                     (j == 23 || j == 24 || j == 25)))
+                    if (((i > 5 && i < 15) && (j > 5 && j < 15)) || ((i > 11 && i < 21) && (j > 11 && j < 21)))
                     {
-                        tiles[i * mapSize + j] = Instantiate(waterTilePrefab, grid.GetTransform(i, j));
+                        tiles[i, j] = Instantiate(waterTilePrefab, grid.GetTransform(i, j));
                     }
-                    else if (i == 7 || i == 8 || i == 15 || i == 16 || i == 25 || i == 26 || i == 40 || i == 41
-                             || j == 10 || j == 11 || j == 20 || j == 21 || j == 30 || j == 31 || j == 40 || j == 41
-                             || (i == 35 && j < 10 && j >= 0) || (j == 6 && i > 35 && i < 40) ||
-                             (j == 5 && (i > 16 && i < 25))
-                             || (i == 33 && (j > 10 && j < 20)))
-
+                    else if ((i >= 75 && i <= 81) || (j >= 75 && j <= 81))
                     {
-                        tiles[i * mapSize + j] = Instantiate(asphaltTilePrefab, grid.GetTransform(i, j));
+                        tiles[i, j] = Instantiate(asphaltTilePrefab, grid.GetTransform(i, j));
                     }
                     else
                     {
-                        tiles[i * mapSize + j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
+                        tiles[i, j] = Instantiate(grassTilePrefab, grid.GetTransform(i, j));
                     }
 
-                    tiles[i * mapSize + j].transform.position = new Vector3(i, 0, j);
-                    tiles[i * mapSize + j].Coordinate = new Vector2(i, j);
+                    tiles[i, j].transform.position = new Vector3(i, 0, j);
+                    tiles[i, j].Coordinate = new Vector2(i, j);
                     grid.SetAvailable(i, j, false);
                 }
             }
@@ -112,17 +93,17 @@ namespace Library
 
         public void SetTile(BaseTile tile)
         {
-            tiles[(int)tile.Coordinate.x * mapSize + (int)tile.Coordinate.y] = tile;
+            tiles[(int)tile.Coordinate.x, (int)tile.Coordinate.y] = tile;
         }
 
         public BaseTile GetTile(Vector2 coordinate)
         {
-            return tiles[(int)coordinate.x * mapSize + (int)coordinate.y];
+            return tiles[(int)coordinate.x, (int)coordinate.y];
         }
 
         public BaseTile GetTileByCoordinates(int x, int y)
         {
-            return tiles[x * mapSize + y];
+            return tiles[x, y];
         }
 
         public void CreateBaseTile(BaseTile prefab, GridCell cell)
@@ -145,46 +126,339 @@ namespace Library
 
             SetTile(tile);
 
-            Debug.Log("UpdateTileType: "
-                      + tile.Coordinate.x + ", "
-                      + tile.Coordinate.y);
+            Debug.Log("UpdateTileType: " + tile.Coordinate.x + ", " + tile.Coordinate.y);
         }
 
-        public void SetInactiveTile(Vector2 coordinate, State state1, State state2)
+        //returns List with all updated Tiles
+        public List<BaseTile> UpdateZoneOfTiles(Vector2 coordinate, State state1, State state2)
         {
-            /*if (IsZoneSizeEven())
-            {
-                BuildZone(zoneSize / 2, coordinate.x, coordinate.y, state1, state2);
-            }
-            else
-            {
-                BuildZone((zoneSize - 1) / 2, coordinate.x, coordinate.y, state1, state2);
-            }*/
-        }
+            List<BaseTile> updatedTiles = new List<BaseTile>();
+            Vector2Int coordinateInt = new Vector2Int((int)coordinate.x, (int)coordinate.y);
+            int halfZoneSizeX = (int)(zoneSizeX / 2.0); //round down
+            int halfZoneSizeY = (int)(zoneSizeY / 2.0); //round down
+            //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (zoneSizeX % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (zoneSizeY % 2 == 0)
+                symmetricOffsetY = 0;
 
-        /*public void BuildZone(int size, float x, float y, State state1, State state2)
-        {
-            for (int i = -size; i < size; i++)
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
             {
-                for (int j = -size; j < size; j++)
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
                 {
-                    if (!(x + i < 0 || x + i > (mapSize - 1) || y + j < 0 || y + j > (mapSize - 1)))
+                    if (!OutsideGrid(x, y))
                     {
-                        BaseTile tile = GetTileByCoordinates((int)x + i, (int)y + j);
-                        if (tile.State == state1)
-                        {
-                            tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
-                            GetTileByCoordinates((int)x + i, (int)y + j).State = state2;
-                        }
-    
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        bool updated = UpdateTileState(tile, state1, state2);
+
+                        if (updated)
+                            updatedTiles.Add(tile);
                     }
                 }
             }
-        }*/
+            return updatedTiles;
+        }
 
-        public bool IsZoneSizeEven()
+        private bool OutsideGrid(int coordinateX, int coordinateY)
         {
-            return zoneSize % 2 == 0;
+            return coordinateX < 0 || coordinateX > (mapSize - 1) || coordinateY < 0 || coordinateY > (mapSize - 1);
+        }
+
+        private bool UpdateTileState(BaseTile tile, State state1, State state2)
+        {
+
+            if (tile.State == state1)
+            {
+                //Changing State Activ or inactive
+                if (state2 == State.Off || state2 == State.Available && state1 == State.Off 
+                    || state2 == State.Unavailable|| state2 == State.Available && state1 == State.Unavailable)
+                {
+                    tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+
+                }
+                //changing to hovered
+                else if (state2 == State.Hovered)
+                {
+                    tile.GetComponentInChildren<Renderer>().material.color += HOVERINGCOLOR;
+                }
+                //changing back from hovered
+                else if (state2 == State.Available && state1 == State.Hovered)
+                {
+                    tile.GetComponentInChildren<Renderer>().material.color -= HOVERINGCOLOR;
+                }
+                //appliying changes
+                tile.State = state2;
+
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool PlaceGameObjectOnSelectedTile(BaseTile selectedTile, UnityObject _unityObject)
+        {
+            if (CheckRestrictions(selectedTile, _unityObject) && IsTileAvailable(selectedTile, _unityObject))
+            {
+                UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
+                selectedTile.unityObject = clone;
+                //deactivate surrounding Tiles regarding Objects size
+                Vector3 sizeInTiles = _unityObject.SizeInTiles();
+                zoneSizeX = (int)sizeInTiles.x;
+                zoneSizeY = (int)sizeInTiles.z;
+                if (adminAccess)
+                {
+                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Off);
+                }
+                else
+                {
+                    this.UpdateZoneOfTiles(selectedTile.Coordinate, State.Available, State.Unavailable);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public void RemoveObjectFromZone(BaseTile selectedTile)
+        {
+            List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
+
+            //search Zone for tiles with Objects
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(this.zoneSizeX / 2.0); //round down
+            int halfZoneSizeY = (int)(this.zoneSizeY / 2.0); //round down
+            //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (this.zoneSizeX % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (this.zoneSizeY % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if (tile.unityObject != null)
+                        {
+                            if (adminAccess)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                            else if (!adminAccess && tile.State == State.Unavailable)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                        }
+                    }
+                }
+            }
+            //delete objects and set sourrounding active again
+            ////save Zonesize
+            int zoneSizeX = this.zoneSizeX;
+            int zoneSizeY = this.zoneSizeY;
+            foreach (BaseTile tile in tilesWithObjectsInZone)
+            {
+                tile.unityObject.DestroyUnityObject();
+                this.zoneSizeX = (int)tile.unityObject.SizeInTiles().x;
+                this.zoneSizeY = (int)tile.unityObject.SizeInTiles().z;
+                if (adminAccess)
+                {
+                    UpdateZoneOfTiles(tile.Coordinate, State.Off, State.Available);
+                }
+                else
+                {
+                    UpdateZoneOfTiles(tile.Coordinate, State.Unavailable, State.Available);
+                }
+            }
+            this.zoneSizeX = zoneSizeX;
+            this.zoneSizeY = zoneSizeY;
+        }
+
+        public void MarkHovering(BaseTile hoveredTile)
+        {
+            if (hoveredTile != null)
+            {
+                this.hoveredTiles =
+                        this.UpdateZoneOfTiles(hoveredTile.Coordinate, State.Available, State.Hovered);
+            }
+        }
+
+        public void RemovePriorHover()
+        {
+            if (hoveredTiles == null)
+                return;
+            foreach (BaseTile tile in hoveredTiles)
+            {
+                this.UpdateTileState(tile, State.Hovered, State.Available);
+            }
+            hoveredTiles = null;
+        }
+
+        public bool CheckRestrictions(BaseTile selectedTile, UnityObject _unityObject)
+        {
+            BaseTile tileType = selectedTile.GetComponentInChildren<BaseTile>();
+
+            if (selectedTile.State != State.Unavailable && selectedTile.State != State.Off)
+            {
+                if (tileType is AsphaltTile)
+                {
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
+                    {
+                        return true;
+                    }
+                }
+                else if (tileType is GrassTile)
+                {
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    {
+                        return true;
+                    }
+                }
+                else if (tileType is WaterTile)
+                {
+                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                        return true;
+
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsTileAvailable(BaseTile selectedTile, UnityObject unityObject)
+        {
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(unityObject.SizeInTiles().x / 2.0); //round down
+            int halfZoneSizeY = (int)(unityObject.SizeInTiles().z / 2.0); //round down
+            //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (unityObject.SizeInTiles().x % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (unityObject.SizeInTiles().z % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if (tile.State == State.Unavailable || tile.State == State.Off)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void CreateTilesFromConfiguration(TileConfig tileConfig, UnityObject prefab)
+        {
+            Vector2 coordinate = tileConfig.coordinate;
+            TileType type = tileConfig.type;
+            State state = tileConfig.state;
+
+            int tileCoordinateX = (int)coordinate.x;
+            int tileCoordinateY = (int)coordinate.y;
+
+            BaseTile tile = null;
+
+            switch (type)
+            {
+                case TileType.Water:
+                    tile = waterTilePrefab;
+                    break;
+
+                case TileType.Asphalt:
+                    tile = asphaltTilePrefab;
+                    break;
+
+                case TileType.Grass:
+                    tile = grassTilePrefab;
+                    break;
+            }
+
+            InstantiateSavedTile(tileCoordinateX, tileCoordinateY, tile);
+            InstantiateSavedUnityObject(tileCoordinateX, tileCoordinateY, prefab);
+            SetState(tileCoordinateX, tileCoordinateY, state);
+        }
+
+        private void InstantiateSavedTile(int coordinateX, int coordinateY, BaseTile tile)
+        {
+            tiles[coordinateX, coordinateY] =
+                Instantiate(tile, grid.GetTransform(coordinateX, coordinateY));
+            tiles[coordinateX, coordinateY].Coordinate = new Vector2(coordinateX, coordinateY);
+        }
+
+        private void InstantiateSavedUnityObject(int coordinateX, int coordinateY, UnityObject prefab)
+        {
+            if (prefab != null)
+            {
+                Instantiate(prefab, grid.GetTransform(coordinateX, coordinateY));
+            }
+        }
+
+        private void SetState(int coordinateX, int coordinateY, State state)
+        {
+            tiles[coordinateX, coordinateY].State = state;
+
+            if (state.Equals(State.Off))
+            {
+                tiles[coordinateX, coordinateY].GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
+            }
+        }
+
+        public List<BaseTile> GetTilesWithObjectsOnZone(BaseTile selectedTile)
+        {
+            List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
+
+            //search Zone for tiles with Objects
+            Vector2Int coordinateInt = new Vector2Int((int)selectedTile.Coordinate.x, (int)selectedTile.Coordinate.y);
+            int halfZoneSizeX = (int)(this.zoneSizeX / 2.0); //round down
+            int halfZoneSizeY = (int)(this.zoneSizeY / 2.0); //round down
+                                                             //makes an uneven Zone symmetric
+            int symmetricOffsetX = -1;
+            if (this.zoneSizeX % 2 == 0)
+                symmetricOffsetX = 0;
+            int symmetricOffsetY = -1;
+            if (this.zoneSizeY % 2 == 0)
+                symmetricOffsetY = 0;
+            for (int x = coordinateInt.x - halfZoneSizeX; x < coordinateInt.x + halfZoneSizeX - symmetricOffsetX; x++)
+            {
+                for (int y = coordinateInt.y - halfZoneSizeY; y < coordinateInt.y + halfZoneSizeY - symmetricOffsetY; y++)
+                {
+                    if (!OutsideGrid(x, y))
+                    {
+                        BaseTile tile = GetTileByCoordinates(x, y);
+                        if (tile.unityObject != null)
+                        {
+                            if (adminAccess)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                            else if (!adminAccess && tile.State == State.Unavailable)
+                            {
+                                tilesWithObjectsInZone.Add(tile);
+                            }
+                        }
+                    }
+                }
+            }
+            return tilesWithObjectsInZone;
         }
     }
 }
+

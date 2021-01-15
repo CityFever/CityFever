@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Proyecto26;
 using Newtonsoft.Json;
-using Library;
+using Assets.AdminMap.Scripts.MapConfiguration;
 
 namespace Database
 {
     public class MapsRepository : MonoBehaviour
     {
         public delegate void StringOperationSuccess(string message);
-        public delegate void MapOperationSuccess(Map map);
-        public delegate void MapListOperationSuccess(List<Map> maps);
+        public delegate void MapOperationSuccess(MapConfig map);
+        public delegate void MapListOperationSuccess(List<MapConfig> maps);
         public delegate void OperationFail();
 
         void Start()
         {
+            Debug.Log("start");
         }
 
-        public static void CreateMap(Map map, StringOperationSuccess callback = null, OperationFail fallback = null)
+        public static void CreateMap(MapConfig map, StringOperationSuccess callback = null, OperationFail fallback = null)
         {
-            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/.json?auth={Config.ID_TOKEN}", map).Then(response =>
+            RestClient.Post($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}", map).Then(response =>
             {
                 var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Text);
                 callback(returnedJson["name"]);
@@ -35,8 +35,8 @@ namespace Database
 
         public static void GetMap(string id, MapOperationSuccess callback, OperationFail fallback = null)
         {
-            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}").Then(response => {
-                Map returnedMap = JsonConvert.DeserializeObject<Map>(response.Text);
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}/.json?auth={Config.ID_TOKEN}").Then(response => {
+                MapConfig returnedMap = JsonConvert.DeserializeObject<MapConfig>(response.Text);
                 callback(returnedMap);
             }).Catch(err =>
             {
@@ -48,11 +48,11 @@ namespace Database
         public static void GetAllUsersMaps(MapListOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<String, Map>>>(response.Text);
-                var maps = new List<Map>();
-                foreach (Dictionary<string, Map> dict1 in returnedJson.Values)
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, MapConfig>>>(response.Text);
+                var maps = new List<MapConfig>();
+                foreach (Dictionary<string, MapConfig> dict1 in returnedJson.Values)
                 {
-                    foreach (Map map in dict1.Values)
+                    foreach (MapConfig map in dict1.Values)
                     {
                         maps.Add(map);
                     }
@@ -69,11 +69,11 @@ namespace Database
 
         public static void GetAllMaps(MapListOperationSuccess callback, OperationFail fallback = null)
         {
-            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/.json?auth={Config.ID_TOKEN}").Then(response => {
-                var maps = new List<Map>();
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Map>>(response.Text);
-                callback(new List<Map>(returnedJson.Values));
-                
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
+                var maps = new List<MapConfig>();
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, MapConfig>>(response.Text);
+                callback(new List<MapConfig>(returnedJson.Values));
+
             }).Catch(err =>
             {
                 var error = err as RequestException;
@@ -82,9 +82,9 @@ namespace Database
             });
         }
 
-        public static void UpdateMap(Map map, string id)
+        public static void UpdateMap(MapConfig map, string id)
         {
-            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}", map).Catch(err =>
+            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}/.json?auth={Config.ID_TOKEN}", map).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
@@ -93,11 +93,33 @@ namespace Database
 
         public static void DeleteMap(string id)
         {
-            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{id}/.json?auth={Config.ID_TOKEN}").Catch(err =>
+            RestClient.Delete($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}/.json?auth={Config.ID_TOKEN}").Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);
             });
+        }
+
+        public static void happen()
+        {
+            UsersRepository.Login("jaksamateusz@gmail.com", "admin12",
+                () => {
+                    GetAllMaps((maps) => {
+                        foreach (MapConfig map in maps)
+                        {
+                            Debug.Log("S " + map.mapSize);
+                        }
+                    });
+                    //MapConfig map = new MapConfig();
+                    //CreateMap(map);
+                    //GetMap("-MR6khFX_RRZhQJ1Xj9T", (map) => {
+                    //    Debug.Log(map.mapSize);
+                    //    Debug.Log(map.tileConfigs[0].ObjectType);
+                    //    Debug.Log(map.placeableObjectConfigs[0].placementCosts);
+                    //});
+                    TileConfig tile = new TileConfig(TileType.Grass, State.Off, Vector2.down, GameObjectType.Flower);
+                    //TilesRepository.CreateTile(tile);
+                });
         }
     }
 }
