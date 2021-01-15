@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     private float zoomLimitMin = 2f;
     private float zoomLimitMax = 80f;
 
-    private float moveLimitMin = 0f;
+    private float moveLimitMin = -10f;
     private float moveLimitMax = 100f;
 
     void Start()
