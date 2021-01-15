@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.AdminMap.Scripts.MapConfiguration
 {
+    [Serializable]
     public class TileConfig
     {
-        public TileType type { get; set; }
-        public State state { get; set; }
-        public Vector2 coordinate { get; set; }
-        public GameObjectType ObjectType { get; set; }
+        public TileType type;
+        public State state;
+        public Vector2 coordinate;
+        public GameObjectType ObjectType;
 
         public TileConfig(TileType type, State state, Vector2 coordinate, GameObjectType objectType)
         {

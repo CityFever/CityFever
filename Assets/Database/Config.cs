@@ -13,5 +13,8 @@ namespace Database
         internal static string ID_TOKEN = "";
         internal static string USER_ID = "";
         internal static readonly string USERS_FOLDER = "users/";
+        internal static readonly string MAPS_FOLDER = "maps/";
+        internal static readonly string OBJECTS_FOLDER = "objects/";
+        internal static readonly string TILES_FOLDER = "tiles/";
     }
 }

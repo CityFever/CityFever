@@ -1,10 +1,13 @@
-﻿namespace Assets.AdminMap.Scripts.MapConfiguration
+﻿using System;
+
+namespace Assets.AdminMap.Scripts.MapConfiguration
 {
+    [Serializable]
     public class ObjectConfig
     {
-        public GameObjectType type { get; set; }
-        public float removalCosts { get; set; }
-        public float placementCosts { get; set; }
+        public GameObjectType type;
+        public float removalCosts;
+        public float placementCosts;
 
         public ObjectConfig(GameObjectType type, float removalCosts, float placementCosts)
         {

@@ -7,11 +7,12 @@ public class MapConfig : MonoBehaviour
 {
     public static MapConfig mapConfig;
 
-    public List<TileConfig> tileConfigs;
+    public List<TileConfig> tileConfigs = new List<TileConfig>();
 
     public List<ObjectConfig> placeableObjectConfigs = new List<ObjectConfig>();
-    public float mapBudget { get; set; }
-    public int mapSize { get; set; } = 100;
+    
+    public float mapBudget;
+    public int mapSize = 100;
 
     void Awake()
     {
