@@ -35,12 +35,12 @@ public class MapConfig : MonoBehaviour
         {
             objectOfThatType.removalCosts = removalCosts;
             objectOfThatType.placementCosts = placementCosts;
-            Debug.Log("GameObjecType: " + type.ToString() + ", Placement costs changed: " + placementCosts + ", Removal costs changed: " + removalCosts);
+            Debug.Log("Changed in user map: " + type.ToString() + ", Placement costs changed: " + placementCosts + ", Removal costs changed: " + removalCosts);
         }
         else
         {
             placeableObjectConfigs.Add(new ObjectConfig(type, removalCosts, placementCosts));
-            Debug.Log("GameObjecType: " + type.ToString() + ", Placement costs: " + placementCosts + ", Removal costs: " + removalCosts);
+            Debug.Log("Added to user map: " + type.ToString() + ", Placement costs: " + placementCosts + ", Removal costs: " + removalCosts);
         }
     }
 
@@ -66,12 +66,12 @@ public class MapConfig : MonoBehaviour
 
     public float GetPlacementCosts(GameObjectType type)
     {
-        var costs = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)).placementCosts;
-        return costs;
+        var fetched = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
+        return fetched != null ? fetched.placementCosts : 0;
     }
     public float GetRemovalCosts(GameObjectType type)
     {
-        var costs = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type)).removalCosts;
-        return costs;
+        var fetched = placeableObjectConfigs.FirstOrDefault(config => config.type.Equals(type));
+        return fetched != null ? fetched.removalCosts : 0;
     }
 }

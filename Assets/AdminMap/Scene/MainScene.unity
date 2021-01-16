@@ -1861,8 +1861,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1552138610}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ObjectRemoval
+        m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
+        m_MethodName: RemoveSelectedObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5605,6 +5605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 1073011653771967469, guid: 8ed0fd36c576fd148a17bf0459664d16,
     type: 3}
+  prefabs: []
 --- !u!4 &1552138611
 Transform:
   m_ObjectHideFlags: 0

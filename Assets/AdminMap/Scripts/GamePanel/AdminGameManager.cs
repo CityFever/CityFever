@@ -45,6 +45,7 @@ public class AdminGameManager : MonoBehaviour
             SelectTileOnMouseClick();
             SelectObjectOnMouseClick();
         }
+
         else if (showHover)
         {
             FetchRaycastedTile();
@@ -258,14 +259,7 @@ public class AdminGameManager : MonoBehaviour
     public void LoadUserScene()
     {
         MapConfig.mapConfig.tileConfigs = GetTilesConfiguration();
-        Debug.Log("Map budget before the scene switch: " + MapConfig.mapConfig.mapBudget);
-        foreach (var config in MapConfig.mapConfig.placeableObjectConfigs)
-        {
-            Debug.Log("Object type: " + config.type + ", placement costs: " + config.placementCosts +
-                      ", removal costs: " + config.removalCosts);
-        }
-
-        SceneManager.LoadScene("UserScene");
+        SceneManager.LoadScene("PlayerGame");
     }
 
     private List<TileConfig> GetTilesConfiguration()

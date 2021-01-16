@@ -4,6 +4,7 @@ using Library;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Application = Assets.AdminMap.Scripts.Application;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class UserGameManager : MonoBehaviour
         map.adminAccess = false;
         foreach (var config in availableObjects)
         {
-            Debug.Log("USER: Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
+            Debug.Log("AVAILABLE OBJECT: Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
         }
     }
 
@@ -69,12 +70,12 @@ public class UserGameManager : MonoBehaviour
             SelectTileOnMouseClick();
             SelectObjectOnMouseClick();
         }
-        else if (showHover)
+        /*else if (showHover)
         {
             FetchRayCastedTile();
 
             map.MarkHovering(selectedTile);
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -159,11 +160,13 @@ public class UserGameManager : MonoBehaviour
     private void ReduceMapBudget(float byValue)
     {
         map.budget -= byValue;
+        MapConfig.mapConfig.mapBudget = map.budget;
     }
 
     private void IncreaseMapBudget(float byValue)
     {
         map.budget += byValue;
+        MapConfig.mapConfig.mapBudget = map.budget;
     }
 
 
@@ -219,6 +222,7 @@ public class UserGameManager : MonoBehaviour
             return;
         }
     }
+
     public void setZoneSizeWidth(string width)
     {
         if (!string.IsNullOrEmpty(width))
@@ -243,7 +247,7 @@ public class UserGameManager : MonoBehaviour
         SetObjectPlacementMode();
         map.zoneBrightness = 0.8f;
     }
-    public void ObjectRemoval()
+    public void RemoveSelectedObject()
     {
         SetObjectRemovalMode();
         map.zoneBrightness = 1 / 0.8f;
@@ -259,5 +263,13 @@ public class UserGameManager : MonoBehaviour
     public void SetDefaultMode()
     {
         mode = GameMode.Default;
+    }
+
+    public void SelectObjectType()
+    {
+        GameObjectType selectedType = Application.application.SelectedGameObjectType;
+        var prefabToInstantiate = prefabs.FirstOrDefault(
+            prefab => prefab.Type().Equals(selectedType));
+        SetGameObjectPrefab(prefabToInstantiate);
     }
 }
