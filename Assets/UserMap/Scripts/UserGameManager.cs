@@ -3,6 +3,7 @@ using Assets.AdminMap.Scripts.MapConfiguration;
 using Library;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.AdminMap.Scripts;
 using UnityEngine;
 using Application = Assets.AdminMap.Scripts.Application;
 
@@ -245,12 +246,12 @@ public class UserGameManager : MonoBehaviour
         map.zoneSizeX = (int)unityObject.SizeInTiles().x;
         map.zoneSizeY = (int)unityObject.SizeInTiles().z;
         SetObjectPlacementMode();
-        map.zoneBrightness = 0.8f;
+        map.zoneBrightness = Constants.INACTIVE_TILE;
     }
     public void RemoveSelectedObject()
     {
         SetObjectRemovalMode();
-        map.zoneBrightness = 1 / 0.8f;
+        map.zoneBrightness = Constants.ACTIVE_TILE;
     }
     public void SetObjectRemovalMode()
     {
