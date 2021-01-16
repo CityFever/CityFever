@@ -4,8 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
-public class GameBar : MonoBehaviour
+public class GameBar : MonoBehaviour, IPointerClickHandler
 {
     bool inactive = false;
     bool activate = false;
@@ -57,5 +58,11 @@ public class GameBar : MonoBehaviour
         budgetValue = Convert.ToInt32(budgetField.text);
         MapConfig.mapConfig.mapBudget = budgetValue;
         Debug.Log("Set budget: " + MapConfig.mapConfig.mapBudget);
+    }
+
+    public void OnPointerClick(PointerEventData data)
+    {
+        // This will only execute if the objects collider was the first hit by the click's raycast
+        Debug.Log(gameObject.name + ": I was clicked!");
     }
 }
