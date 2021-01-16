@@ -172,8 +172,8 @@ namespace Library
             if (tile.State == state1)
             {
                 //Changing State Activ or inactive
-                if (state2 == State.Off || state2 == State.Available && state1 == State.Off 
-                    || state2 == State.Unavailable|| state2 == State.Available && state1 == State.Unavailable)
+                if (state2 == State.Off || state2 == State.Available && state1 == State.Off
+                    || state2 == State.Unavailable || state2 == State.Available && state1 == State.Unavailable)
                 {
                     tile.GetComponentInChildren<Renderer>().material.color *= zoneBrightness;
 
