@@ -71,16 +71,22 @@ public class UserGameManager : MonoBehaviour
             SelectTileOnMouseClick();
             SelectObjectOnMouseClick();
         }
-        /*else if (showHover)
+        
+        else if (showHover && !mode.Equals(GameMode.Default))
         {
             FetchRayCastedTile();
 
             map.MarkHovering(selectedTile);
-        }*/
+        }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             RotateSelectedGameObject();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SetDefaultMode();
         }
     }
 
@@ -102,11 +108,11 @@ public class UserGameManager : MonoBehaviour
             {
                 case GameMode.ObjectPlacement:
                     PlaceSelectedObjectOnTile(selectedTile);
-                    SetDefaultMode();
+                    //SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
                     RemoveObjectsFromSelectedZone(selectedTile);
-                    SetDefaultMode();
+                    //SetDefaultMode();
                     break;
                 case GameMode.Default:
                     // nothing so far 

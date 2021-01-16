@@ -47,7 +47,7 @@ public class AdminGameManager : MonoBehaviour
             SelectObjectOnMouseClick();
         }
 
-        else if (showHover)
+        else if (showHover && !mode.Equals(GameMode.Default))
         {
             FetchRaycastedTile();
             map.MarkHovering(selectedTile);
