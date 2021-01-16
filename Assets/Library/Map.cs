@@ -1,6 +1,7 @@
 ﻿using Assets.AdminMap.Scripts.MapConfiguration;
 using System;
 using System.Collections.Generic;
+using Assets.AdminMap.Scripts;
 using UnityEngine;
 using Grid = Assets.Scripts.Grid.Grid;
 
@@ -17,7 +18,7 @@ namespace Library
         public float budget { get; set; }
         public int zoneSizeX { get; set; } = 1;
         public int zoneSizeY { get; set; } = 1;
-        public float zoneBrightness { get; set; } = 0.5f;
+        public float zoneBrightness { get; set; } = Constants.INACTIVE_TILE;
 
         public static Color HOVERINGCOLOR = new Color(100, 100, 100, 0);
 
