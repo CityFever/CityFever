@@ -57,6 +57,11 @@ public class AdminGameManager : MonoBehaviour
         {
             RotateSelectedGameObject();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SetDefaultMode();
+        }
     }
 
     private void RotateSelectedGameObject()
@@ -113,7 +118,7 @@ public class AdminGameManager : MonoBehaviour
                     break;
                 case GameMode.ObjectPlacement:
                     map.PlaceGameObjectOnSelectedTile(selectedTile, unityObject);
-                    SetDefaultMode();
+                   //SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
                     map.RemoveObjectFromZone(selectedTile);

@@ -222,7 +222,6 @@ namespace Library
             return false;
         }
 
-
         public void RemoveObjectFromZone(BaseTile selectedTile)
         {
             List<BaseTile> tilesWithObjectsInZone = new List<BaseTile>();
