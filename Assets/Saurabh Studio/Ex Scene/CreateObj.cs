@@ -42,12 +42,12 @@ public class CreateObj : MonoBehaviour {
         }
     }
 
-	static void CreateNew(GameObject obj, string localPath)
+	/*static void CreateNew(GameObject obj, string localPath)
 	{
 		//Create a new prefab at the path given
 		Object prefab = PrefabUtility.CreatePrefab(localPath, obj);
 		PrefabUtility.ReplacePrefab(obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
-	}
+	}*/
 	
 
 }
