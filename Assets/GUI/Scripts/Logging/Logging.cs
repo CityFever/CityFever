@@ -4,64 +4,118 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 
 public class Logging : MonoBehaviour
 {
-    private TMP_InputField loginField;
+    private TMP_InputField emailField;
     private TMP_InputField passwordField;
     private Text warning;
     private Button logInButton;
+    private const string emailPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
+    bool credentialsVerified = false;
 
     // Start is called before the first frame update
     void Start()
     {
         warning = transform.Find("Warning").GetComponent<Text>();
-        loginField = transform.Find("LoginInput").GetComponent<TMP_InputField>();
+        emailField = transform.Find("EmailLogin").GetComponent<TMP_InputField>();
         passwordField = transform.Find("PasswordInput").GetComponent<TMP_InputField>();
         logInButton = transform.Find("LogInButton").GetComponent<Button>();
         logInButton.interactable = false;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Login = " + loginField.text + " Pass = " + passwordField.text);
-        setWarningMessage();
+        SwitchField();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            LogInBtn();
+        }
+
+        Debug.Log("Login = " + emailField.text + " Pass = " + passwordField.text);
+        SetWarningMessage();
     }
 
-    void setWarningMessage()
+    private void SwitchField()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (emailField.isFocused)
+            {
+                passwordField.Select();
+            }
+            if (passwordField.isFocused)
+            {
+                emailField.Select();
+            }
+        }
+    }
+
+    void SetWarningMessage()
     {
         warning.text = "";
-        if (string.IsNullOrEmpty(loginField.text) && string.IsNullOrEmpty(passwordField.text))
+        if (string.IsNullOrEmpty(emailField.text) && string.IsNullOrEmpty(passwordField.text))
         {
-            warning.text = "PROVIDE LOGIN AND PASSWORD. ";
+            warning.text = "PROVIDE E-MAIL AND PASSWORD. ";
             logInButton.interactable = false;
-
+            credentialsVerified = false;
         }
-        else if (string.IsNullOrEmpty(loginField.text) && !string.IsNullOrEmpty(passwordField.text))
+        else if (string.IsNullOrEmpty(emailField.text) && !string.IsNullOrEmpty(passwordField.text))
         {
-            warning.text = "PROVIDE LOGIN. ";
+            warning.text = "PROVIDE E-MAIL. ";
             logInButton.interactable = false;
-
+            credentialsVerified = false;
         }
-        else if (!string.IsNullOrEmpty(loginField.text) && string.IsNullOrEmpty(passwordField.text))
+        else if (!string.IsNullOrEmpty(emailField.text) && string.IsNullOrEmpty(passwordField.text))
         {
             warning.text = "PROVIDE PASSWORD. ";
             logInButton.interactable = false;
-
+            credentialsVerified = false;
+        }
+        else if (!EmailValidation())
+        {
+            warning.text = "INCORRECT E-MAIL FORMAT. ";
+            logInButton.interactable = false;
+            credentialsVerified = false;
+        }
+        else if (passwordField.text.Length < 6)
+        {
+            warning.text = "PASSWORD MUST BE AT LEAST 6 CHARACTERS";
+            logInButton.interactable = false;
+            credentialsVerified = false;
         }
         else
         {
             warning.text = "";
             logInButton.interactable = true;
-
+            credentialsVerified = true;
         }
     }
 
+    public void LogInBtn()
+    {
+        if (credentialsVerified)
+        {
+            //log in db
+            SceneManager.LoadScene("AdminMenu");
+        }
+    }
+
+    private bool EmailValidation()
+    {
+        Regex r = new Regex(emailPattern);
+        if (r.IsMatch(emailField.text))
+        {
+            return true;
+        }
+        return false;
+    }
+
     //now we invoke go to admin on Login button and go to player on Sign Up button. Need to check credentials - whether the player or admin and then call one of them
-    public void goToAdminMenu()
+    /*public void goToAdminMenu()
     {
         SceneManager.LoadScene("AdminMenu");
     }
@@ -69,5 +123,5 @@ public class Logging : MonoBehaviour
     public void goToPlayerMenu()
     {
         SceneManager.LoadScene("PlayerMenu");
-    }
+    }*/
 }

@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 169245264}
   - component: {fileID: 169245263}
   m_Layer: 5
-  m_Name: LoginInput
+  m_Name: EmailSignUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,14 +420,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 7
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -2157,7 +2157,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 564115309}
         m_TargetAssemblyTypeName: Logging, Assembly-CSharp
-        m_MethodName: goToAdminMenu
+        m_MethodName: LogInBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2218,7 +2218,7 @@ GameObject:
   - component: {fileID: 1386488829}
   - component: {fileID: 1386488828}
   m_Layer: 5
-  m_Name: PasswordRepeatInput
+  m_Name: PasswordRepeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2392,7 +2392,7 @@ GameObject:
   - component: {fileID: 1494719190}
   - component: {fileID: 1494719189}
   m_Layer: 5
-  m_Name: LoginInput
+  m_Name: EmailLogin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2465,14 +2465,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 7
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -3363,6 +3363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2688b986ad3cd4d97f23d5887ed153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  email: {fileID: 0}
+  password: {fileID: 0}
+  confPassword: {fileID: 0}
 --- !u!1 &1973999541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3447,7 +3450,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1923128571}
         m_TargetAssemblyTypeName: SingingUp, Assembly-CSharp
-        m_MethodName: GoToPlayerMenu
+        m_MethodName: SignUpBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3841,7 +3844,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Login
+  m_text: E-mail
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
   m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
@@ -4076,7 +4079,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Login
+  m_text: E-mail
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
   m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
@@ -4167,7 +4170,7 @@ GameObject:
   - component: {fileID: 2066686622}
   - component: {fileID: 2066686621}
   m_Layer: 5
-  m_Name: PasswordInput
+  m_Name: PasswordSignUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

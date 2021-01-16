@@ -2,23 +2,25 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System.Text.RegularExpressions;
 
 public class SingingUp : MonoBehaviour
 {
-    private TMP_InputField loginField;
-    private TMP_InputField passwordField;
-    private TMP_InputField passwordRepeatField;
+    public TMP_InputField email;
+    public TMP_InputField password;
+    public TMP_InputField confPassword;
     private Text warning;
     private Button signUpButton;
+    private const string emailPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
+    bool credentialsVerified = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        email = transform.Find("EmailSignUp").GetComponent<TMP_InputField>();
+        password = transform.Find("PasswordSignUp").GetComponent<TMP_InputField>();
+        confPassword = transform.Find("PasswordRepeat").GetComponent<TMP_InputField>();
         warning = transform.Find("Warning").GetComponent<Text>();
-        loginField = transform.Find("LoginInput").GetComponent<TMP_InputField>();
-        passwordField = transform.Find("PasswordInput").GetComponent<TMP_InputField>();
-        passwordRepeatField = transform.Find("PasswordRepeatInput").GetComponent<TMP_InputField>();
         signUpButton = transform.Find("SignUpButton").GetComponent<Button>();
         signUpButton.interactable = false;
     }
@@ -26,43 +28,106 @@ public class SingingUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Login = " + loginField.text + " Pass = " + passwordField.text + " Repeated pass = " + passwordRepeatField.text);
+        SwitchField();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SignUpBtn();
+        }
+
+        Debug.Log("E-mail = " + email.text + " Pass = " + password.text + " Repeated pass = " + confPassword.text);
         SetWarningMessage();
     }
-
-    void SetWarningMessage()
+    
+    private void SwitchField()
     {
-        if (string.IsNullOrEmpty(loginField.text) && string.IsNullOrEmpty(passwordField.text))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            warning.text = "PROVIDE LOGIN AND PASSWORD. ";
-            signUpButton.interactable = false;
-
+            if (email.isFocused)
+            {
+                password.Select();
+            }
+            if (password.isFocused)
+            {
+                confPassword.Select();
+            }
+            if (confPassword.isFocused)
+            {
+                email.Select();
+            }
         }
-        else if (string.IsNullOrEmpty(loginField.text) && !string.IsNullOrEmpty(passwordField.text))
+    }
+
+    private void SetWarningMessage()
+    {
+        if (string.IsNullOrEmpty(email.text) && string.IsNullOrEmpty(password.text))
         {
-            warning.text = "PROVIDE LOGIN. ";
+            warning.text = "PROVIDE E-MAIL AND PASSWORD. ";
             signUpButton.interactable = false;
-
+            credentialsVerified = false;
         }
-        else if (!string.IsNullOrEmpty(loginField.text) && string.IsNullOrEmpty(passwordField.text))
+        else if (string.IsNullOrEmpty(email.text) && !string.IsNullOrEmpty(password.text))
+        {
+            warning.text = "PROVIDE E-MAIL. ";
+            signUpButton.interactable = false;
+            credentialsVerified = false;
+        }
+        else if (!string.IsNullOrEmpty(email.text) && string.IsNullOrEmpty(password.text))
         {
             warning.text = "PROVIDE PASSWORD. ";
             signUpButton.interactable = false;
-
+            credentialsVerified = false;
         }
-        else if (!passwordRepeatField.text.Equals(passwordField.text))
+        else if (!confPassword.text.Equals(password.text))
         {
-            warning.text = " PASSWORDS DO NOT MATCH";
+            warning.text = "PASSWORDS DO NOT MATCH. ";
             signUpButton.interactable = false;
+            credentialsVerified = false;
+        }
+        else if (!EmailValidation()) 
+        {
+            warning.text = "INCORRECT E-MAIL FORMAT. ";
+            signUpButton.interactable = false;
+            credentialsVerified = false;
+        } 
+        else if (password.text.Length < 6)
+        {
+            warning.text = "PASSWORD MUST BE AT LEAST 6 CHARACTERS";
+            signUpButton.interactable = false;
+            credentialsVerified = false;
         }
         else
         {
             warning.text = "";
             signUpButton.interactable = true;
-
+            credentialsVerified = true;
         }
-        
     }
+
+    private void SignUpBtn()
+    {
+        if (credentialsVerified)
+        {
+            //register in db
+            SceneManager.LoadScene("LogSign");
+        }
+    }
+
+    private bool EmailValidation()
+    {
+        Regex r = new Regex(emailPattern);
+        if (r.IsMatch(email.text))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void GoBackToLoginPage()
+    {
+        SceneManager.LoadScene("LogSign");
+    }
+
+    /*
     public void GoToAdminMenu()
     {
         SceneManager.LoadScene("AdminMenu");
@@ -71,11 +136,6 @@ public class SingingUp : MonoBehaviour
     public void GoToPlayerMenu()
     {
         SceneManager.LoadScene("PlayerMenu");
-    }
-
-    public void GoBackToLoginPage()
-    {
-        SceneManager.LoadScene("LogSign");
-    }
+    }*/
 }
 
