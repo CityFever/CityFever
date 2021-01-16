@@ -97,6 +97,11 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 80b54a05760eba94990a2be93618e0eb,
+        type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 80b54a05760eba94990a2be93618e0eb,
         type: 3}
       propertyPath: m_Name
