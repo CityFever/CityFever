@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AwesomeGradient
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 0.9019608, g: 0.7338063, b: 0, a: 1}
-  topRight: {r: 0.90196085, g: 0.73333335, b: 0, a: 1}
-  bottomLeft: {r: 1, g: 0.23137254, b: 0.2572291, a: 1}
-  bottomRight: {r: 1, g: 0.23137257, b: 0.25882354, a: 1}
+  topLeft: {r: 1, g: 0.8834678, b: 0, a: 1}
+  topRight: {r: 0.9019608, g: 0.47871813, b: 0, a: 1}
+  bottomLeft: {r: 1, g: 0.904617, b: 0.23137254, a: 1}
+  bottomRight: {r: 1, g: 0, b: 0, a: 1}
