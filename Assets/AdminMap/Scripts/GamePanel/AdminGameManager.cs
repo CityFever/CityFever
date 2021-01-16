@@ -34,6 +34,7 @@ public class AdminGameManager : MonoBehaviour
     {
         CreateMap();
         GenerateStandardMap();
+        Debug.Log("Start()" + Application.application.SelectedGameObjectType);
     }
 
     private void Update()
@@ -360,9 +361,11 @@ public class AdminGameManager : MonoBehaviour
 
     public void SelectObjectType()
     {
+        Debug.Log("SelectedObjectType() " + Application.application.SelectedGameObjectType);
         GameObjectType selectedType = Application.application.SelectedGameObjectType;
         var prefabToInstantiate = prefabs.FirstOrDefault(
             prefab => prefab.Type().Equals(selectedType));
+        Debug.Log("Instantiated: " + prefabToInstantiate.Type());
         SetGameObjectPrefab(prefabToInstantiate);
     }
 }

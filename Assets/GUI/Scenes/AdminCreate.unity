@@ -5922,7 +5922,7 @@ GameObject:
   - component: {fileID: 853492208}
   - component: {fileID: 853492207}
   m_Layer: 5
-  m_Name: AddToUserMap
+  m_Name: ChangePriceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9497,7 +9497,7 @@ MonoBehaviour:
   mapPrefab: {fileID: 1073011653771967469, guid: 8ed0fd36c576fd148a17bf0459664d16,
     type: 3}
   prefabs:
-  - {fileID: 743087906281614896, guid: 357b31d3b75bae24ba0434ac20bfa6d3, type: 3}
+  - {fileID: 9010052629691446918, guid: 357b31d3b75bae24ba0434ac20bfa6d3, type: 3}
   - {fileID: -4021807109816322417, guid: 934adb07b69c94b4092f8433a9a653d0, type: 3}
   - {fileID: 8304372139613456475, guid: 44b9aee2447efd34fb293b5d4e31efa7, type: 3}
   - {fileID: 895281083932579054, guid: da529e026ee278242a2eb42c9cf02d15, type: 3}

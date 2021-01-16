@@ -46,6 +46,7 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
         priceUi.SetLabels(placementCosts, removalCosts, ObjectType.ToString());
         Application.application.SelectedGameObjectType = ObjectType;
 
+        Debug.Log("Show values for: " + Application.application.SelectedGameObjectType);
         if (MapConfig.mapConfig.IsContained(ObjectType))
         {
             Debug.Log(ObjectType + " Placement costs: " + MapConfig.mapConfig.GetPlacementCosts(ObjectType) + ", removal: " + MapConfig.mapConfig.GetRemovalCosts(ObjectType));
