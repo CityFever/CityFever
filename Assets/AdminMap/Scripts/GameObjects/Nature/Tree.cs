@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
+using UnityEngine;
 
 class Tree : UnityObject
 {
@@ -14,9 +16,11 @@ class Tree : UnityObject
         return sizeSpan;
     }
 
-    private void Awake()
+    public override List<TileType> CanBePlacedOn()
     {
-        CanBePlacedOn = CanBePlacedOn.Grass;
+        return new List<TileType>()
+        {
+            TileType.Grass
+        };
     }
 }
-

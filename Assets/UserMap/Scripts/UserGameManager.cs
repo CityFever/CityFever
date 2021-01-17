@@ -140,6 +140,7 @@ public class UserGameManager : MonoBehaviour
     private void RemoveObjectsFromSelectedZone(BaseTile baseTile)
     {
         List<BaseTile> tilesInZones = map.GetTilesWithObjectsOnZone(selectedTile);
+
         float budgetToReturn = 0.0f;
 
         foreach (BaseTile tile in tilesInZones) {

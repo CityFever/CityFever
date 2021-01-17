@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
+using UnityEngine;
 
 public class TrashBin : UnityObject
 {
@@ -13,4 +15,13 @@ public class TrashBin : UnityObject
     {
         return type;
     }
+
+    public override List<TileType> CanBePlacedOn()
+    {
+        return new List<TileType>()
+        {
+            TileType.Grass,
+            TileType.Asphalt
+        };
+    } 
 }

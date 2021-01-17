@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
+using UnityEngine;
 
 public abstract class UnityObject : MonoBehaviour
 {    
     //height is determined by the 2nd parameter in Vector3 
     abstract public GameObjectType Type();
 
-    public CanBePlacedOn CanBePlacedOn { get; set; }
+    abstract public List<TileType> CanBePlacedOn();
 
     abstract public Vector3 SizeInTiles();
 
@@ -22,6 +24,7 @@ public enum GameObjectType
     Flower,
     House,
     Church,
+    Shop,
     Car, 
     Fountain,
     Gazebo,
