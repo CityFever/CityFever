@@ -114,6 +114,12 @@ public class Logging : MonoBehaviour
         return false;
     }
 
+    public void QuitGame()
+    {
+        Debug.Log("QUIT");
+        Application.Quit();
+    }
+
     //now we invoke go to admin on Login button and go to player on Sign Up button. Need to check credentials - whether the player or admin and then call one of them
     /*public void goToAdminMenu()
     {
