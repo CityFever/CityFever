@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Calculus
 {
@@ -35,7 +36,7 @@ namespace Calculus
         {
             sunlight.SetSunPosition(18);
         }
-        private void MapTranslate(ISimulationMap map)
+        private void MapTranslate(ISimulationMap map, List<ISimulationTile> tilesWithObjects)
         {
             for (int row = 0; row < mapSize; row++)
                 for (int col = 0; col < mapSize; col++)
@@ -46,12 +47,11 @@ namespace Calculus
                     coord.CoordType = map.GetTile(row, col).GetTileType();
                 }
 
-            List<ISimulationTile> tilesWithObjects = new List<ISimulationTile>();
-            tilesWithObjects = map.GetTilesWithObjects();
             if (tilesWithObjects != null && tilesWithObjects.Count() != 0)
             {
                 foreach (ISimulationTile tile in tilesWithObjects)
                 {
+
                     int row = tile.GetRow();
                     int col = tile.GetColumn();
                     int rowSize = tile.GetGameObject().GetRowSize();
@@ -63,8 +63,11 @@ namespace Calculus
                         for (int i = -halfRowSize; i < halfRowSize; i++)
                             for (int j = -halfColSize; j < halfColSize; j++)
                             {
-                                coordsMap[row + i, col + j].Height = tile.GetGameObject().GetHeight();
-                                coordsMap[row + i, col + j].CoordType = TypeMapping(tile.GetGameObject().GetObjectType());
+                                if ( (row + i) < mapSize && (row + i) >= 0 && (col + j) < mapSize && (col + j) >= 0)
+                                {
+                                    coordsMap[row + i, col + j].Height = tile.GetGameObject().GetHeight();
+                                    coordsMap[row + i, col + j].CoordType = TypeMapping(tile.GetGameObject().GetObjectType());
+                                }
                             }
                     }
                     else if (halfRowSize > 0 && halfColSize == 0)
@@ -235,9 +238,9 @@ namespace Calculus
             surfaceHeatMap.AddHeatMap(shadeHeatMap);
         }
 
-        public void Calculation()
+        public void Calculation(List<ISimulationTile> tiles)
         {
-            MapTranslate(map);
+            MapTranslate(map, tiles);
             Evapotranspiration();
             Absorbtion();
             Shade();

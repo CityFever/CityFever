@@ -19,7 +19,7 @@ public abstract class BaseTile : MonoBehaviour, ISimulationTile
 
     public int GetRow()
     {
-        return 99 - (int)Coordinate.y;
+        return (int)Coordinate.y;
 
     }
 

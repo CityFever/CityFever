@@ -26,6 +26,7 @@ public class UserGameManager : MonoBehaviour
     private List<ObjectConfig> availableObjects;
     private UHISimulation simulation;
     private TMP_Text tValue;
+    
 
     void Start()
     {
@@ -216,7 +217,7 @@ public class UserGameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit, 100f, 1 << 8))
         {
-          //  Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
+          // Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
             unityObject = hit.collider.GetComponent<UnityObject>();
         }
     }
@@ -290,7 +291,8 @@ public class UserGameManager : MonoBehaviour
     }
     public void ShowTemperature()
     {
-        simulation.Calculation();
+        List<ISimulationTile> tilesWithObjects = map.GetTilesWithObjects();
+        simulation.Calculation(tilesWithObjects);
         tValue.text = simulation.GetAverageTemperature().ToString();
     }
 }

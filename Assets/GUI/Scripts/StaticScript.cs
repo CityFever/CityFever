@@ -19,6 +19,7 @@ public class StaticScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         string btn = EventSystem.current.currentSelectedGameObject.name;
         if (btn == "GrassButton")
         {
