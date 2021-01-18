@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Database;
 
 public class SingingUp : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class SingingUp : MonoBehaviour
             SignUpBtn();
         }
 
-        Debug.Log("E-mail = " + email.text + " Pass = " + password.text + " Repeated pass = " + confPassword.text);
+        //Debug.Log("E-mail = " + email.text + " Pass = " + password.text + " Repeated pass = " + confPassword.text);
         SetWarningMessage();
     }
     
@@ -108,7 +109,9 @@ public class SingingUp : MonoBehaviour
         if (credentialsVerified)
         {
             //register in db
-            SceneManager.LoadScene("LogSign");
+            Debug.Log("lalala");
+            UsersRepository.Register(email.text, password.text);
+            //SceneManager.LoadScene("LogSign");
         }
     }
 

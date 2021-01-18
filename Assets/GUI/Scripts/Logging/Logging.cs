@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using Database;
 
 
 public class Logging : MonoBehaviour
@@ -35,7 +36,7 @@ public class Logging : MonoBehaviour
             LogInBtn();
         }
 
-        Debug.Log("Login = " + emailField.text + " Pass = " + passwordField.text);
+        //Debug.Log("Login = " + emailField.text + " Pass = " + passwordField.text);
         SetWarningMessage();
     }
 
@@ -100,7 +101,28 @@ public class Logging : MonoBehaviour
         if (credentialsVerified)
         {
             //log in db
-            SceneManager.LoadScene("AdminMenu");
+            UsersRepository.Login(emailField.text, passwordField.text,
+                () => {
+                    MapsRepository.GetAllMaps((maps) => {
+                        foreach (MapConfig map in maps)
+                        {
+                            Debug.Log("S " + map.mapSize);
+                        }
+                    });
+                    SceneManager.LoadScene("AdminMenu");
+                    //MapConfig map = new MapConfig();
+                    //CreateMap(map);
+                    //GetMap("-MR6khFX_RRZhQJ1Xj9T", (map) => {
+                    //    Debug.Log(map.mapSize);
+                    //    Debug.Log(map.tileConfigs[0].ObjectType);
+                    //    Debug.Log(map.placeableObjectConfigs[0].placementCosts);
+                    //});
+                    //TileConfig tile = new TileConfig(TileType.Grass, State.Off, Vector2.down, GameObjectType.Flower);
+                    //TilesRepository.CreateTile(tile);
+                });
+
+            warning.text = "USER DOES NOT EXIST";
+  
         }
     }
 
