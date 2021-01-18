@@ -6,9 +6,15 @@ using System.Linq;
 using Assets.AdminMap.Scripts;
 using UnityEngine;
 using Application = Assets.AdminMap.Scripts.Application;
+using TMPro;
+using UnityEngine.UI;
+using System;
 
 public class UserGameManager : MonoBehaviour
 {
+    private TMP_Text tValue;
+
+
     private Map map;
 
     [SerializeField] private Map mapPrefab;
@@ -25,6 +31,8 @@ public class UserGameManager : MonoBehaviour
 
     void Start()
     {
+        tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
+
         CreateMap();
         map.adminAccess = false;
         foreach (var config in availableObjects)
@@ -280,4 +288,10 @@ public class UserGameManager : MonoBehaviour
             prefab => prefab.Type().Equals(selectedType));
         SetGameObjectPrefab(prefabToInstantiate);
     }
+
+    public void ShowTemperature()
+    {
+        tValue.text = "666";
+    }
+
 }
