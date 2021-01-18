@@ -16,6 +16,8 @@ public class Logging : MonoBehaviour
     private Button logInButton;
     private const string emailPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
     bool credentialsVerified = false;
+    bool error, lastError = false;
+    string err = "";
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +59,9 @@ public class Logging : MonoBehaviour
 
     void SetWarningMessage()
     {
+        Debug.Log(error);
         warning.text = "";
+
         if (string.IsNullOrEmpty(emailField.text) && string.IsNullOrEmpty(passwordField.text))
         {
             warning.text = "PROVIDE E-MAIL AND PASSWORD. ";
@@ -87,12 +91,23 @@ public class Logging : MonoBehaviour
             warning.text = "PASSWORD MUST BE AT LEAST 6 CHARACTERS";
             logInButton.interactable = false;
             credentialsVerified = false;
-        }
+        }  
         else
         {
             warning.text = "";
             logInButton.interactable = true;
             credentialsVerified = true;
+        }
+
+        if (error)
+        {
+            warning.text = "INVALID E-MAIL OR PASSWORD";
+
+            if (emailField.isFocused || passwordField.isFocused)
+            {
+                error = false;
+                warning.text = "";
+            }
         }
     }
 
@@ -103,27 +118,18 @@ public class Logging : MonoBehaviour
             //log in db
             UsersRepository.Login(emailField.text, passwordField.text,
                 () => {
-                    MapsRepository.GetAllMaps((maps) => {
-                        foreach (MapConfig map in maps)
-                        {
-                            Debug.Log("S " + map.mapSize);
-                        }
-                    });
-                    SceneManager.LoadScene("AdminMenu");
-                    //MapConfig map = new MapConfig();
-                    //CreateMap(map);
-                    //GetMap("-MR6khFX_RRZhQJ1Xj9T", (map) => {
-                    //    Debug.Log(map.mapSize);
-                    //    Debug.Log(map.tileConfigs[0].ObjectType);
-                    //    Debug.Log(map.placeableObjectConfigs[0].placementCosts);
-                    //});
-                    //TileConfig tile = new TileConfig(TileType.Grass, State.Off, Vector2.down, GameObjectType.Flower);
-                    //TilesRepository.CreateTile(tile);
-                });
-
-            warning.text = "USER DOES NOT EXIST";
-  
+                    SetLoginError(false);
+                    error = false;
+                    },
+                () => {
+                    SetLoginError(true);
+            });
         }
+    }
+
+    private void SetLoginError(bool err)
+    {
+        error = err;
     }
 
     private bool EmailValidation()

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using Assets.GUI.Scripts;
 
 public class PriceUI : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class PriceUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        Debug.Log("Selected map id is: " + currentButtonId);
+        //Debug.Log("Selected map id is: " + currentButtonId);
         if (string.IsNullOrEmpty(currentButtonId))
         {
             placeButton.gameObject.SetActive(false);
@@ -69,8 +70,11 @@ public class PriceUI : MonoBehaviour
 
     public void SetLabels(int price, int remCost, string id)
     {
+        Debug.Log("entered setLabels");
         currentButtonId = id;
         objectNameLabel.text = "Selected object: " + currentButtonId;
+        //int pricePlacementFromConfig = GetPlacementPrice();
+        //Debug.Log("Price from config: " + pricePlacementFromConfig);
         priceLabel.text = "Placement costs: " + price.ToString();
         removalCostLabel.text = "Removal costs: " + remCost.ToString();
     }

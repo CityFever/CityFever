@@ -51,6 +51,9 @@ public class ButtonListButton : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log(ObjectType + " Placement costs: " + MapConfig.mapConfig.GetPlacementCosts(ObjectType) + ", removal: " + MapConfig.mapConfig.GetRemovalCosts(ObjectType));
         }
+
+        SetValues((int)MapConfig.mapConfig.GetPlacementCosts(ObjectType), (int)MapConfig.mapConfig.GetRemovalCosts(ObjectType));
+        priceUi.SetLabels(placementCosts, removalCosts, ObjectType.ToString());
     }
 
     public void OnPointerClick(PointerEventData eventData)

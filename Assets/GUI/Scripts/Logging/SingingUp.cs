@@ -109,7 +109,7 @@ public class SingingUp : MonoBehaviour
         if (credentialsVerified)
         {
             //register in db
-            Debug.Log("lalala");
+            Debug.Log("registering");
             UsersRepository.Register(email.text, password.text);
             //SceneManager.LoadScene("LogSign");
         }
