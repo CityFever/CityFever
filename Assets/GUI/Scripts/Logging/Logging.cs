@@ -119,7 +119,14 @@ public class Logging : MonoBehaviour
                 () => {
                     SetLoginError(false);
                     Redirect();
-                    },
+                    MapConfig map = new MapConfig();
+                    MapsRepository.CreateMap(map,
+                        (name) =>
+                        {
+                            Debug.Log(name);
+                        });
+                    
+                },
                 () => {
                     SetLoginError(true);
             });
@@ -133,7 +140,7 @@ public class Logging : MonoBehaviour
 
     private void Redirect()
     {
-        SceneManager.LoadScene("AdminMenu"); //narazie na admina, potem zmienie na usera po mailu
+        SceneManager.LoadScene("PlayerMenu"); //narazie na admina, potem zmienie na usera po mailu
     }
 
     private bool EmailValidation()
