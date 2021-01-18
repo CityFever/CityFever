@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Proyecto26;
 using Newtonsoft.Json;
-using Library;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace Database
 {
