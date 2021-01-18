@@ -140,7 +140,7 @@ public class Logging : MonoBehaviour
 
     private void Redirect()
     {
-        SceneManager.LoadScene("PlayerMenu"); //narazie na admina, potem zmienie na usera po mailu
+        SceneManager.LoadScene("AdminMenu"); //narazie na admina, potem zmienie na usera po mailu
     }
 
     private bool EmailValidation()
