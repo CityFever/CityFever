@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5285965941328925069
+--- !u!1 &1664501145826304286
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 470772815887107253}
-  - component: {fileID: 3966384457016366655}
+  - component: {fileID: 3118137180002349412}
+  - component: {fileID: 2188929080226269590}
   m_Layer: 0
-  m_Name: ShopResolver
+  m_Name: FirTreeResolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &470772815887107253
+--- !u!4 &3118137180002349412
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285965941328925069}
+  m_GameObject: {fileID: 1664501145826304286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,17 +31,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3966384457016366655
+--- !u!114 &2188929080226269590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285965941328925069}
+  m_GameObject: {fileID: 1664501145826304286}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65b7d80be8900104ebdb91d32c88f2fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 5
-  Sprite: {fileID: 21300000, guid: 33805d517596fea448ff3ffef1198f5f, type: 3}
+  Type: 16
+  Sprite: {fileID: 21300000, guid: 9dc048dd6ed3c8448973e73320bcae46, type: 3}

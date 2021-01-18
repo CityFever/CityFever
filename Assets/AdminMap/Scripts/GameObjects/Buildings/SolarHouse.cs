@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using Assets.AdminMap.Scripts.MapConfiguration;
 using UnityEngine;
 
-public class Shop : UnityObject
+public class SolarHouse : UnityObject
 {
-    private static Vector3 sizeSpan = new Vector3(11, 10, 11);
+    private static Vector3 sizeSpan = new Vector3(17, 10, 17);
 
     public override Vector3 SizeInTiles()
     {
         return sizeSpan;
     }
 
-    private static GameObjectType type = GameObjectType.Shop;
+    private static GameObjectType type = GameObjectType.SolarHouse;
 
     public override GameObjectType Type()
     {

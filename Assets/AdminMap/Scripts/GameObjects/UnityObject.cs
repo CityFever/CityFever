@@ -31,6 +31,13 @@ public enum GameObjectType
     Lamp,
     Sandpit,
     TrashBin,
+    FancyBush,
+    ModernHouse,
+    SolarHouse,
+    Bench,
+    FirTree,
+    Slide,
+    AnotherBench,
     Default
 }
 
