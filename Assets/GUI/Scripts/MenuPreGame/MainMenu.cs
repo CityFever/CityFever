@@ -18,5 +18,10 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("QUIT");
         Application.Quit();
+        //MapConfig map = new MapConfig();
+        //UsersRepository.Login("224089@edu.p.lodz.pl", "admin13", () => {
+        //    Debug.Log("start");
+        //    MapsRepository.GetAllUsersMaps((list) => { Debug.Log(list.Count); });
+        //});
     }
 }
