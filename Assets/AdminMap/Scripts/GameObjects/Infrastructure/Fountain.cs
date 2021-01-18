@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
+using UnityEngine;
 
 public class Fountain : UnityObject
 {
@@ -12,5 +14,13 @@ public class Fountain : UnityObject
     public override GameObjectType Type()
     {
         return type;
+    }
+
+    public override List<TileType> CanBePlacedOn()
+    {
+        return new List<TileType>()
+        {
+            TileType.Grass
+        };
     }
 }

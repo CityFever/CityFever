@@ -309,23 +309,22 @@ namespace Library
             {
                 if (tileType is AsphaltTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Asphalt)
+                    if (_unityObject.CanBePlacedOn().Contains(TileType.Asphalt))
                     {
                         return true;
                     }
                 }
                 else if (tileType is GrassTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    if (_unityObject.CanBePlacedOn().Contains(TileType.Grass))
                     {
                         return true;
                     }
                 }
                 else if (tileType is WaterTile)
                 {
-                    if (_unityObject.CanBePlacedOn == CanBePlacedOn.Grass)
+                    if (_unityObject.CanBePlacedOn().Contains(TileType.Water))
                         return true;
-
                 }
             }
 
