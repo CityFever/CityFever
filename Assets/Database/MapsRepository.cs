@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Proyecto26;
@@ -74,7 +73,7 @@ namespace Database
         }
 
         //Get all maps of all users from users/
-        private static void GetAllUsersMaps(MapListOperationSuccess callback, OperationFail fallback = null)
+        public static void GetAllUsersMaps(MapListOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
                 var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, MapConfig>>>>(response.Text);
@@ -99,7 +98,31 @@ namespace Database
             });
         }
 
+        public static void GetAllUsersMapIds(StringListOperationSuccess callback, OperationFail fallback = null)
+        {
+            RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
+                var strings = new List<string>();
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, MapConfig>>>>(response.Text);
 
+                foreach (Dictionary<string, Dictionary<string, MapConfig>> dict1 in returnedJson.Values)
+                {
+                    foreach (Dictionary<string, MapConfig> dict2 in dict1.Values)
+                    {
+                        foreach (KeyValuePair<string, MapConfig> kvp in dict2)
+                        {
+                            strings.Add(kvp.Key);
+                        }
+                    }
+                }
+                callback(strings);
+
+            }).Catch(err =>
+            {
+                var error = err as RequestException;
+                Debug.Log(error.Response);
+                fallback();
+            });
+        }
 
         //Get all maps of signed user from users/
         private static void GetAllMapsOfSignedUser(MapListOperationSuccess callback, OperationFail fallback = null)
@@ -138,7 +161,7 @@ namespace Database
         }
 
         //Get all maps from admins/
-        private static void GetAllAdminMaps(MapListOperationSuccess callback, OperationFail fallback = null)
+        public static void GetAllAdminMaps(MapListOperationSuccess callback, OperationFail fallback = null)
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.ADMINS_FOLDER}{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
                 var maps = new List<MapConfig>();

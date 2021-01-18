@@ -118,11 +118,11 @@ public class Logging : MonoBehaviour
             UsersRepository.Login(emailField.text, passwordField.text,
                 () => {
                     SetLoginError(false);
-                    Redirect();
                     MapConfig map = new MapConfig();
-                    MapsRepository.CreateMap(map,
+                    MapsRepository.CreateUserMap(map,
                         (name) =>
                         {
+                            Redirect();
                             Debug.Log(name);
                         });
                     
