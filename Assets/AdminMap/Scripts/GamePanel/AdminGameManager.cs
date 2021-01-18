@@ -34,7 +34,13 @@ public class AdminGameManager : MonoBehaviour
     private void Start()
     {
         CreateMap();
-        GenerateStandardMap();
+        if (StaticScript.mapButton == "grass")
+        {
+            GenerateGrassMap();
+        } else
+        {
+            GenerateStandardMap();
+        }
         Debug.Log("Start()" + Application.application.SelectedGameObjectType);
     }
 

@@ -59,7 +59,6 @@ public class Logging : MonoBehaviour
 
     void SetWarningMessage()
     {
-        Debug.Log(error);
         warning.text = "";
 
         if (string.IsNullOrEmpty(emailField.text) && string.IsNullOrEmpty(passwordField.text))
@@ -119,7 +118,7 @@ public class Logging : MonoBehaviour
             UsersRepository.Login(emailField.text, passwordField.text,
                 () => {
                     SetLoginError(false);
-                    error = false;
+                    
                     },
                 () => {
                     SetLoginError(true);
@@ -130,6 +129,11 @@ public class Logging : MonoBehaviour
     private void SetLoginError(bool err)
     {
         error = err;
+    }
+
+    private void Redirect()
+    {
+        SceneManager.LoadScene("AdminMenu"); //narazie na admina, potem zmienie na usera po mailu
     }
 
     private bool EmailValidation()

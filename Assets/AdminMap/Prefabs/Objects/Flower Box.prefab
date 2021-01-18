@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2540809202852857136}
   - component: {fileID: 8106002043893545417}
   - component: {fileID: 1973551850137326618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
