@@ -118,7 +118,7 @@ public class Logging : MonoBehaviour
             UsersRepository.Login(emailField.text, passwordField.text,
                 () => {
                     SetLoginError(false);
-                    
+                    Redirect();
                     },
                 () => {
                     SetLoginError(true);
