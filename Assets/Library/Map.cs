@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using Assets.AdminMap.Scripts;
 using UnityEngine;
 using Grid = Assets.Scripts.Grid.Grid;
+using Calculus;
+using UnityEngine.UI;
 
 namespace Library
 {
     [Serializable]
 
-    public class Map : MonoBehaviour
+    public class Map : MonoBehaviour, ISimulationMap
     {
         private int mapSize;
 
@@ -25,6 +27,8 @@ namespace Library
         public bool adminAccess = true;
 
         private List<BaseTile> hoveredTiles;
+
+        private List<ISimulationTile> tilesWithObjects;
 
         [SerializeField] private Grid gridPrefab;
         [SerializeField] private GrassTile grassTilePrefab;
@@ -204,6 +208,7 @@ namespace Library
             {
                 UnityObject clone = Instantiate(_unityObject, selectedTile.transform);
                 selectedTile.unityObject = clone;
+                tilesWithObjects.Add(selectedTile);
                 //deactivate surrounding Tiles regarding Objects size
                 Vector3 sizeInTiles = _unityObject.SizeInTiles();
                 zoneSizeX = (int)sizeInTiles.x;
@@ -457,6 +462,21 @@ namespace Library
                 }
             }
             return tilesWithObjectsInZone;
+        }
+
+        public List<ISimulationTile> GetTilesWithObjects()
+        {
+            return tilesWithObjects;
+        }
+
+        public ISimulationTile GetTile(int row, int col)
+        {
+            return tiles[col, mapSize - 1 - row];
+        }
+
+        public int GetMapSize()
+        {
+            return mapSize;
         }
     }
 }

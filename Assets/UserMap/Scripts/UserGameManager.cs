@@ -6,6 +6,8 @@ using System.Linq;
 using Assets.AdminMap.Scripts;
 using UnityEngine;
 using Application = Assets.AdminMap.Scripts.Application;
+using Calculus;
+using TMPro;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class UserGameManager : MonoBehaviour
     private GameMode mode = GameMode.Default;
 
     private List<ObjectConfig> availableObjects;
+    private UHISimulation simulation;
+    private TMP_Text tValue;
 
     void Start()
     {
@@ -31,6 +35,8 @@ public class UserGameManager : MonoBehaviour
         {
             Debug.Log("AVAILABLE OBJECT: Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
         }
+
+        tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
     }
 
     private void CreateMap()
@@ -42,6 +48,8 @@ public class UserGameManager : MonoBehaviour
         map.budget = savedBudget;
         ConfigureTiles();
         SetAvailableObjects();
+
+        simulation = new UHISimulation(map);
     }
 
     private void SetAvailableObjects()
@@ -279,5 +287,10 @@ public class UserGameManager : MonoBehaviour
         var prefabToInstantiate = prefabs.FirstOrDefault(
             prefab => prefab.Type().Equals(selectedType));
         SetGameObjectPrefab(prefabToInstantiate);
+    }
+    public void ShowTemperature()
+    {
+        simulation.Calculation();
+        tValue.text = simulation.GetAverageTemperature().ToString();
     }
 }
