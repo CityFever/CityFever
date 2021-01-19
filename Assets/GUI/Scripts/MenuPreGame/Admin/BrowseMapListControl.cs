@@ -34,7 +34,29 @@ public class BrowseMapListControl : MonoBehaviour
         {
             Debug.Log("start");
 
-            MapsRepository.GetAllAdminMaps((list) =>
+            MapsRepository.GetAllAdminMapIds((list) =>
+            {
+                foreach (var mapId in list)
+                {
+                    mapConfigIds.Add(mapId);
+                    Debug.Log(mapId);
+                }
+
+                for (int i = 0; i < mapConfigIds.Count; i++)
+                {
+                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
+                    button.SetActive(true);
+                    button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
+                    button.GetComponent<BrowseMapListMap>().DatabaseId = mapConfigIds[i];
+                    //button.GetComponent<BrowseMapListMap>().SelectedMapConfig = maps[i];
+                    mapButtons.Add(button);
+                    button.GetComponent<BrowseMapListMap>().SetText();
+                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
+                }
+            });
+
+
+            /*MapsRepository.GetAllAdminMaps((list) =>
             {
                 foreach (var mapId in list)
                 {
@@ -53,7 +75,7 @@ public class BrowseMapListControl : MonoBehaviour
                     button.GetComponent<BrowseMapListMap>().SetText();
                     button.transform.SetParent(mapButtonTemplate.transform.parent, false);
                 }
-            });
+            });*/
         },
             () =>
             {

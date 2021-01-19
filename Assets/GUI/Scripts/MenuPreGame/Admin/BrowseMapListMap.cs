@@ -46,7 +46,6 @@ public class BrowseMapListMap : MonoBehaviour
     {
         uIManager.SetMapId(id);
         Application.application.SelectedAdminMapId = DatabaseId;
-        Application.application.SelectedMapConfig = SelectedMapConfig;
         Debug.Log("Database Id: " + Application.application.SelectedAdminMapId);
     }
 }

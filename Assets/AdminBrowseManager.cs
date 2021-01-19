@@ -27,7 +27,7 @@ public class AdminBrowseManager : MonoBehaviour
 
     private void FetcMapFromDatabase()
     {
-        UsersRepository.Login("226435@edu.p.lodz.pl", "password", () => {
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () => {
             Debug.Log("Started fetching a map");
             MapsRepository.GetAdminMap(mapId, (fetchedMap) =>
             {
