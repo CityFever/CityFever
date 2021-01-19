@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Application = Assets.AdminMap.Scripts.Application;
 
@@ -31,7 +26,6 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
             mapButton = GetComponent<Button>();
         }
 
-
         public void SetText()
         {
             myText.text = "Map #" + id.ToString();
@@ -50,8 +44,8 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
         public void PassId()
         {
             uIManager.SetMapId(id);
-            Application.application.SelectedAdminMapId = DatabaseId;
-            Debug.Log("Database Id: " + Application.application.SelectedAdminMapId);
+            Application.application.SelectedUserMapId = DatabaseId;
+            Debug.Log("Database Id: " + Application.application.SelectedUserMapId);
         }
     }
 }

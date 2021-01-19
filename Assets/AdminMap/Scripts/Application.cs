@@ -14,15 +14,11 @@ namespace Assets.AdminMap.Scripts
         public GameObjectType SelectedGameObjectType { get; set; } = GameObjectType.Default;
         public string SelectedAdminMapId { get; set; }
 
-        public string SelectedUserMadId { get; set; }
-
-        public MapConfig SelectedMapConfig { get; set; }
-
         public string SelectedUserMapId { get; set; }
 
-        public bool IsAdminMapShown; 
 
         void Awake()
+
         {
             DontDestroyOnLoad(gameObject);
 
@@ -39,12 +35,6 @@ namespace Assets.AdminMap.Scripts
         public void SetDefaultType()
         {
             SelectedGameObjectType = GameObjectType.Default;
-        }
-
-        public void ShowAdminMaps(bool isAdminMapShown)
-        {
-            Debug.Log("isAdminMapShown: " + isAdminMapShown);
-            IsAdminMapShown = isAdminMapShown;
         }
     }
 }

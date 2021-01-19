@@ -36,7 +36,7 @@ public class BrowseGameBar : MonoBehaviour
 
     private void LoadBudget()
     { 
-        budgetVal = (int) Application.application.SelectedMapConfig.mapBudget; 
+        //budgetVal = (int) Application.application.SelectedMapConfig.mapBudget; 
     }
     private void LoadTemperature()
     {
