@@ -15,6 +15,7 @@ public class Logging : MonoBehaviour
     private Text warning;
     private Button logInButton;
     private const string emailPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
+    private const string emailAdminPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
     bool credentialsVerified = false;
     bool error, lastError = false;
     string err = "";
@@ -120,11 +121,11 @@ public class Logging : MonoBehaviour
                     SetLoginError(false);
                     Redirect();
                     MapConfig map = new MapConfig();
-                    MapsRepository.CreateMap(map,
+                    /*MapsRepository.CreateMap(map,
                         (name) =>
                         {
                             Debug.Log(name);
-                        });
+                        });*/
                     
                 },
                 () => {
