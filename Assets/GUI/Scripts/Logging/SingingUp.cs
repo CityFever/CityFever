@@ -104,7 +104,7 @@ public class SingingUp : MonoBehaviour
         }
     }
 
-    private void SignUpBtn()
+    public void SignUpBtn()
     {
         if (credentialsVerified)
         {
@@ -125,9 +125,9 @@ public class SingingUp : MonoBehaviour
         return false;
     }
 
-    public void GoBackToLoginPage()
+    public void GoBackToStartScreen()
     {
-        SceneManager.LoadScene("LogSign");
+        SceneManager.LoadScene("StartScreen");
     }
 
     /*
@@ -140,5 +140,6 @@ public class SingingUp : MonoBehaviour
     {
         SceneManager.LoadScene("PlayerMenu");
     }*/
+
 }
 

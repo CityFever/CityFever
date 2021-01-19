@@ -19,6 +19,8 @@ public class Logging : MonoBehaviour
     bool error, lastError = false;
     string err = "";
 
+    Starting startScreen;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -153,10 +155,9 @@ public class Logging : MonoBehaviour
         return false;
     }
 
-    public void QuitGame()
+    public void GoBackToStartScreen()
     {
-        Debug.Log("QUIT");
-        Application.Quit();
+        SceneManager.LoadScene("StartScreen");
     }
 
     //now we invoke go to admin on Login button and go to player on Sign Up button. Need to check credentials - whether the player or admin and then call one of them

@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     { //code to log out
         Debug.Log("LogOut");
         UsersRepository.Logout();
-        SceneManager.LoadScene("LogSign"); 
+        SceneManager.LoadScene("LogIn"); 
     }
 
     public void QuitGame()
