@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class BrowseMapSelection : MonoBehaviour
+public class BrowseUserMapSelection : MonoBehaviour
 {
     private string currentMapId;
     private Button viewMapButton;

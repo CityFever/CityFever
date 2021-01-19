@@ -135,6 +135,8 @@ public class Logging : MonoBehaviour
 
     private void Redirect()
     {
+        //SceneManager.LoadScene("AdminMenu");
+
         Regex r = new Regex(emailAdminPattern);
         if (r.IsMatch(emailField.text))
         {
