@@ -362,7 +362,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 32536709}
   m_HandleRect: {fileID: 32536708}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6065,6 +6065,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1970596075}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: SaveMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1096750826}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
+        m_MethodName: SaveConfiguration
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
