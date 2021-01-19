@@ -16,6 +16,8 @@ namespace Assets.AdminMap.Scripts
 
         public MapConfig SelectedMapConfig { get; set; }
 
+        public string SelectedUserMapId { get; set; }
+
         void Awake()
         {
             DontDestroyOnLoad(gameObject);
