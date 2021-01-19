@@ -23,7 +23,6 @@ public class AdminBrowseManager : MonoBehaviour
     private void CreateMap()
     {
         map = Instantiate(map, transform).Initialize(Constants.MAP_SIZE);
-
     }
 
     private void FetcMapFromDatabase()
