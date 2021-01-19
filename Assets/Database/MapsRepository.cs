@@ -240,15 +240,6 @@ namespace Database
             });
         }
 
-        public static void UpdateUserMapTileSet(MapConfig map, string id)
-        {
-            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}{"tileConfigs"}//.json?auth={Config.ID_TOKEN}", map).Catch(err =>
-            {
-                var error = err as RequestException;
-                Debug.Log(error.Response);
-            });
-        }
-
         public static void DeleteAdminMap(string id)
         {
             RestClient.Delete($"{Config.DATABASE_URL}{Config.ADMINS_FOLDER}{Config.MAPS_FOLDER}{id}/.json?auth={Config.ID_TOKEN}").Catch(err =>

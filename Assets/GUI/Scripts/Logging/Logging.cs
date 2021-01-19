@@ -114,18 +114,12 @@ public class Logging : MonoBehaviour
     {
         if (credentialsVerified)
         {
-            //log in db
             UsersRepository.Login(emailField.text, passwordField.text,
                 () => {
                     SetLoginError(false);
-                    MapConfig map = new MapConfig();
-                    MapsRepository.CreateUserMap(map,
-                        (name) =>
-                        {
-                            Redirect();
-                            Debug.Log(name);
-                        });
-                    
+                    UserSingleton.Instance.Email = emailField.text;
+                    UserSingleton.Instance.Password = passwordField.text;
+                    Redirect();
                 },
                 () => {
                     SetLoginError(true);
