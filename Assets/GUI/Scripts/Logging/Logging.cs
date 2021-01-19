@@ -125,7 +125,7 @@ public class Logging : MonoBehaviour
                         {
                             Redirect();
                             Debug.Log(name);
-                        });*/
+                        });
                     
                 },
                 () => {
