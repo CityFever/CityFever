@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Database;
 using UnityEngine;
 
 public class BrowseMapListControl : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mapButtonTemplate;
+    [SerializeField] private GameObject mapButtonTemplate;
 
     private int numberOfMaps;
 
     private List<GameObject> mapButtons;
 
-    // Start is called before the first frame update
+    private List<string> mapConfigIds = new List<string>();
+    private List<MapConfig> maps = new List<MapConfig>();
+
     void Start()
     {
-        SetNumberOfMaps();
-
         mapButtons = new List<GameObject>();
 
         if (mapButtons.Count > 0)
@@ -26,31 +26,53 @@ public class BrowseMapListControl : MonoBehaviour
             }
             mapButtons.Clear();
         }
+    }
 
-        for (int i = 1; i <= numberOfMaps; i++)
+    public void FetchData()
+    {
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
-            GameObject button = Instantiate(mapButtonTemplate) as GameObject;
-            button.SetActive(true);
+            Debug.Log("start");
 
-            //now we just set id as the order. There it needs to read ids from the DB
-            button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
+            MapsRepository.GetAllAdminMaps((list) =>
+            {
+                foreach (var mapId in list)
+                {
+                    maps.Add(mapId);
+                    Debug.Log(mapId);
+                }
 
-            mapButtons.Add(button);
-
-            button.GetComponent<BrowseMapListMap>().SetText();
-
-            button.transform.SetParent(mapButtonTemplate.transform.parent, false);
-        }
+                for (int i = 0; i < maps.Count; i++)
+                {
+                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
+                    button.SetActive(true);
+                    button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
+                    button.GetComponent<BrowseMapListMap>().DatabaseId = maps[i].DatabaseId;
+                    button.GetComponent<BrowseMapListMap>().SelectedMapConfig = maps[i];
+                    mapButtons.Add(button);
+                    button.GetComponent<BrowseMapListMap>().SetText();
+                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
+                }
+            });
+        },
+            () =>
+            {
+                Debug.Log("Too heavy load");
+            });
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnEnable()
     {
-
+        FetchData();
     }
 
-    public void SetNumberOfMaps() //need to get no. of maps from the DB
+    public void OnDisable()
     {
-        numberOfMaps = 6;
+        ClearData();
+    }
+
+    public void ClearData()
+    {
+        maps.Clear();
     }
 }

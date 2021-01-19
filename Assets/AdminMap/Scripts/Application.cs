@@ -12,6 +12,9 @@ namespace Assets.AdminMap.Scripts
         public static Application application;
 
         public GameObjectType SelectedGameObjectType { get; set; } = GameObjectType.Default;
+        public string SelectedAdminMapId { get; set; }
+
+        public MapConfig SelectedMapConfig { get; set; }
 
         void Awake()
         {

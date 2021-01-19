@@ -8508,9 +8508,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624304249}
-        m_TargetAssemblyTypeName: AdminCreatePauseMenu, Assembly-CSharp
-        m_MethodName: SaveMap
+      - m_Target: {fileID: 1391330106}
+        m_TargetAssemblyTypeName: AdminGameManager, Assembly-CSharp
+        m_MethodName: SaveMapConfiguration
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

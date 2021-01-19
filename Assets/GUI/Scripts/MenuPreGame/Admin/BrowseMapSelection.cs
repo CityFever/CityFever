@@ -17,7 +17,6 @@ public class BrowseMapSelection : MonoBehaviour
         currentMapId = "";
         viewMapButton = transform.Find("LoadButton").GetComponent<Button>();
         viewMapButton.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame

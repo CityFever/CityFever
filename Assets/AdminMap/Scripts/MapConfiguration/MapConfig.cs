@@ -7,6 +7,8 @@ public class MapConfig : MonoBehaviour
 {
     public static MapConfig mapConfig;
 
+    public string DatabaseId;
+
     public List<TileConfig> tileConfigs = new List<TileConfig>();
 
     public List<ObjectConfig> placeableObjectConfigs = new List<ObjectConfig>();

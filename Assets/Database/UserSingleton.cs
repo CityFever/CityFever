@@ -1,22 +1,26 @@
-﻿namespace Database
+﻿using UnityEngine;
+
+namespace Database
 {
-    public sealed class UserSingleton
+    public class UserSingleton : MonoBehaviour
     {
-        private static UserSingleton instance = null;
+        public static UserSingleton Instance = null;
         public string Email { get; set; }
         public string Password { get; set; }
 
-        private UserSingleton() { }
+       // private UserSingleton() { }
 
-        public static UserSingleton Instance
+        void Awake()
         {
-            get
+            DontDestroyOnLoad(gameObject);
+
+            if (Instance == null)
             {
-                if (instance == null)
-                {
-                    instance = new UserSingleton();
-                }
-                return instance;
+                Instance = this;
+            }
+            else if (Instance != this)
+            {
+                Destroy(gameObject);
             }
         }
     }

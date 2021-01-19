@@ -4,6 +4,7 @@ using Library;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.AdminMap.Scripts;
+using Database;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Application = Assets.AdminMap.Scripts.Application;
@@ -272,10 +273,23 @@ public class AdminGameManager : MonoBehaviour
         mode = GameMode.ObjectRemoval;
     }
 
-    public void LoadUserScene()
+    public void SaveMapConfiguration()
     {
+        Debug.Log("SaveMapConfiguration");
         MapConfig.mapConfig.tileConfigs = GetTilesConfiguration();
-        SceneManager.LoadScene("PlayerGame");
+
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
+        {
+            MapsRepository.CreateAdminMap(MapConfig.mapConfig, (id) =>
+            {
+                MapConfig.mapConfig.DatabaseId = id;
+                Debug.Log("Created map Id: " + id);
+                UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password,
+                    () => { MapsRepository.UpdateAdminMap(MapConfig.mapConfig, id); });
+            });
+        });
+
+        //SceneManager.LoadScene("PlayerGame");
     }
 
     private List<TileConfig> GetTilesConfiguration()
