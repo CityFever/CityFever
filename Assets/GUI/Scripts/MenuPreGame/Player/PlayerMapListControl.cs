@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Database;
 
 public class PlayerMapListControl : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class PlayerMapListControl : MonoBehaviour
 
     private List<GameObject> mapButtons;
 
+    private List<string> mapConfigIds = new List<string>();
+    private List<MapConfig> maps = new List<MapConfig>();
+
     // Start is called before the first frame update
     void Start()
     {
-        SetNumberOfMaps();
-
         mapButtons = new List<GameObject>();
 
         if (mapButtons.Count > 0)
@@ -26,32 +28,56 @@ public class PlayerMapListControl : MonoBehaviour
             }
             mapButtons.Clear();
         }
+    }
 
-        for (int i = 1; i <= numberOfMaps; i++)
+    public void FetchData()
+    {
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
-            GameObject button = Instantiate(mapButtonTemplate) as GameObject;
-            button.SetActive(true);
+            Debug.Log("start");
 
-            //now we just set id as the order. There it needs to read ids from the DB
-            button.GetComponent<PlayerMapListMap>().SetId(i.ToString());
+            MapsRepository.GetAllAdminMapIds((list) =>
+            {
+                foreach (var mapId in list)
+                {
+                    mapConfigIds.Add(mapId);
+                    Debug.Log(mapId);
+                }
 
-            mapButtons.Add(button);
-            
-            button.GetComponent<PlayerMapListMap>().SetText();
-
-            button.transform.SetParent(mapButtonTemplate.transform.parent, false);
-        }
+                for (int i = 0; i < mapConfigIds.Count; i++)
+                {
+                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
+                    button.SetActive(true);
+                    button.GetComponent<PlayerMapListMap>().SetId(i.ToString());
+                    button.GetComponent<PlayerMapListMap>().DatabaseId = mapConfigIds[i];
+                    //button.GetComponent<PlayerMapListMap>().SelectedMapConfig = maps[i];
+                    mapButtons.Add(button);
+                    button.GetComponent<PlayerMapListMap>().SetText();
+                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
+                }
+            });
+        },
+            () =>
+            {
+                Debug.Log("Too heavy load");
+            });
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnEnable()
     {
-
+        FetchData();
     }
 
-    public void SetNumberOfMaps() //need to get no. of maps from the DB
+    public void OnDisable()
     {
-        numberOfMaps = 6;
+        ClearData();
+    }
+
+    public void ClearData()
+    {
+        maps.Clear();
     }
 
 }
+
+    
