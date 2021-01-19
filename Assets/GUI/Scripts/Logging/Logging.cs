@@ -15,6 +15,7 @@ public class Logging : MonoBehaviour
     private Text warning;
     private Button logInButton;
     private const string emailPattern = @"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$";
+    private const string emailAdminPattern = @"^((\w+)@[\w]{0,3}\.([\w]{1})\.[\w]{4}\.[\w]{2})$";
     bool credentialsVerified = false;
     bool error, lastError = false;
     string err = "";
@@ -134,7 +135,16 @@ public class Logging : MonoBehaviour
 
     private void Redirect()
     {
-        SceneManager.LoadScene("AdminMenu"); //narazie na admina, potem zmienie na usera po mailu
+        Regex r = new Regex(emailAdminPattern);
+        if (r.IsMatch(emailField.text))
+        {
+            SceneManager.LoadScene("AdminMenu");
+        }
+        else
+        {
+            SceneManager.LoadScene("PlayerMenu");
+        }
+        
     }
 
     private bool EmailValidation()
@@ -152,15 +162,4 @@ public class Logging : MonoBehaviour
         Debug.Log("QUIT");
         Application.Quit();
     }
-
-    //now we invoke go to admin on Login button and go to player on Sign Up button. Need to check credentials - whether the player or admin and then call one of them
-    /*public void goToAdminMenu()
-    {
-        SceneManager.LoadScene("AdminMenu");
-    }
-
-    public void goToPlayerMenu()
-    {
-        SceneManager.LoadScene("PlayerMenu");
-    }*/
 }
