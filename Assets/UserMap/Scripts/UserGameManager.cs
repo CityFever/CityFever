@@ -9,6 +9,7 @@ using Application = Assets.AdminMap.Scripts.Application;
 using Calculus;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -27,7 +28,10 @@ public class UserGameManager : MonoBehaviour
     private List<ObjectConfig> availableObjects;
     private UHISimulation simulation;
     private TMP_Text tValue;
-    
+    private TMP_Text tSun;
+    private Light light1;
+    private Light light2;
+
 
     void Start()
     {
@@ -39,6 +43,9 @@ public class UserGameManager : MonoBehaviour
         }
 
         tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
+        tSun = GameObject.Find("SunPosition").GetComponentInChildren<TMP_Text>();
+        light1 = GameObject.Find("DirectionalLight1").GetComponent<Light>();
+        light2 = GameObject.Find("DirectionalLight2").GetComponent<Light>();        
     }
 
     private void CreateMap()
@@ -303,4 +310,25 @@ public class UserGameManager : MonoBehaviour
         double result = simulation.GetAverageTemperature();
         tValue.text = result.ToString();
     }
+
+    public void ChangeSunPosition()
+    {
+        if ( tSun.text == "S")
+        {
+            light1.enabled = false;
+            light2.enabled = true;
+            simulation.SunFromWest();
+            tSun.text = "W";
+            ShowTemperature();
+        } else if (tSun.text == "W")
+        {
+            light1.enabled = true;
+            light2.enabled = false;
+            simulation.SunFromSouth();
+            tSun.text = "S";
+            ShowTemperature();
+        }
+    }
+
+
 }
