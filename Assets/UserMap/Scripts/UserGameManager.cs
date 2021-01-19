@@ -8,6 +8,7 @@ using UnityEngine;
 using Application = Assets.AdminMap.Scripts.Application;
 using Calculus;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UserGameManager : MonoBehaviour
 {
