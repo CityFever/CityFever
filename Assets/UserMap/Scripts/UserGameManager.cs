@@ -77,8 +77,14 @@ public class UserGameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            SelectTileOnMouseClick();
-            SelectObjectOnMouseClick();
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
+                {
+                    SelectTileOnMouseClick();
+                    SelectObjectOnMouseClick();
+                }
+            }
         }
         
         else if (showHover && !mode.Equals(GameMode.Default))
