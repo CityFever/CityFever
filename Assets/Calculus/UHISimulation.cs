@@ -19,7 +19,6 @@ namespace Calculus
         public UHISimulation(ISimulationMap map)
         {
             mapSize = map.GetMapSize();
-            surfaceHeatMap = new HeatMap(mapSize);
             sunlight = new Sunlight();
             sunlight.SetSunPosition(13);
 
@@ -240,6 +239,7 @@ namespace Calculus
 
         public void Calculation(List<ISimulationTile> tiles)
         {
+            surfaceHeatMap = new HeatMap(mapSize);
             MapTranslate(map, tiles);
             Evapotranspiration();
             Absorbtion();

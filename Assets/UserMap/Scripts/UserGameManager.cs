@@ -300,6 +300,7 @@ public class UserGameManager : MonoBehaviour
     {
         List<ISimulationTile> tilesWithObjects = map.GetTilesWithObjects();
         simulation.Calculation(tilesWithObjects);
-        tValue.text = simulation.GetAverageTemperature().ToString();
+        double result = simulation.GetAverageTemperature();
+        tValue.text = result.ToString();
     }
 }
