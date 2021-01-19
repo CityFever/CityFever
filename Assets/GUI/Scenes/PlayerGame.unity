@@ -362,7 +362,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 32536709}
   m_HandleRect: {fileID: 32536708}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2987,9 +2987,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1045749649}
-        m_TargetAssemblyTypeName: GameBarPlay, Assembly-CSharp
-        m_MethodName: CalculateTemperature
+      - m_Target: {fileID: 1096750826}
+        m_TargetAssemblyTypeName: UserGameManager, Assembly-CSharp
+        m_MethodName: ShowTemperature
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

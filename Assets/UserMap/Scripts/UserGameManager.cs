@@ -8,6 +8,9 @@ using Database;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Application = Assets.AdminMap.Scripts.Application;
+using Calculus;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -24,15 +27,22 @@ public class UserGameManager : MonoBehaviour
     private GameMode mode = GameMode.Default;
 
     private List<ObjectConfig> availableObjects;
+    private UHISimulation simulation;
+    private TMP_Text tValue;
+    
 
     void Start()
     {
         CreateMap();
+
+        tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
     }
 
     private void CreateMap()
     {
         ConfigureTiles();
+
+        simulation = new UHISimulation(map);
     }
 
     private void ConfigureTiles()
@@ -58,10 +68,13 @@ public class UserGameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
+            if (Input.GetMouseButtonDown(0))
             {
-                SelectTileOnMouseClick();
-                SelectObjectOnMouseClick();
+                if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
+                {
+                    SelectTileOnMouseClick();
+                    SelectObjectOnMouseClick();
+                }
             }
         }
         
@@ -320,5 +333,12 @@ public class UserGameManager : MonoBehaviour
         }
 
         return tileConfigs;
+    }
+    public void ShowTemperature()
+    {
+        List<ISimulationTile> tilesWithObjects = map.GetTilesWithObjects();
+        simulation.Calculation(tilesWithObjects);
+        double result = simulation.GetAverageTemperature();
+        tValue.text = result.ToString();
     }
 }
