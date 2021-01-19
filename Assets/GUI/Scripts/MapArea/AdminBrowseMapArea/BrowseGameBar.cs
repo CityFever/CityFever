@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using Application = Assets.AdminMap.Scripts.Application;
 
 public class BrowseGameBar : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class BrowseGameBar : MonoBehaviour
     }
 
     private void LoadBudget()
-    {
-        budgetVal = 1200; //there will be getting budget from the DB or sth 
+    { 
+        budgetVal = (int) Application.application.SelectedMapConfig.mapBudget; 
     }
     private void LoadTemperature()
     {

@@ -20,7 +20,7 @@ public class BrowseMapListMap : MonoBehaviour
     private string id;
 
     public string DatabaseId { get; set; }
-
+    public MapConfig SelectedMapConfig { get; set; }
     void Start()
     {
         mapButton = GetComponent<Button>();
@@ -46,6 +46,7 @@ public class BrowseMapListMap : MonoBehaviour
     {
         uIManager.SetMapId(id);
         Application.application.SelectedAdminMapId = DatabaseId;
+        Application.application.SelectedMapConfig = SelectedMapConfig;
         Debug.Log("Database Id: " + Application.application.SelectedAdminMapId);
     }
 }

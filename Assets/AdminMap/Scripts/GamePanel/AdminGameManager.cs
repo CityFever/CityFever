@@ -278,21 +278,13 @@ public class AdminGameManager : MonoBehaviour
         Debug.Log("SaveMapConfiguration");
         MapConfig.mapConfig.tileConfigs = GetTilesConfiguration();
 
-        /*List<TileConfig> configs = new List<TileConfig>();
-        for (int i = 0; i < 4; i++)
-        {
-            configs.Add(new TileConfig(TileType.Asphalt, State.Available, Vector2.right, GameObjectType.Tree));
-        }
-
-        MapConfig.mapConfig.tileConfigs = configs; */
-
-        UsersRepository.Login("226435@edu.p.lodz.pl", "password", () =>
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
             MapsRepository.CreateAdminMap(MapConfig.mapConfig, (id) =>
             {
                 MapConfig.mapConfig.DatabaseId = id;
-
-                UsersRepository.Login("226435@edu.p.lodz.pl", "password",
+                Debug.Log("Created map Id: " + id);
+                UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password,
                     () => { MapsRepository.UpdateAdminMap(MapConfig.mapConfig, id); });
             });
         });

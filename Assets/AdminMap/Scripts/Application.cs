@@ -14,6 +14,8 @@ namespace Assets.AdminMap.Scripts
         public GameObjectType SelectedGameObjectType { get; set; } = GameObjectType.Default;
         public string SelectedAdminMapId { get; set; }
 
+        public MapConfig SelectedMapConfig { get; set; }
+
         void Awake()
         {
             DontDestroyOnLoad(gameObject);

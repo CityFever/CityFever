@@ -26,8 +26,11 @@ public class BrowseMapListControl : MonoBehaviour
             }
             mapButtons.Clear();
         }
+    }
 
-        UsersRepository.Login("226435@edu.p.lodz.pl", "password", () =>
+    public void FetchData()
+    {
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
             Debug.Log("start");
 
@@ -45,36 +48,31 @@ public class BrowseMapListControl : MonoBehaviour
                     button.SetActive(true);
                     button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
                     button.GetComponent<BrowseMapListMap>().DatabaseId = maps[i].DatabaseId;
+                    button.GetComponent<BrowseMapListMap>().SelectedMapConfig = maps[i];
                     mapButtons.Add(button);
                     button.GetComponent<BrowseMapListMap>().SetText();
                     button.transform.SetParent(mapButtonTemplate.transform.parent, false);
                 }
             });
-           
-
-            /*MapsRepository.GetAllAdminMapIds((list) =>
-            {
-                foreach (var mapId in list)
-                {
-                    mapConfigIds.Add(mapId);
-                    Debug.Log(mapId);
-                }
-
-                for (int i = 0; i < mapConfigIds.Count; i++)
-                {
-                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
-                    button.SetActive(true);
-                    button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
-                    button.GetComponent<BrowseMapListMap>().DatabaseId = mapConfigIds[i];
-                    mapButtons.Add(button);
-                    button.GetComponent<BrowseMapListMap>().SetText();
-                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
-                }
-            });*/
         },
             () =>
             {
                 Debug.Log("Too heavy load");
             });
+    }
+
+    public void OnEnable()
+    {
+        FetchData();
+    }
+
+    public void OnDisable()
+    {
+        ClearData();
+    }
+
+    public void ClearData()
+    {
+        maps.Clear();
     }
 }
