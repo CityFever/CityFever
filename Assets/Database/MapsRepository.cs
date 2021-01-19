@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.AdminMap.Scripts.MapConfiguration;
 using UnityEngine;
 using Proyecto26;
 using Newtonsoft.Json;
@@ -181,8 +182,8 @@ namespace Database
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.ADMINS_FOLDER}{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
                 var strings = new List<String>();
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(response.Text);
-                foreach (KeyValuePair<string, Dictionary<string, string>> kvp in returnedJson)
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, TileConfig>>>(response.Text);
+                foreach (KeyValuePair<string, Dictionary<string, TileConfig>> kvp in returnedJson)
                 {
                     strings.Add(kvp.Key);
                 }
@@ -232,7 +233,16 @@ namespace Database
 
         public static void UpdateUserMap(MapConfig map, string id)
         {
-            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}/.json?auth={Config.ID_TOKEN}", map).Catch(err =>
+            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}.json?auth={Config.ID_TOKEN}", map).Catch(err =>
+            {
+                var error = err as RequestException;
+                Debug.Log(error.Response);
+            });
+        }
+
+        public static void UpdateUserMapTileSet(MapConfig map, string id)
+        {
+            RestClient.Put($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}{id}{"tileConfigs"}//.json?auth={Config.ID_TOKEN}", map).Catch(err =>
             {
                 var error = err as RequestException;
                 Debug.Log(error.Response);

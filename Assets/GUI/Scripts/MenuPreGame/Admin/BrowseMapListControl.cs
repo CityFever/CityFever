@@ -12,8 +12,8 @@ public class BrowseMapListControl : MonoBehaviour
     private List<GameObject> mapButtons;
 
     private List<string> mapConfigIds = new List<string>();
+    private List<MapConfig> maps = new List<MapConfig>();
 
-    // Start is called before the first frame update
     void Start()
     {
         mapButtons = new List<GameObject>();
@@ -24,15 +24,35 @@ public class BrowseMapListControl : MonoBehaviour
             {
                 Destroy(button.gameObject);
             }
-
             mapButtons.Clear();
         }
-
 
         UsersRepository.Login("226435@edu.p.lodz.pl", "password", () =>
         {
             Debug.Log("start");
-            MapsRepository.GetAllAdminMapIds((list) =>
+
+            MapsRepository.GetAllAdminMaps((list) =>
+            {
+                foreach (var mapId in list)
+                {
+                    maps.Add(mapId);
+                    Debug.Log(mapId);
+                }
+
+                for (int i = 0; i < maps.Count; i++)
+                {
+                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
+                    button.SetActive(true);
+                    button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
+                    button.GetComponent<BrowseMapListMap>().DatabaseId = maps[i].DatabaseId;
+                    mapButtons.Add(button);
+                    button.GetComponent<BrowseMapListMap>().SetText();
+                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
+                }
+            });
+           
+
+            /*MapsRepository.GetAllAdminMapIds((list) =>
             {
                 foreach (var mapId in list)
                 {
@@ -50,7 +70,11 @@ public class BrowseMapListControl : MonoBehaviour
                     button.GetComponent<BrowseMapListMap>().SetText();
                     button.transform.SetParent(mapButtonTemplate.transform.parent, false);
                 }
+            });*/
+        },
+            () =>
+            {
+                Debug.Log("Too heavy load");
             });
-        });
     }
 }

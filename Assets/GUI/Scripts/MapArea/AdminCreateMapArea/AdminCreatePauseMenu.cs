@@ -17,6 +17,8 @@ public class AdminCreatePauseMenu : MonoBehaviour
     {
 
         Debug.Log("There will be some code to save the map using DB");
+
+        //Debug.Log(MapConfig);
         UsersRepository.Login("226435@edu.p.lodz.pl", "password", () =>
         {
             /*Debug.Log("start");
