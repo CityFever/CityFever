@@ -1426,7 +1426,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 488743016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3c15c639ae20eb46aba989f7378b3c0, type: 3}
+  m_Script: {fileID: 11500000, guid: aa4371f00fbcda04c9c1ee366cb2e8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &536034978
@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: 770494453}
   - component: {fileID: 770494452}
   m_Layer: 5
-  m_Name: ButtonScrollList
+  m_Name: MyButtonScrollList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1740,7 +1740,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 770494450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05013d422d97a7248b8fe16f356384f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 121a6812d5a3285458617e45a13676a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapButtonTemplate: {fileID: 1583290843}
@@ -1846,8 +1846,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.1999512, y: 0.00018310547}
-  m_SizeDelta: {x: 1246.6554, y: 37.184814}
+  m_AnchoredPosition: {x: 14.6, y: 1.5}
+  m_SizeDelta: {x: 1279.0115, y: 148.98315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &786456697
 MonoBehaviour:
@@ -2540,7 +2540,7 @@ GameObject:
   - component: {fileID: 1090267857}
   - component: {fileID: 1090267856}
   m_Layer: 5
-  m_Name: MyMaps
+  m_Name: MyMapsBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2610,8 +2610,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1124257174}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 488743016}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -2809,7 +2809,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 488743018}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapSelection, Assembly-CSharp
         m_MethodName: LoadSelectedMap
         m_Mode: 1
@@ -3537,7 +3537,7 @@ PrefabInstance:
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
@@ -3548,16 +3548,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1583290845}
+      objectReference: {fileID: 1583290844}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerMapListMap, Assembly-CSharp
+      value: PlayerMyMapListMap, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PassId
+      value: SetId
       objectReference: {fileID: 0}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
@@ -3751,7 +3751,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1583290840}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1583290844 stripped
+--- !u!114 &1583290844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583290843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6ab2b9731d86f4ea4be86a75bd8b78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 1583290842}
+  mapButton: {fileID: 1583290845}
+  mapButtonControl: {fileID: 770494452}
+  uIManager: {fileID: 488743018}
+--- !u!114 &1583290845 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
     type: 3}
@@ -3763,22 +3779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1583290845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1583290843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34cd67c584f8d5241bcabb4947ca2ddf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myText: {fileID: 1583290842}
-  mapButton: {fileID: 1583290844}
-  mapButtonControl: {fileID: 770494452}
-  uIManager: {fileID: 488743018}
 --- !u!1 &1594539034
 GameObject:
   m_ObjectHideFlags: 0

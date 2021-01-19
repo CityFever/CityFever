@@ -81,9 +81,6 @@ public class MapSelection : MonoBehaviour
                  }*/
             });
         });
-
-
-        // some code here, maybe connected with the DB, then:
     }
 
     public void SetMapId(string id)
