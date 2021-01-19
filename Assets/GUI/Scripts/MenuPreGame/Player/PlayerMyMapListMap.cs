@@ -46,7 +46,7 @@ public class PlayerMyMapListMap : MonoBehaviour
     public void PassId() //called from button in the inspector
     {
         uIManager.SetMapId(id);
-        Application.application.SelectedAdminMapId = DatabaseId;
-        Debug.Log("Database Id: " + Application.application.SelectedAdminMapId);
+        Application.application.SelectedUserMapId = DatabaseId;
+        Debug.Log("Database Id: " + Application.application.SelectedUserMapId);
     }
 }

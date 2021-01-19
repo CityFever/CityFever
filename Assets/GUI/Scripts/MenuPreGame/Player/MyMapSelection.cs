@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -8,7 +10,6 @@ using UnityEngine.UI;
 using System;
 using Database;
 using Application = Assets.AdminMap.Scripts.Application;
-
 
 public class MyMapSelection : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class MyMapSelection : MonoBehaviour
     void Start()
     {
         currentMapId = "";
-        playButton = transform.Find("GoButton").GetComponent<Button>();
+        playButton = transform.Find("GoBtn").GetComponent<Button>();
         playButton.gameObject.SetActive(false);
     }
 
@@ -44,10 +45,10 @@ public class MyMapSelection : MonoBehaviour
 
     public void LoadSelectedMap()
     {
-        /*UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
-            Debug.Log("from user list selected map id " + Assets.AdminMap.Scripts.Application.application.SelectedAdminMapId);
-            MapsRepository.GetAdminMap(Application.application.SelectedAdminMapId, (mapConfig) =>
+            Debug.Log("from user list selected map id " + Assets.AdminMap.Scripts.Application.application.SelectedUserMapId);
+            MapsRepository.GetUserMap(Application.application.SelectedUserMapId, (mapConfig) =>
             {
                 Debug.Log("fetched " + mapConfig.DatabaseId + " with " + mapConfig.tileConfigs.Count + " tiles and " + mapConfig.placeableObjectConfigs.Count + " objects");
 
@@ -67,7 +68,7 @@ public class MyMapSelection : MonoBehaviour
 
                 PlayGame();
             });
-        });*/
+        });
     }
 
     public void SetMapId(string id)

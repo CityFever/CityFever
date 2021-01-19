@@ -42,8 +42,6 @@ public class MapSelection : MonoBehaviour
 
     public void LoadSelectedMap()
     {
-
-
         UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
         {
             Debug.Log("from user list selected map id " + Assets.AdminMap.Scripts.Application.application.SelectedAdminMapId);

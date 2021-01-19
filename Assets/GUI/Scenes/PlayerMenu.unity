@@ -2739,7 +2739,7 @@ GameObject:
   - component: {fileID: 1139326723}
   - component: {fileID: 1139326722}
   m_Layer: 5
-  m_Name: GoButton
+  m_Name: GoBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2809,8 +2809,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MapSelection, Assembly-CSharp
+      - m_Target: {fileID: 488743018}
+        m_TargetAssemblyTypeName: MyMapSelection, Assembly-CSharp
         m_MethodName: LoadSelectedMap
         m_Mode: 1
         m_Arguments:
@@ -3537,7 +3537,7 @@ PrefabInstance:
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
@@ -3557,7 +3557,7 @@ PrefabInstance:
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetId
+      value: PassId
       objectReference: {fileID: 0}
     - target: {fileID: 4504130587511344432, guid: 2c78c69a24decf84e817e88b52c88991,
         type: 3}
