@@ -19,7 +19,12 @@ public class StaticScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string btn = EventSystem.current.currentSelectedGameObject.name;
+        string btn = "";
+        if (Input.GetMouseButtonDown(0))
+        {
+            btn = EventSystem.current.currentSelectedGameObject.name;
+        }
+        
         if (btn == "GrassButton")
         {
             mapButton = "grass";
