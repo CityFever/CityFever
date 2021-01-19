@@ -146,8 +146,8 @@ namespace Database
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.USERS_FOLDER}{Config.USER_ID}/{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
                 var strings = new List<String>();
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(response.Text);
-                foreach (KeyValuePair<string, Dictionary<string, string>> kvp in returnedJson)
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, MapConfig>>(response.Text);
+                foreach (KeyValuePair<string, MapConfig> kvp in returnedJson)
                 {
                     strings.Add(kvp.Key);
                 }
@@ -182,8 +182,8 @@ namespace Database
         {
             RestClient.Get($"{Config.DATABASE_URL}{Config.ADMINS_FOLDER}{Config.MAPS_FOLDER}.json?auth={Config.ID_TOKEN}").Then(response => {
                 var strings = new List<String>();
-                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, TileConfig>>>(response.Text);
-                foreach (KeyValuePair<string, Dictionary<string, TileConfig>> kvp in returnedJson)
+                var returnedJson = JsonConvert.DeserializeObject<Dictionary<string, MapConfig>>(response.Text);
+                foreach (KeyValuePair<string, MapConfig> kvp in returnedJson)
                 {
                     strings.Add(kvp.Key);
                 }
