@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Application = Assets.AdminMap.Scripts.Application;
 
 public class BrowseMapListMap : MonoBehaviour
 {
@@ -18,17 +19,13 @@ public class BrowseMapListMap : MonoBehaviour
 
     private string id;
 
-    // Start is called before the first frame update
+    public string DatabaseId { get; set; }
+
     void Start()
     {
         mapButton = GetComponent<Button>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void SetText()
     {
@@ -45,9 +42,10 @@ public class BrowseMapListMap : MonoBehaviour
         return id;
     }
 
-    public void PassId() //called from button in the inspector
+    public void PassId() 
     {
         uIManager.SetMapId(id);
+        Application.application.SelectedAdminMapId = DatabaseId;
+        Debug.Log("Database Id: " + Application.application.SelectedAdminMapId);
     }
-
 }

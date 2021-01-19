@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Database;
 using UnityEngine;
 
 public class BrowseMapListControl : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mapButtonTemplate;
+    [SerializeField] private GameObject mapButtonTemplate;
 
     private int numberOfMaps;
 
     private List<GameObject> mapButtons;
 
+    private List<string> mapConfigIds = new List<string>();
+
     // Start is called before the first frame update
     void Start()
     {
-        SetNumberOfMaps();
-
         mapButtons = new List<GameObject>();
 
         if (mapButtons.Count > 0)
@@ -24,33 +24,33 @@ public class BrowseMapListControl : MonoBehaviour
             {
                 Destroy(button.gameObject);
             }
+
             mapButtons.Clear();
         }
 
-        for (int i = 1; i <= numberOfMaps; i++)
+
+        UsersRepository.Login("226435@edu.p.lodz.pl", "password", () =>
         {
-            GameObject button = Instantiate(mapButtonTemplate) as GameObject;
-            button.SetActive(true);
+            Debug.Log("start");
+            MapsRepository.GetAllAdminMapIds((list) =>
+            {
+                foreach (var mapId in list)
+                {
+                    mapConfigIds.Add(mapId);
+                    Debug.Log(mapId);
+                }
 
-            //now we just set id as the order. There it needs to read ids from the DB
-            button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
-
-            mapButtons.Add(button);
-
-            button.GetComponent<BrowseMapListMap>().SetText();
-
-            button.transform.SetParent(mapButtonTemplate.transform.parent, false);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void SetNumberOfMaps() //need to get no. of maps from the DB
-    {
-        numberOfMaps = 6;
+                for (int i = 0; i < mapConfigIds.Count; i++)
+                {
+                    GameObject button = Instantiate(mapButtonTemplate) as GameObject;
+                    button.SetActive(true);
+                    button.GetComponent<BrowseMapListMap>().SetId(i.ToString());
+                    button.GetComponent<BrowseMapListMap>().DatabaseId = mapConfigIds[i];
+                    mapButtons.Add(button);
+                    button.GetComponent<BrowseMapListMap>().SetText();
+                    button.transform.SetParent(mapButtonTemplate.transform.parent, false);
+                }
+            });
+        });
     }
 }
