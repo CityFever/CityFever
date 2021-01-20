@@ -24,7 +24,7 @@ public class GameBarPlay : MonoBehaviour
         budgetText = transform.Find("Budget").GetComponent<TMP_Text>();
         tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
 
-        LoadAll();
+        //LoadAll();
         ShowAll();
     }
 

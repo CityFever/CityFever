@@ -13,6 +13,7 @@ namespace Assets.AdminMap.Scripts
 
         public GameObjectType SelectedGameObjectType { get; set; } = GameObjectType.Default;
         public string SelectedAdminMapId { get; set; }
+        public string SelectedUserMapId { get; set; }
 
         public string SelectedUserMapId { get; set; }
 

@@ -4,8 +4,14 @@ using Library;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.AdminMap.Scripts;
+using Database;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Application = Assets.AdminMap.Scripts.Application;
+using Calculus;
+using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class UserGameManager : MonoBehaviour
 {
@@ -22,26 +28,28 @@ public class UserGameManager : MonoBehaviour
     private GameMode mode = GameMode.Default;
 
     private List<ObjectConfig> availableObjects;
+    private UHISimulation simulation;
+    private TMP_Text tValue;
+    private TMP_Text tSun;
+    private Light light1;
+    private Light light2;
 
     void Start()
     {
         CreateMap();
         map.adminAccess = false;
-        foreach (var config in availableObjects)
-        {
-            Debug.Log("AVAILABLE OBJECT: Object type: " + config.type + ", placement costs: " + config.placementCosts + ", removal costs: " + config.removalCosts);
-        }
+
+        tValue = GameObject.Find("TemperatureButton").GetComponentInChildren<TMP_Text>();
+        tSun = GameObject.Find("SunPosition").GetComponentInChildren<TMP_Text>();
+        light1 = GameObject.Find("DirectionalLight1").GetComponent<Light>();
+        light2 = GameObject.Find("DirectionalLight2").GetComponent<Light>();        
     }
 
     private void CreateMap()
     {
-        float savedBudget = MapConfig.mapConfig.mapBudget;
-        int savedMapSize = MapConfig.mapConfig.mapSize;
-
-        map = Instantiate(mapPrefab, transform).Initialize(savedMapSize);
-        map.budget = savedBudget;
         ConfigureTiles();
         SetAvailableObjects();
+        simulation = new UHISimulation(map);
     }
 
     private void SetAvailableObjects()
@@ -51,25 +59,32 @@ public class UserGameManager : MonoBehaviour
 
     private void ConfigureTiles()
     {
-        foreach (var tileConfig in MapConfig.mapConfig.tileConfigs)
+        map = Instantiate(mapPrefab, transform).Initialize(Constants.MAP_SIZE);
+        map.budget = MapConfig.mapConfig.mapBudget;
+
+        foreach (var tile in MapConfig.mapConfig.tileConfigs)
         {
             UnityObject configPrefab = null;
 
-            if (!tileConfig.ObjectType.Equals(GameObjectType.Default))
+            if (!tile.ObjectType.Equals(GameObjectType.Default))
             {
-                configPrefab = prefabs.FirstOrDefault(prefab => prefab.Type().Equals(tileConfig.ObjectType));
+                configPrefab = prefabs.FirstOrDefault(prefab => prefab.Type().Equals(tile.ObjectType));
             }
-            map.CreateTilesFromConfiguration(tileConfig, configPrefab);
+            map.CreateTilesFromConfiguration(tile, configPrefab);
         }
     }
+
     private void Update()
     {
         map.RemovePriorHover();
 
         if (Input.GetMouseButtonDown(0))
         {
-            SelectTileOnMouseClick();
-            SelectObjectOnMouseClick();
+            if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
+            {
+               SelectTileOnMouseClick();
+               SelectObjectOnMouseClick();
+            }
         }
         
         else if (showHover && !mode.Equals(GameMode.Default))
@@ -108,11 +123,9 @@ public class UserGameManager : MonoBehaviour
             {
                 case GameMode.ObjectPlacement:
                     PlaceSelectedObjectOnTile(selectedTile);
-                    //SetDefaultMode();
                     break;
                 case GameMode.ObjectRemoval:
                     RemoveObjectsFromSelectedZone(selectedTile);
-                    //SetDefaultMode();
                     break;
                 case GameMode.Default:
                     // nothing so far 
@@ -197,8 +210,9 @@ public class UserGameManager : MonoBehaviour
         if (Physics.Raycast(GetIntersectingRay(), out hit))
         {
             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
+
             //Debug.Log("HoveredTile" + selectedTile.State);
-            //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+            Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
 
@@ -208,7 +222,7 @@ public class UserGameManager : MonoBehaviour
 
         if (Physics.Raycast(GetIntersectingRay(), out hit, 100f, 1 << 8))
         {
-          //  Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
+            Debug.Log("Fetched object " + hit.collider.GetComponent<UnityObject>());
             unityObject = hit.collider.GetComponent<UnityObject>();
         }
     }
@@ -257,6 +271,7 @@ public class UserGameManager : MonoBehaviour
     }
     public void RemoveSelectedObject()
     {
+        Debug.Log("RemovalMode");
         SetObjectRemovalMode();
         map.zoneBrightness = Constants.ACTIVE_TILE;
     }
@@ -280,4 +295,80 @@ public class UserGameManager : MonoBehaviour
             prefab => prefab.Type().Equals(selectedType));
         SetGameObjectPrefab(prefabToInstantiate);
     }
+
+    public void SaveConfiguration()
+    {
+        MapConfig.mapConfig.tileConfigs = GetTilesConfiguration();
+
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () =>
+        {
+            MapsRepository.CreateUserMap(MapConfig.mapConfig, (id) =>
+            {
+                MapConfig.mapConfig.DatabaseId = id;
+                Debug.Log("Created user map Id: " + id);
+                UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password,
+                    () => { MapsRepository.UpdateUserMap(MapConfig.mapConfig, id); });
+            });
+        });
+    }
+
+
+    private List<TileConfig> GetTilesConfiguration()
+    {
+        List<TileConfig> tileConfigs = new List<TileConfig>();
+
+        TileType tileType;
+        Vector2 coordinate = Vector2.zero;
+        GameObjectType placedObjectType;
+
+        foreach (var tile in map.tiles)
+        {
+            placedObjectType = tile.unityObject != null ? tile.unityObject.Type() : GameObjectType.Default;
+
+            if (tile is WaterTile)
+            {
+                tileType = TileType.Water;
+            }
+            else if (tile is AsphaltTile)
+            {
+                tileType = TileType.Asphalt;
+            }
+            else
+            {
+                tileType = TileType.Grass;
+            }
+
+            tileConfigs.Add(new TileConfig(tileType, tile.State, tile.Coordinate, placedObjectType));
+        }
+
+        return tileConfigs;
+    }
+    public void ShowTemperature()
+    {
+        List<ISimulationTile> tilesWithObjects = map.GetTilesWithObjects();
+        simulation.Calculation(tilesWithObjects);
+        double result = simulation.GetAverageTemperature();
+        tValue.text = result.ToString();
+    }
+
+    public void ChangeSunPosition()
+    {
+        if ( tSun.text == "S")
+        {
+            light1.enabled = false;
+            light2.enabled = true;
+            simulation.SunFromWest();
+            tSun.text = "W";
+            ShowTemperature();
+        } else if (tSun.text == "W")
+        {
+            light1.enabled = true;
+            light2.enabled = false;
+            simulation.SunFromSouth();
+            tSun.text = "S";
+            ShowTemperature();
+        }
+    }
+
+
 }
