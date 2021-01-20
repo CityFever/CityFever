@@ -20,6 +20,8 @@ public class Logging : MonoBehaviour
     bool error, lastError = false;
     string err = "";
 
+    Starting startScreen;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -159,9 +161,8 @@ public class Logging : MonoBehaviour
         return false;
     }
 
-    public void QuitGame()
+    public void GoBackToStartScreen()
     {
-        Debug.Log("QUIT");
-        Application.Quit();
+        SceneManager.LoadScene("StartScreen");
     }
 }
