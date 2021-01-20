@@ -15,8 +15,6 @@ namespace Assets.AdminMap.Scripts
         public string SelectedAdminMapId { get; set; }
         public string SelectedUserMapId { get; set; }
 
-        public string SelectedUserMapId { get; set; }
-
         public MapConfig MapConfig;
 
 
