@@ -68,13 +68,10 @@ public class UserGameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
             {
-                if (!EventSystem.current.IsPointerOverGameObject()) //block clicks on gui elements
-                {
-                    SelectTileOnMouseClick();
-                    SelectObjectOnMouseClick();
-                }
+               SelectTileOnMouseClick();
+               SelectObjectOnMouseClick();
             }
         }
         
@@ -203,7 +200,7 @@ public class UserGameManager : MonoBehaviour
             selectedTile = hit.collider.GetComponentInParent<BaseTile>();
 
             //Debug.Log("HoveredTile" + selectedTile.State);
-            //Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
+            Debug.Log("Fetched Tile: " + selectedTile.Coordinate.x + ", " + selectedTile.Coordinate.y);
         }
     }
 
