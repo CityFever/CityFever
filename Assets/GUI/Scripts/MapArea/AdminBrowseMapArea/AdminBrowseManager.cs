@@ -17,15 +17,36 @@ public class AdminBrowseManager : MonoBehaviour
     {
         mapId = Application.application.SelectedAdminMapId;
         Debug.Log(Application.application.SelectedAdminMapId);
-        FetcMapFromDatabase();
+
+        foreach (var tile in MapConfig.mapConfig.tileConfigs)
+        {
+            Debug.Log("Tile: "+ tile.type);
+        }
+
+        CreateMap();
     }
 
     private void CreateMap()
     {
         map = Instantiate(map, transform).Initialize(Constants.MAP_SIZE);
+        ConfigureTiles();
     }
 
-    private void FetcMapFromDatabase()
+    private void ConfigureTiles()
+    {
+        foreach (var tileConfig in MapConfig.mapConfig.tileConfigs)
+        {
+            UnityObject configPrefab = null;
+
+            if (!tileConfig.ObjectType.Equals(GameObjectType.Default))
+            {
+                configPrefab = prefabs.FirstOrDefault(prefab => prefab.Type().Equals(tileConfig.ObjectType));
+            }
+            map.CreateTilesFromConfiguration(tileConfig, configPrefab);
+        };
+    }
+
+    /*private void FetcMapFromDatabase()
     {
         UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () => {
             Debug.Log("Started fetching a map");
@@ -33,6 +54,7 @@ public class AdminBrowseManager : MonoBehaviour
             {
                 CreateMap();
                 ConfigureTiles(fetchedMap);
+                MapConfig.mapConfig.mapBudget = fetchedMap.mapBudget;
             });
         });
     }
@@ -49,5 +71,8 @@ public class AdminBrowseManager : MonoBehaviour
             }
             map.CreateTilesFromConfiguration(tileConfig, configPrefab);
         }
-    }
+    }*/
+
+    
+
 }

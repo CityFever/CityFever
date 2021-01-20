@@ -16,7 +16,6 @@ public class BrowseGameBar : MonoBehaviour
     private TMP_Text temperature;
     private TMP_Text moneySpent;
 
-    // Start is called before the first frame update
     void Start()
     {
         budgetText = transform.Find("Budget").GetComponent<TMP_Text>();
@@ -25,26 +24,19 @@ public class BrowseGameBar : MonoBehaviour
 
         LoadAll();
         ShowAll();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void LoadBudget()
     { 
-        //budgetVal = (int) Application.application.SelectedMapConfig.mapBudget; 
+        budgetVal = (int) MapConfig.mapConfig.mapBudget; 
     }
     private void LoadTemperature()
     {
-        tempVal = "25.4\u00B0C"; //there will be getting budget from the DB or sth 
+        tempVal = "25.4\u00B0C"; 
     }
     private void LoadMoneySpent()
     {
-        spentVal = 434; //there will be getting budget from the DB or sth 
+        spentVal = 434; 
     }
 
     private void ShowBudget()

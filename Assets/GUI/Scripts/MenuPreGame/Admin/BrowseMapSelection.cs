@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Database;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Application = Assets.AdminMap.Scripts.Application;
 
 
 public class BrowseMapSelection : MonoBehaviour
@@ -40,8 +43,24 @@ public class BrowseMapSelection : MonoBehaviour
 
     public void LoadSelectedMap()
     {
-        // some code here, maybe connected with the DB, then:
-        OpenMap();
+        String mapId = Application.application.SelectedAdminMapId;
+        Debug.Log("LoadSelectedMap BrowseMapSelection" + Application.application.SelectedAdminMapId);
+
+        UsersRepository.Login(UserSingleton.Instance.Email, UserSingleton.Instance.Password, () => {
+            Debug.Log("Started fetching a map");
+            MapsRepository.GetAdminMap(mapId, (fetchedMap) =>
+            {
+                foreach (var tile in fetchedMap.tileConfigs)
+                {
+                    Debug.Log("Tile type: " + tile.type);
+                }
+
+                MapConfig.mapConfig.mapBudget = fetchedMap.mapBudget;
+                MapConfig.mapConfig.tileConfigs = fetchedMap.tileConfigs;
+                MapConfig.mapConfig.placeableObjectConfigs = fetchedMap.placeableObjectConfigs;
+                OpenMap();
+            });
+        });
     }
 
     public void SetMapId(string id)

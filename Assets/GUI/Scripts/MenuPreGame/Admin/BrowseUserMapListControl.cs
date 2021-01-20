@@ -43,7 +43,7 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
             {
                 Debug.Log("start FetchUserMapIds");
 
-                MapsRepository.GetAllUsersMapIds((list) =>
+                /*MapsRepository.GetAllUsersMapIds((list) =>
                 {
                     foreach (var mapId in list)
                     {
@@ -51,6 +51,17 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
                         Debug.Log(mapId);
                     }
                     InstantiateButtons(userMapIds);
+                });*/
+
+                MapsRepository.GetAllUsersMaps((list) =>
+                {
+                    foreach (var mapConfig in list)
+                    {
+                        maps.Add(mapConfig);
+                        Debug.Log(mapConfig.placeableObjectConfigs.Count);
+                    }
+
+                    InstantiateButtons();
                 });
             },
                 () =>
@@ -59,14 +70,15 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
                 });
         }
 
-        public void InstantiateButtons(List<string> ids)
+        private void InstantiateButtons()
         {
-            for (int i = 0; i < ids.Count; i++)
+            for (int i = 0; i < maps.Count; i++)
             {
                 GameObject button = Instantiate(mapButtonTemplate) as GameObject;
                 button.SetActive(true);
                 button.GetComponent<BrowseUserMapListMap>().SetId(i.ToString());
-                button.GetComponent<BrowseUserMapListMap>().DatabaseId = ids[i];
+                button.GetComponent<BrowseUserMapListMap>().DatabaseId = maps[i].DatabaseId;
+                button.GetComponent<BrowseUserMapListMap>().SelectedMapConfig = maps[i];
                 mapButtons.Add(button);
                 button.GetComponent<BrowseUserMapListMap>().SetText();
                 button.transform.SetParent(mapButtonTemplate.transform.parent, false);

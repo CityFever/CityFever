@@ -612,7 +612,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 926909605}
         m_TargetAssemblyTypeName: BrowseMapSelection, Assembly-CSharp
-        m_MethodName: OpenMap
+        m_MethodName: LoadSelectedMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5278,7 +5278,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 461204152}
   m_HandleRect: {fileID: 461204151}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5691,9 +5691,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BrowseMapSelection, Assembly-CSharp
-        m_MethodName: OpenMap
+      - m_Target: {fileID: 2031071914}
+        m_TargetAssemblyTypeName: BrowseUserMapSelection, Assembly-CSharp
+        m_MethodName: LoadSelectedMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6159,7 +6159,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1276149773}
   m_HandleRect: {fileID: 1276149772}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

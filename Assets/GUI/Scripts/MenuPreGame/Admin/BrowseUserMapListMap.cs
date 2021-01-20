@@ -45,7 +45,8 @@ namespace Assets.GUI.Scripts.MenuPreGame.Admin
         {
             uIManager.SetMapId(id);
             Application.application.SelectedUserMapId = DatabaseId;
-            Debug.Log("Database Id: " + Application.application.SelectedUserMapId);
+            Application.application.MapConfig = SelectedMapConfig;
+            Debug.Log("PassId Database Id: " + Application.application.SelectedUserMapId);
         }
     }
 }

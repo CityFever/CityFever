@@ -16,6 +16,8 @@ namespace Assets.AdminMap.Scripts
 
         public string SelectedUserMapId { get; set; }
 
+        public MapConfig MapConfig;
+
 
         void Awake()
 
