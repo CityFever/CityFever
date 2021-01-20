@@ -185,8 +185,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
-  m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
+  m_fontAsset: {fileID: 11400000, guid: a76310646520fd446b2c5bb1aeaccd98, type: 2}
+  m_sharedMaterial: {fileID: -2093932292181076030, guid: a76310646520fd446b2c5bb1aeaccd98,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 913436373}
   m_HandleRect: {fileID: 913436372}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4232,7 +4232,7 @@ MonoBehaviour:
         m_MethodName: SetBaseTilePrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: -1493883158935452727, guid: 10a449ed902e35a429f0ebb80f522e48,
+          m_ObjectArgument: {fileID: -6310488070990411487, guid: fa214c2cc4cf9234598977e2a708e487,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: BaseTile, Assembly-CSharp
           m_IntArgument: 0
@@ -4260,7 +4260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c58f6528ece85d14eb98852f0f1e1d2a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5280557cd91b6ea4b92cfd7bed9d21f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5005,7 +5005,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WATER
+  m_text: asphalt
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a76310646520fd446b2c5bb1aeaccd98, type: 2}
   m_sharedMaterial: {fileID: -2093932292181076030, guid: a76310646520fd446b2c5bb1aeaccd98,
@@ -5145,8 +5145,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
-  m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
+  m_fontAsset: {fileID: 11400000, guid: a76310646520fd446b2c5bb1aeaccd98, type: 2}
+  m_sharedMaterial: {fileID: -2093932292181076030, guid: a76310646520fd446b2c5bb1aeaccd98,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5979,7 +5979,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ASPHALT
+  m_text: 'water
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a76310646520fd446b2c5bb1aeaccd98, type: 2}
   m_sharedMaterial: {fileID: -2093932292181076030, guid: a76310646520fd446b2c5bb1aeaccd98,
@@ -8403,8 +8405,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Place object on a map
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67b45c7f844601141b626a1262f46a06, type: 2}
-  m_sharedMaterial: {fileID: -4846173260697604978, guid: 67b45c7f844601141b626a1262f46a06,
+  m_fontAsset: {fileID: 11400000, guid: a76310646520fd446b2c5bb1aeaccd98, type: 2}
+  m_sharedMaterial: {fileID: -2093932292181076030, guid: a76310646520fd446b2c5bb1aeaccd98,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -13783,7 +13785,7 @@ MonoBehaviour:
         m_MethodName: SetBaseTilePrefab
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: -6310488070990411487, guid: fa214c2cc4cf9234598977e2a708e487,
+          m_ObjectArgument: {fileID: -1493883158935452727, guid: 10a449ed902e35a429f0ebb80f522e48,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: BaseTile, Assembly-CSharp
           m_IntArgument: 0
@@ -13811,7 +13813,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6126ca3e7614c6d4888c6584a56451cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c58f6528ece85d14eb98852f0f1e1d2a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
